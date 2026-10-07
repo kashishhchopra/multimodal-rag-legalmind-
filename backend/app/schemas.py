@@ -116,6 +116,9 @@ class RetrievedText(BaseModel):
     page_number: int
     text: str
     score: float
+    document_id: str = ""      # set on cross-document search so results can be attributed
+    lexical_rank: Optional[int] = None  # 1-based BM25 rank when hybrid retrieval is on
+    dense_rank: Optional[int] = None
 
 
 class RetrievedVisual(BaseModel):
@@ -138,3 +141,30 @@ class QueryResponse(BaseModel):
     combined_confidence: float = 0.0     # heuristic 0..1, see retrieval.py
     provider: str = ""
     warning: str = ""                    # e.g. "LLM key missing — evidence only"
+
+
+class SearchRequest(BaseModel):
+    """Cross-document search over the whole corpus, optionally filtered by metadata."""
+    question: str = Field(..., min_length=1, max_length=2000)
+    top_k: int = Field(default=10, ge=1, le=50)
+    filters: dict = Field(default_factory=dict)  # e.g. {"court": "Supreme Court", "year": 2023}
+
+
+class ClauseOut(BaseModel):
+    category: str
+    text: str
+    page_number: int
+    chunk_id: str
+    confidence_margin: float
+    risk_level: str
+    risk_reason: str
+    suggested_edit: str
+    red_flags: list = Field(default_factory=list)
+
+
+class ClauseReport(BaseModel):
+    document_id: str
+    clauses: list  # list[ClauseOut]
+    summary: dict
+    disclaimer: str = "Automated analysis for research support only; not legal advice. Review with a qualified lawyer."
+    warning: Optional[str] = None

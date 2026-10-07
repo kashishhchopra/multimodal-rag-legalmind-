@@ -1,0 +1,143 @@
+[
+  {
+    "dataset": "mteb__AILA_casedocs",
+    "config": "BM25 only",
+    "R@5": 0.1887,
+    "R@10": 0.2845,
+    "MRR@10": 0.3998,
+    "nDCG@10": 0.2699,
+    "MAP": 0.233
+  },
+  {
+    "dataset": "mteb__AILA_casedocs",
+    "config": "dense: BAAI/bge-small-en-v1.5",
+    "encode_s": 28.7,
+    "R@5": 0.2141,
+    "R@10": 0.295,
+    "MRR@10": 0.3184,
+    "nDCG@10": 0.235,
+    "MAP": 0.1976
+  },
+  {
+    "dataset": "mteb__AILA_casedocs",
+    "config": "hybrid(RRF): BAAI/bge-small-en-v1.5",
+    "R@5": 0.2075,
+    "R@10": 0.3484,
+    "MRR@10": 0.3478,
+    "nDCG@10": 0.2713,
+    "MAP": 0.2256
+  },
+  {
+    "dataset": "mteb__AILA_casedocs",
+    "config": "dense: app/models/legal-bge-finetuned",
+    "encode_s": 23.3,
+    "R@5": 0.1871,
+    "R@10": 0.2514,
+    "MRR@10": 0.2776,
+    "nDCG@10": 0.2044,
+    "MAP": 0.1799
+  },
+  {
+    "dataset": "mteb__AILA_casedocs",
+    "config": "hybrid(RRF): app/models/legal-bge-finetuned",
+    "R@5": 0.2211,
+    "R@10": 0.3161,
+    "MRR@10": 0.3414,
+    "nDCG@10": 0.2639,
+    "MAP": 0.2237
+  },
+  {
+    "dataset": "mteb__AILA_statutes",
+    "config": "BM25 only",
+    "R@5": 0.1347,
+    "R@10": 0.2103,
+    "MRR@10": 0.2787,
+    "nDCG@10": 0.1713,
+    "MAP": 0.1487
+  },
+  {
+    "dataset": "mteb__AILA_statutes",
+    "config": "dense: BAAI/bge-small-en-v1.5",
+    "encode_s": 9.2,
+    "R@5": 0.186,
+    "R@10": 0.268,
+    "MRR@10": 0.3532,
+    "nDCG@10": 0.2301,
+    "MAP": 0.2006
+  },
+  {
+    "dataset": "mteb__AILA_statutes",
+    "config": "hybrid(RRF): BAAI/bge-small-en-v1.5",
+    "R@5": 0.158,
+    "R@10": 0.2783,
+    "MRR@10": 0.3717,
+    "nDCG@10": 0.2327,
+    "MAP": 0.1885
+  },
+  {
+    "dataset": "mteb__AILA_statutes",
+    "config": "dense: app/models/legal-bge-finetuned",
+    "encode_s": 10.3,
+    "R@5": 0.189,
+    "R@10": 0.264,
+    "MRR@10": 0.3936,
+    "nDCG@10": 0.2419,
+    "MAP": 0.2174
+  },
+  {
+    "dataset": "mteb__AILA_statutes",
+    "config": "hybrid(RRF): app/models/legal-bge-finetuned",
+    "R@5": 0.1883,
+    "R@10": 0.2763,
+    "MRR@10": 0.3553,
+    "nDCG@10": 0.2304,
+    "MAP": 0.1873
+  },
+  {
+    "dataset": "mteb__legalbench_consumer_contracts_qa",
+    "config": "BM25 only",
+    "R@5": 0.7626,
+    "R@10": 0.8611,
+    "MRR@10": 0.5978,
+    "nDCG@10": 0.661,
+    "MAP": 0.6044
+  },
+  {
+    "dataset": "mteb__legalbench_consumer_contracts_qa",
+    "config": "dense: BAAI/bge-small-en-v1.5",
+    "encode_s": 16.6,
+    "R@5": 0.8561,
+    "R@10": 0.9217,
+    "MRR@10": 0.6735,
+    "nDCG@10": 0.7337,
+    "MAP": 0.6773
+  },
+  {
+    "dataset": "mteb__legalbench_consumer_contracts_qa",
+    "config": "hybrid(RRF): BAAI/bge-small-en-v1.5",
+    "R@5": 0.8561,
+    "R@10": 0.9293,
+    "MRR@10": 0.6899,
+    "nDCG@10": 0.7481,
+    "MAP": 0.6937
+  },
+  {
+    "dataset": "mteb__legalbench_consumer_contracts_qa",
+    "config": "dense: app/models/legal-bge-finetuned",
+    "encode_s": 37.4,
+    "R@5": 0.7955,
+    "R@10": 0.8788,
+    "MRR@10": 0.6237,
+    "nDCG@10": 0.6852,
+    "MAP": 0.6288
+  },
+  {
+    "dataset": "mteb__legalbench_consumer_contracts_qa",
+    "config": "hybrid(RRF): app/models/legal-bge-finetuned",
+    "R@5": 0.8359,
+    "R@10": 0.9192,
+    "MRR@10": 0.6768,
+    "nDCG@10": 0.7354,
+    "MAP": 0.6806
+  }
+]

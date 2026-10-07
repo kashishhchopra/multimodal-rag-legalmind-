@@ -1,0 +1,428 @@
+# Single source of truth for every dataset in the LegalMind 2.0 roadmap (Section 3).
+# access.kind: s3 | hf | manual   (manual = needs a human step: registration, ToS, scraping rules)
+# status: ready (automated fetch implemented) | manual (instructions only)
+# Licences marked "verify" were NOT checked against the dataset card; confirm before use.
+datasets:
+  # ---------------- 3.1 Indian case law ----------------
+  - id: sc_judgments
+    name: Indian Supreme Court Judgments (AWS Open Data)
+    section: "3.1"
+    priority: P0
+    license: CC-BY-4.0 (verified in roadmap)
+    attribution: "Dattam Labs / AWS Open Data registry"
+    use: Core corpus; scans for OCR/visual tests; citation pairs
+    access: {kind: s3, bucket: indian-supreme-court-judgments, prefix: "data/tar/year={year}/english/english.tar", meta_prefix: "metadata/json/year={year}/"}
+  - id: hc_judgments
+    name: Indian High Court Judgments (AWS Open Data)
+    section: "3.1"
+    priority: P1
+    license: CC-BY-4.0 (verified in roadmap)
+    attribution: "Dattam Labs / AWS Open Data registry"
+    use: Scale-up tier, cross-document search, throughput tests
+    access: {kind: s3, bucket: indian-high-court-judgments, prefix: "data/", meta_prefix: "metadata/"}
+  - id: il_tur
+    name: IL-TUR benchmark
+    section: "3.1"
+    priority: P1
+    license: verify
+    use: Standard Indian legal evaluation suite
+    access: {kind: hf, repo: Exploration-Lab/IL-TUR}
+  - id: aila_ilpcr
+    name: AILA / FIRE tracks and IL-PCR
+    section: "3.1"
+    priority: P0
+    license: verify (FIRE registration may be required)
+    use: Gold Indian precedent/statute retrieval eval (also mirrored in MTEB AILACasedocs/AILAStatutes)
+    access: {kind: manual, url: "https://sites.google.com/view/fire-2019-aila/ (full IL-PCR: github Exploration-Lab/IL-PCR)"}
+  - id: aila_casedocs
+    name: AILA case documents (MTEB/BEIR-format mirror)
+    section: "3.1"
+    priority: P0
+    license: verify
+    use: Indian prior-case retrieval eval (ablation rows)
+    access: {kind: hf, repo: mteb/AILA_casedocs}
+  - id: aila_statutes
+    name: AILA statutes (MTEB/BEIR-format mirror)
+    section: "3.1"
+    priority: P0
+    license: verify
+    use: Indian statute retrieval eval
+    access: {kind: hf, repo: mteb/AILA_statutes}
+  - id: ildc
+    name: ILDC / CJPE (Indian Legal Documents Corpus)
+    section: "3.1"
+    priority: P2
+    license: verify
+    use: Outcome-explanation analysis only (see Section 9)
+    access: {kind: manual, url: "https://github.com/Exploration-Lab/CJPE"}
+  - id: opennyai
+    name: OpenNyAI datasets (NER, rhetorical roles)
+    section: "3.1"
+    priority: P1
+    license: verify
+    use: Legal NER, rhetorical-role tagger
+    access: {kind: manual, url: "https://huggingface.co/opennyaiorg"}
+  - id: in_abs
+    name: IN-Abs / IN-Ext summarisation
+    section: "3.1"
+    priority: P1
+    license: verify
+    use: Judgment summariser
+    access: {kind: manual, url: "https://zenodo.org/ (Shukla et al. 2022; search IN-Abs)"}
+  - id: hldc
+    name: HLDC (Hindi Legal Documents Corpus)
+    section: "3.1"
+    priority: P2
+    license: verify
+    use: Hindi legal retrieval
+    access: {kind: manual, url: "https://github.com/Exploration-Lab/HLDC"}
+  - id: indian_kanoon
+    name: Indian Kanoon (small permitted sample / official API only)
+    section: "3.1"
+    priority: P2
+    license: ToS restricts bulk scraping
+    use: Small sample only
+    access: {kind: manual, url: "https://api.indiankanoon.org/"}
+  # ---------------- 3.2 Statutes ----------------
+  - id: india_code
+    name: India Code (Central and State Acts)
+    section: "3.2"
+    priority: P0
+    license: Govt publication; read site terms
+    use: Statute corpus, section linking
+    access: {kind: manual, url: "https://www.indiacode.nic.in/"}
+  - id: bns_mapping
+    name: BNS/BNSS/BSA <-> IPC/CrPC/Evidence Act mapping
+    section: "3.2"
+    priority: P0
+    license: Govt publication
+    use: Old-to-new section mapper (implemented in backend/app/legal/section_mapper.py)
+    access: {kind: manual, url: "https://www.mha.gov.in/en/commoncontent/new-criminal-laws"}
+  - id: constitution
+    name: Constitution of India
+    section: "3.2"
+    priority: P0
+    license: Govt publication
+    use: Fundamental rights questions
+    access: {kind: manual, url: "https://legislative.gov.in/constitution-of-india/"}
+  - id: key_statutes
+    name: Key commercial/civil statutes (Contract Act ... DPDP Act)
+    section: "3.2"
+    priority: P0
+    license: Govt publication
+    use: Clause to statute linking
+    access: {kind: manual, url: "https://www.indiacode.nic.in/"}
+  - id: gazette
+    name: Gazette of India notifications
+    section: "3.2"
+    priority: P2
+    license: Govt publication
+    use: Amendment tracking
+    access: {kind: manual, url: "https://egazette.gov.in/"}
+  - id: law_commission
+    name: Law Commission of India reports
+    section: "3.2"
+    priority: P2
+    license: Govt publication
+    use: Long-form summarisation
+    access: {kind: manual, url: "https://lawcommissionofindia.nic.in/"}
+  - id: regulator_orders
+    name: SEBI/RBI/NCLT/CCI/ITAT/TRAI orders
+    section: "3.2"
+    priority: P2
+    license: check regulator terms
+    use: Domain packs
+    access: {kind: manual, url: "official regulator websites"}
+  # ---------------- 3.3 Contracts ----------------
+  - id: cuad
+    name: CUAD (Contract Understanding Atticus Dataset)
+    section: "3.3"
+    priority: P0
+    license: CC-BY-4.0
+    use: Clause classifier, risk flagging, clause retrieval
+    access: {kind: hf, repo: theatticusproject/cuad-qa}
+  - id: contractnli
+    name: ContractNLI
+    section: "3.3"
+    priority: P1
+    license: verify
+    use: Citation verification / NLI
+    access: {kind: hf, repo: kiddothe2b/contract-nli}
+  - id: ledgar
+    name: LEDGAR (via LexGLUE)
+    section: "3.3"
+    priority: P1
+    license: verify
+    use: Large clause-type classifier
+    access: {kind: hf, repo: coastalcph/lex_glue}
+  - id: acord
+    name: ACORD
+    section: "3.3"
+    priority: P1
+    license: verify
+    use: Contract clause retrieval eval
+    access: {kind: manual, url: "https://www.atticusprojectai.org/acord"}
+  - id: maud
+    name: MAUD (part of LegalBench)
+    section: "3.3"
+    priority: P2
+    license: verify
+    use: Hard long-contract eval
+    access: {kind: hf, repo: nguha/legalbench}
+  - id: kleister
+    name: Kleister NDA / Charity
+    section: "3.3"
+    priority: P2
+    license: verify
+    use: Key-information extraction
+    access: {kind: manual, url: "https://github.com/applicaai/kleister-nda"}
+  - id: sec_contracts
+    name: SEC EDGAR material contracts (Exhibit 10)
+    section: "3.3"
+    priority: P1
+    license: Public filings; follow SEC fair-access rules
+    use: Contract corpus at scale
+    access: {kind: hf, repo: chenghao/sec-material-contracts}
+  - id: indian_contracts
+    name: Indian contract samples / templates
+    section: "3.3"
+    priority: P1
+    license: check each source
+    use: Indian clause realism (stamp duty, seat, jurisdiction)
+    access: {kind: manual, url: "public e-procurement portals and open templates"}
+  # ---------------- 3.4 QA / instruction ----------------
+  - id: aalap
+    name: Aalap instruction dataset (OpenNyAI)
+    section: "3.4"
+    priority: P1
+    license: verify
+    use: Generator fine-tuning
+    access: {kind: hf, repo: opennyaiorg/aalap_instruction_dataset}
+  - id: legalbench
+    name: LegalBench
+    section: "3.4"
+    priority: P1
+    license: verify per task
+    use: Generator/router benchmark
+    access: {kind: hf, repo: nguha/legalbench}
+  - id: lawinstruct
+    name: LawInstruct
+    section: "3.4"
+    priority: P2
+    license: verify
+    use: Extra SFT data
+    access: {kind: manual, url: "https://huggingface.co/datasets/lawinstruct/lawinstruct"}
+  - id: lexglue
+    name: LexGLUE (ECtHR, SCOTUS, EUR-LEX, LEDGAR, UNFAIR-ToS, CaseHOLD)
+    section: "3.4"
+    priority: P2
+    license: verify
+    use: Cross-jurisdiction transfer
+    access: {kind: hf, repo: coastalcph/lex_glue}
+  - id: caseHOLD
+    name: CaseHOLD
+    section: "3.4"
+    priority: P2
+    license: verify
+    use: Holding identification
+    access: {kind: hf, repo: coastalcph/lex_glue, config: case_hold}
+  - id: lextreme
+    name: LEXTREME
+    section: "3.4"
+    priority: P2
+    license: verify
+    use: Multilingual eval
+    access: {kind: hf, repo: joelniklaus/lextreme}
+  - id: exam_sets
+    name: Indian exam question sets (AIBE, CLAT-PG, judicial services)
+    section: "3.4"
+    priority: P2
+    license: check copyright
+    use: MCQ eval
+    access: {kind: manual, url: "official exam sites"}
+  # ---------------- 3.5 Retrieval benchmarks ----------------
+  - id: legalbench_rag
+    name: LegalBench-RAG
+    section: "3.5"
+    priority: P0
+    license: verify
+    use: Primary RAG retrieval metric
+    access: {kind: manual, url: "https://github.com/ZeroEntropy-AI/legalbenchrag"}
+  - id: clerc
+    name: CLERC
+    section: "3.5"
+    priority: P1
+    license: verify
+    use: Citation-based retrieval/generation eval
+    access: {kind: hf, repo: jhu-clsp/CLERC}
+  - id: lepard
+    name: LePaRD
+    section: "3.5"
+    priority: P2
+    license: verify
+    use: Citation-supervised pair recipe
+    access: {kind: hf, repo: rmahari/LePaRD}
+  - id: coliee
+    name: COLIEE
+    section: "3.5"
+    priority: P2
+    license: registration required
+    use: Extra retrieval eval
+    access: {kind: manual, url: "https://sites.ualberta.ca/~rabelo/COLIEE2024/"}
+  - id: mteb_legal
+    name: MTEB legal tasks (LegalQuAD is GERMAN; plus legal_summarization and LegalBench consumer-contracts QA)
+    section: "3.5"
+    priority: P1
+    license: verify
+    use: Leaderboard comparison
+    access: {kind: hf, repo: mteb/LegalQuAD}
+  - id: mteb_legal_summarization
+    name: MTEB legal_summarization
+    section: "3.5"
+    priority: P1
+    license: verify
+    use: English legal retrieval eval
+    access: {kind: hf, repo: mteb/legal_summarization}
+  - id: legalbench_consumer_qa
+    name: MTEB LegalBench consumer-contracts QA (retrieval form)
+    section: "3.5"
+    priority: P1
+    license: verify
+    use: Contract retrieval eval (stand-in while LegalBench-RAG is manual)
+    access: {kind: hf, repo: mteb/legalbench_consumer_contracts_qa}
+  - id: vidore
+    name: ViDoRe
+    section: "3.5"
+    priority: P1
+    license: verify
+    use: Visual document retrieval eval
+    access: {kind: hf, repo: vidore/docvqa_test_subsampled}
+  # ---------------- 3.6 Visual ----------------
+  - id: tobacco800
+    name: Tobacco-800
+    section: "3.6"
+    priority: P0
+    license: Research release; check terms
+    use: Signature/logo detector
+    access: {kind: manual, url: "https://www.kaggle.com/ (search Tobacco-800 / Tobacco800 signatures)"}
+  - id: rvl_cdip
+    name: RVL-CDIP
+    section: "3.6"
+    priority: P1
+    license: verify
+    use: Document-type router
+    access: {kind: hf, repo: aharley/rvl_cdip}
+  - id: doclaynet
+    name: DocLayNet
+    section: "3.6"
+    priority: P1
+    license: CDLA-Permissive-1.0 (verify)
+    use: Layout detection
+    access: {kind: hf, repo: ds4sd/DocLayNet}
+  - id: table_sets
+    name: PubLayNet / PubTabNet / TableBank / FinTabNet
+    section: "3.6"
+    priority: P2
+    license: verify
+    use: Table structure
+    access: {kind: manual, url: "original repositories"}
+  - id: docvqa
+    name: DocVQA
+    section: "3.6"
+    priority: P1
+    license: verify
+    use: Visual QA eval
+    access: {kind: hf, repo: lmms-lab/DocVQA}
+  - id: form_sets
+    name: FUNSD / SROIE / CORD
+    section: "3.6"
+    priority: P2
+    license: verify
+    use: Form understanding
+    access: {kind: manual, url: "original repositories"}
+  - id: signature_sets
+    name: CEDAR / GPDS Synthetic / BHSig260
+    section: "3.6"
+    priority: P2
+    license: verify
+    use: Signature verification demos
+    access: {kind: manual, url: "original repositories"}
+  - id: stamp_sets
+    name: Kaggle/Roboflow stamp & seal sets
+    section: "3.6"
+    priority: P1
+    license: per dataset
+    use: Detector training
+    access: {kind: manual, url: "https://universe.roboflow.com/ (search 'stamp', 'seal')"}
+  - id: synthetic_stamps
+    name: Synthetic stamps/signatures (own generator)
+    section: "3.6"
+    priority: P0
+    license: Own work
+    use: Detector training; fixes 6-template limitation
+    access: {kind: manual, url: "python -m scripts.vision.make_synthetic_stamps (implemented)"}
+  # ---------------- 3.7 Indic ----------------
+  - id: sc_regional
+    name: Regional-language SC judgments
+    section: "3.7"
+    priority: P1
+    license: CC-BY-4.0
+    use: Multilingual OCR/retrieval tests
+    access: {kind: s3, bucket: indian-supreme-court-judgments, prefix: "data/tar/year={year}/regional/regional.tar", meta_prefix: "metadata/json/year={year}/"}
+  - id: indic_eval
+    name: IndicTrans2 / FLORES-200 / IN22
+    section: "3.7"
+    priority: P1
+    license: verify
+    use: Hindi mode, translation checks
+    access: {kind: hf, repo: ai4bharat/IN22-Gen}
+  - id: hindi_acts
+    name: Official Hindi legal translations
+    section: "3.7"
+    priority: P2
+    license: Govt publication
+    use: Terminology glossary
+    access: {kind: manual, url: "https://www.indiacode.nic.in/"}
+  - id: bhashini
+    name: Bhashini services
+    section: "3.7"
+    priority: P2
+    license: API terms
+    use: Optional Indic OCR/speech
+    access: {kind: manual, url: "https://bhashini.gov.in/"}
+  # ---------------- 3.8 Large-scale legal text ----------------
+  - id: pile_of_law
+    name: Pile of Law
+    section: "3.8"
+    priority: P2
+    license: Mixed; non-commercial terms on card
+    use: Domain adaptation / hard negatives
+    access: {kind: hf, repo: pile-of-law/pile-of-law, streaming_only: true}
+  - id: multilegalpile
+    name: MultiLegalPile
+    section: "3.8"
+    priority: P2
+    license: verify
+    use: Multilingual domain adaptation
+    access: {kind: hf, repo: joelniklaus/Multi_Legal_Pile, streaming_only: true}
+  - id: cap
+    name: Caselaw Access Project
+    section: "3.8"
+    priority: P2
+    license: verify
+    use: US case-law transfer
+    access: {kind: hf, repo: free-law/Caselaw_Access_Project, streaming_only: true}
+  - id: courtlistener
+    name: CourtListener bulk data
+    section: "3.8"
+    priority: P2
+    license: verify
+    use: Citation graph experiments
+    access: {kind: manual, url: "https://www.courtlistener.com/help/api/bulk-data/"}
+  - id: eurlex_aus
+    name: EUR-Lex / Open Australian Legal Corpus
+    section: "3.8"
+    priority: P2
+    license: verify
+    use: Generalisation experiments
+    access: {kind: hf, repo: isaacus/open-australian-legal-corpus, streaming_only: true}

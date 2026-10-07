@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from .api.documents import router as documents_router
+from .api.documents import router as documents_router, search_router
 from .config import get_settings
 from .utils.errors import AppError
 
@@ -43,6 +43,7 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory=str(settings.data_dir)), name="static")
 
 app.include_router(documents_router)
+app.include_router(search_router)
 
 
 @app.exception_handler(AppError)

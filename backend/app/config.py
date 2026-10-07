@@ -52,6 +52,12 @@ class Settings(BaseSettings):
     score_alpha: float = Field(default=0.6)
     score_beta: float = Field(default=0.4)
 
+    # ---- Hybrid retrieval (BM25 + dense, reciprocal rank fusion) ----
+    hybrid_enabled: bool = Field(default=True)
+    rrf_k: int = Field(default=60)
+    hybrid_candidates: int = Field(default=30)  # per-ranker pool fed into the fusion
+    expand_legal_sections: bool = Field(default=True)  # Section 420 IPC -> also BNS 318(4)
+
     # ---- Server ----
     host: str = Field(default="0.0.0.0")
     port: int = Field(default=8000)

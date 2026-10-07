@@ -17,7 +17,10 @@ from ..schemas import (
     Document,
     ProcessingStage,
     QueryRequest,
+    ClauseOut,
+    ClauseReport,
     QueryResponse,
+    SearchRequest,
     TextChunk,
     VisualElement,
 )
@@ -37,6 +40,7 @@ from ..utils.errors import (
 )
 
 router = APIRouter(prefix="/api/documents", tags=["documents"])
+search_router = APIRouter(prefix="/api", tags=["search"])
 
 # Serialize ingestion so the heavy embedding models aren't loaded concurrently.
 _executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="ingest")
@@ -142,6 +146,54 @@ async def query_document(document_id: str, req: QueryRequest) -> QueryResponse:
     return query_service.answer_question(
         document_id, req.question, req.top_k_text, req.top_k_visual
     )
+
+
+@search_router.post("/search", response_model=QueryResponse)
+async def search_corpus(req: SearchRequest) -> QueryResponse:
+    """Cross-document question answering over every READY document, with metadata filters."""
+    return query_service.answer_question(
+        None, req.question, req.top_k, None, filters=req.filters or None
+    )
+
+
+@router.get("/{document_id}/clauses", response_model=ClauseReport)
+async def document_clauses(document_id: str, min_margin: float = 0.0) -> ClauseReport:
+    """Clause-type extraction (CUAD classifier) with rubric-based risk flags."""
+    from ..legal import clauses as clause_mod
+
+    doc = registry.get(document_id)
+    if not doc:
+        raise DocumentNotFoundError(f"No document with id '{document_id}'.")
+    if doc.stage != ProcessingStage.READY:
+        raise DocumentNotReadyError(f"Document is not ready yet (current stage: {doc.stage.value}).")
+    corpus = vector_store.text_corpus(document_id)
+    chunks = [
+        {"id": i, "text": t, "page_number": m.get("page_number", 0)}
+        for i, t, m in zip(corpus["ids"], corpus["documents"], corpus["metadatas"])
+    ]
+    found = clause_mod.extract_clauses(chunks, min_margin=min_margin)
+    out = [
+        ClauseOut(
+            category=c.category, text=c.text, page_number=c.page_number, chunk_id=c.chunk_id,
+            confidence_margin=c.margin, risk_level=c.risk.level, risk_reason=c.risk.reason,
+            suggested_edit=c.risk.suggestion, red_flags=c.risk.flags,
+        )
+        for c in found
+    ]
+    summary = {lvl: sum(1 for c in out if c.risk_level == lvl) for lvl in ("high", "medium", "low")}
+    return ClauseReport(
+        document_id=document_id, clauses=out, summary=summary,
+        warning=None if clause_mod.model_available() else "clause_model_missing: run scripts/train_clause_classifier.py",
+    )
+
+
+@search_router.get("/legal/sections")
+async def map_sections(q: str) -> dict:
+    """Old<->new criminal-law section lookup, e.g. ?q=Section 420 IPC"""
+    from ..legal.section_mapper import expand_query
+
+    expanded, notes = expand_query(q)
+    return {"query": q, "expanded_query": expanded, "mappings": notes}
 
 
 # --------------------------------------------------------------------------

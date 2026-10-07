@@ -42,13 +42,15 @@ def _load_visual_images(visual_ids: List[str]) -> List[Image.Image]:
 
 
 def answer_question(
-    document_id: str,
+    document_id,
     question: str,
     top_k_text=None,
     top_k_visual=None,
+    filters=None,
 ) -> QueryResponse:
+    """document_id=None runs a cross-document search over the whole corpus."""
     settings = get_settings()
-    result = _retriever.retrieve(document_id, question, top_k_text, top_k_visual)
+    result = _retriever.retrieve(document_id, question, top_k_text, top_k_visual, filters)
 
     response = QueryResponse(
         question=question,

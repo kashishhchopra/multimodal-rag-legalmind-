@@ -125,12 +125,29 @@ def add_regions(
 # --------------------------------------------------------------------------
 # Querying
 # --------------------------------------------------------------------------
-def _query(collection_name: str, embedding: np.ndarray, k: int, document_id: str) -> List[Dict]:
+def build_where(document_id: Optional[str] = None, filters: Optional[Dict] = None) -> Optional[Dict]:
+    """Chroma `where` clause from an optional document scope plus exact-match metadata filters
+    (e.g. {"court": "Supreme Court", "year": 2023, "doc_type": "judgment"}). None = whole corpus."""
+    conds = [{"document_id": document_id}] if document_id else []
+    conds += [{k: v} for k, v in (filters or {}).items() if v is not None]
+    if not conds:
+        return None
+    return conds[0] if len(conds) == 1 else {"$and": conds}
+
+
+def _query(
+    collection_name: str,
+    embedding: np.ndarray,
+    k: int,
+    document_id: Optional[str],
+    filters: Optional[Dict] = None,
+) -> List[Dict]:
     try:
+        kwargs = {"where": w} if (w := build_where(document_id, filters)) else {}
         res = _collection(collection_name).query(
             query_embeddings=[embedding.tolist()],
             n_results=max(1, k),
-            where={"document_id": document_id},
+            **kwargs,
         )
     except Exception as exc:
         raise VectorStoreError(f"Query on '{collection_name}' failed: {exc}") from exc
@@ -157,8 +174,44 @@ def _query(collection_name: str, embedding: np.ndarray, k: int, document_id: str
     return hits
 
 
-def query_text(embedding: np.ndarray, k: int, document_id: str) -> List[Dict]:
-    return _query(TEXT_COLLECTION, embedding, k, document_id)
+def query_text(
+    embedding: np.ndarray, k: int, document_id: Optional[str], filters: Optional[Dict] = None
+) -> List[Dict]:
+    return _query(TEXT_COLLECTION, embedding, k, document_id, filters)
+
+
+def text_corpus(document_id: Optional[str] = None, filters: Optional[Dict] = None) -> Dict[str, List]:
+    """All text chunks in scope (ids, documents, metadatas) for building the BM25 index."""
+    try:
+        kwargs = {"where": w} if (w := build_where(document_id, filters)) else {}
+        res = _collection(TEXT_COLLECTION).get(include=["documents", "metadatas"], **kwargs)
+    except Exception as exc:
+        raise VectorStoreError(f"Could not read text corpus: {exc}") from exc
+    return {"ids": res["ids"], "documents": res["documents"], "metadatas": res["metadatas"]}
+
+
+def text_corpus_by_ids(ids: List[str]) -> Dict[str, Dict]:
+    try:
+        res = _collection(TEXT_COLLECTION).get(ids=ids, include=["documents", "metadatas"])
+    except Exception as exc:
+        raise VectorStoreError(f"Could not fetch chunks: {exc}") from exc
+    return {i: {"id": i, "document": d or "", "metadata": m or {}} for i, d, m in zip(res["ids"], res["documents"], res["metadatas"])}
+
+
+def text_embeddings(ids: List[str]) -> Dict[str, np.ndarray]:
+    """Stored text embeddings for specific chunk ids (to score BM25-only hits densely)."""
+    if not ids:
+        return {}
+    try:
+        res = _collection(TEXT_COLLECTION).get(ids=ids, include=["embeddings"])
+    except Exception as exc:
+        raise VectorStoreError(f"Could not fetch embeddings: {exc}") from exc
+    embs = res["embeddings"]
+    return {i: np.asarray(e, dtype=np.float32) for i, e in zip(res["ids"], embs if embs is not None else [])}
+
+
+def text_count() -> int:
+    return _collection(TEXT_COLLECTION).count()
 
 
 def query_visuals(embedding: np.ndarray, k: int, document_id: str) -> List[Dict]:

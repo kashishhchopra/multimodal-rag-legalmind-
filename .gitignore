@@ -49,3 +49,5 @@ backend/checkpoints/*
 !backend/checkpoints/.gitkeep
 legalmind/data/native/*
 legalmind/data/scanned/*
+
+backend/app/models/clause_classifier/*.joblib

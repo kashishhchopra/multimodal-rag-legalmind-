@@ -23,7 +23,10 @@ import os
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
+import numpy as np
+
 from ..config import get_settings
+from ..legal.section_mapper import expand_query
 from ..models import embeddings
 from ..schemas import (
     BoundingBox,
@@ -34,6 +37,7 @@ from ..schemas import (
     VisualType,
 )
 from . import vector_store
+from .hybrid import BM25Index, rrf_fuse
 
 
 def _image_url(document_id: str, image_path: str) -> str:
@@ -71,29 +75,81 @@ class RetrievalResult:
     combined_confidence: float = 0.0
 
 
+_bm25_cache: Dict[tuple, tuple] = {}  # (scope key) -> (corpus size, BM25Index)
+
+
+def _bm25_for(document_id: Optional[str], filters: Optional[Dict]) -> BM25Index:
+    """BM25 index for the requested scope, rebuilt whenever the collection size changes."""
+    key = (document_id, tuple(sorted((filters or {}).items())))
+    size = vector_store.text_count()
+    cached = _bm25_cache.get(key)
+    if cached and cached[0] == size:
+        return cached[1]
+    corpus = vector_store.text_corpus(document_id, filters)
+    index = BM25Index(corpus["ids"], corpus["documents"])
+    _bm25_cache[key] = (size, index)
+    return index
+
+
 class MultimodalRetriever:
     def __init__(self) -> None:
         self.settings = get_settings()
 
+    def _text_hits(
+        self, question: str, k: int, document_id: Optional[str], filters: Optional[Dict]
+    ) -> List[Dict]:
+        """Dense search, optionally fused with BM25 via RRF. Hit `score` stays a cosine similarity."""
+        s = self.settings
+        query = expand_query(question)[0] if s.expand_legal_sections else question
+        qvec = embeddings.embed_text_query(query)
+        if not s.hybrid_enabled:
+            return vector_store.query_text(qvec, k, document_id, filters)
+
+        pool = max(k, s.hybrid_candidates)
+        dense = vector_store.query_text(qvec, pool, document_id, filters)
+        lexical = _bm25_for(document_id, filters).search(query, pool)
+        fused = rrf_fuse([[h["id"] for h in dense], [i for i, _ in lexical]], s.rrf_k)[:k]
+
+        by_id = {h["id"]: h for h in dense}
+        dense_rank = {h["id"]: r for r, h in enumerate(dense, 1)}
+        lex_rank = {i: r for r, (i, _) in enumerate(lexical, 1)}
+        missing = [i for i, _ in fused if i not in by_id]
+        if missing:  # BM25-only hits: fetch text/metadata and score them densely so scores stay comparable
+            got = vector_store.text_corpus_by_ids(missing)
+            embs = vector_store.text_embeddings(missing)
+            for _id in missing:
+                if _id in got:
+                    sim = float(np.dot(qvec, embs[_id])) if _id in embs else 0.0
+                    by_id[_id] = {**got[_id], "score": max(0.0, min(1.0, sim))}
+        hits = []
+        for _id, _ in fused:
+            if _id in by_id:
+                hits.append({**by_id[_id], "dense_rank": dense_rank.get(_id), "lexical_rank": lex_rank.get(_id)})
+        return hits
+
     def retrieve(
         self,
-        document_id: str,
+        document_id: Optional[str],
         question: str,
         top_k_text: Optional[int] = None,
         top_k_visual: Optional[int] = None,
+        filters: Optional[Dict] = None,
     ) -> RetrievalResult:
+        """document_id=None searches the whole corpus (cross-document), narrowed by `filters`."""
         k_text = top_k_text or self.settings.top_k_text
         k_visual = top_k_visual or self.settings.top_k_visual
 
         # ---- TEXT path ----
-        text_vec = embeddings.embed_text_query(question)
-        text_hits = vector_store.query_text(text_vec, k_text, document_id)
+        text_hits = self._text_hits(question, k_text, document_id, filters)
         text_evidence = [
             RetrievedText(
                 chunk_id=h["id"],
                 page_number=int(h["metadata"].get("page_number", 0)),
                 text=h["document"],
                 score=round(h["score"], 4),
+                document_id=h["metadata"].get("document_id", ""),
+                lexical_rank=h.get("lexical_rank"),
+                dense_rank=h.get("dense_rank"),
             )
             for h in text_hits
         ]
@@ -108,7 +164,7 @@ class MultimodalRetriever:
                 RetrievedVisual(
                     visual_id=h["id"],
                     page_number=int(meta.get("page_number", 0)),
-                    image_url=_image_url(document_id, meta.get("image_path", "")),
+                    image_url=_image_url(meta.get("document_id", document_id or ""), meta.get("image_path", "")),
                     image_type=VisualType(meta.get("image_type", "image")),
                     figure_label=meta.get("figure_label", ""),
                     ocr_preview=(meta.get("ocr_text", "") or "")[:160],

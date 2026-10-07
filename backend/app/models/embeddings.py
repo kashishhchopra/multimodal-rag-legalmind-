@@ -46,6 +46,11 @@ _FAKE_DIM = 256
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 
 
+def _device() -> str:
+    """CPU by default: torch's MPS backend stalled on long batches on macOS. Set MMRAG_DEVICE=cuda/mps to override."""
+    return os.getenv("MMRAG_DEVICE", "cpu")
+
+
 def _fake_enabled() -> bool:
     return os.getenv("MMRAG_FAKE_EMBEDDINGS", "0").lower() in ("1", "true", "yes")
 
@@ -89,7 +94,7 @@ def _get_text_model():
 
                 name = get_settings().text_embedding_model
                 logger.info("Loading text embedding model: %s", name)
-                _text_model = SentenceTransformer(name)
+                _text_model = SentenceTransformer(name, device=_device())
     return _text_model
 
 
@@ -102,7 +107,7 @@ def _get_image_model():
 
                 name = get_settings().image_embedding_model
                 logger.info("Loading image embedding model: %s", name)
-                _image_model = SentenceTransformer(name)
+                _image_model = SentenceTransformer(name, device=_device())
     return _image_model
 
 
