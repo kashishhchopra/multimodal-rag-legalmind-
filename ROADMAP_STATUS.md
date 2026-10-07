@@ -38,7 +38,8 @@ Retrieval on real legal data (`backend/eval/results/ablation.json`; BEIR-format 
 | 6.2 Reranker | Script written | `backend/scripts/finetune_reranker.py` |
 | 6.3 QLoRA generator | **Not done** (roadmap defers it) | |
 | 6.4 Clause classifier, risk scorer | Done (draft rubric, needs lawyer review) | `backend/scripts/train_clause_classifier.py`, `backend/app/legal/{clauses,risk}.py`, `GET /api/documents/{id}/clauses` |
-| 6.4 IPC->BNS mapper | Done for ~80 high-traffic sections; **not the full official table** | `backend/app/legal/section_mapper.py`, `GET /api/legal/sections` |
+| 3.2 Statutes: BNS, BNSS, BSA | Downloaded from MHA and parsed section by section (358 / 531 / 170 sections, matching the real Acts). **India Code Acts and the Constitution are not done** (legislative.gov.in URL 404s; India Code needs a terms check) | `scripts/ingest_statutes.py`, `backend/app/ingestion/statutes.py` |
+| 6.4 IPC->BNS mapper | Done for 69 high-traffic sections across IPC/CrPC/Evidence Act; target sections checked against the official BNS/BNSS/BSA text, sub-clause numbers not checked; **not the full official table** | `backend/app/legal/section_mapper.py`, `GET /api/legal/sections` |
 | 6.4 NER, rhetorical roles, summariser, doc router | Not done | |
 | 6.5 Synthetic stamps | Done | `scripts/vision/make_synthetic_stamps.py` |
 | 6.5 Detector training | Script written; run status below | `scripts/vision/train_detector.py` |
@@ -47,6 +48,11 @@ Retrieval on real legal data (`backend/eval/results/ablation.json`; BEIR-format 
 | 8.x Retrieval ablation harness | Done (rows A0, A1, A3; A4 with `--reranker`) | `backend/eval/retrieval_bench.py` |
 | 8.x RAGAS, time-split holdout, human eval, error analysis | Not done | |
 | 7 Features: summariser, timeline, contract comparison, memo export, PII redaction, auth, Hindi, feedback | Not done | |
+
+## Long jobs started in the background (resumable)
+
+- `scripts/ingest_judgments.py --years 2019..2024 --limit 350 --index`: about 2,100 Supreme Court judgments into `data_lake/corpus_store` with the base bge-small embedder. Roughly 13 chunks/s on this laptop, so about 3 hours. Log: `data_lake/ingest.log`. Re-run the same command to resume. When it finishes: `python scripts/ingest_statutes.py --index`, then `scripts/build_training_pairs.py`.
+- Not started because RAM is 8 GB and ingestion uses all cores: detector training (`data_lake/synthetic_stamps` is generated, 1,500 pages), embedder v2 and reranker fine-tuning.
 
 ## Needs you
 
