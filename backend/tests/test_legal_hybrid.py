@@ -134,3 +134,21 @@ def test_section_lookup_and_search_endpoints(ingested_document):
     assert r.status_code == 200 and r.json()["text_evidence"]
     r = client.get(f"/api/documents/{ingested_document}/clauses")
     assert r.status_code == 200 and "disclaimer" in r.json()
+
+
+# ---- statutes ----
+def test_statute_parser_finds_monotonic_sections(tmp_path):
+    import fitz
+
+    from app.ingestion.statutes import parse_sections
+
+    doc = fitz.open()
+    page = doc.new_page()
+    page.insert_textbox(fitz.Rect(40, 40, 550, 800), "1. Short title. This Act may be called the Test Act.\n(2) It extends to India.\n"
+                        "2. Definitions. In this Act, unless the context otherwise requires, cheating means deceiving.\n"
+                        "Section 99. noise that is not a heading\n3. Punishment. Whoever cheats shall be punished.\n", fontsize=10)
+    pdf = tmp_path / "t.pdf"
+    doc.save(pdf)
+    chunks = parse_sections(str(pdf), "TEST")
+    assert [c.section for c in chunks] == ["1", "2", "3"]
+    assert chunks[1].chunk_id == "TEST_s2_0" and "cheating" in chunks[1].text
