@@ -96,9 +96,13 @@ def fetch_s3(ds: dict, years: list[int], meta_only: bool, max_gb: float) -> None
     budget = max_gb * 1e9
     for y in years:
         meta_dir = LAKE / ds["id"] / f"year={y}" / "metadata"
-        for key, size in s3_list(bucket, a["meta_prefix"].format(year=y)) if a.get("meta_prefix") and "{year}" in a["meta_prefix"] else []:
-            if meta_only or size < 5_000_000:
-                s3_download(bucket, key, meta_dir / Path(key).name)
+        if meta_only and a.get("meta_prefix") and "{year}" in a["meta_prefix"]:
+            from concurrent.futures import ThreadPoolExecutor
+
+            keys = [k for k, _ in s3_list(bucket, a["meta_prefix"].format(year=y))]
+            with ThreadPoolExecutor(16) as ex:  # thousands of tiny files: parallelise
+                list(ex.map(lambda k: s3_download(bucket, k, meta_dir / Path(k).name), keys))
+            print(f"metadata year={y}: {len(keys)} files")
         if meta_only or "{year}" not in a["prefix"]:
             continue
         key = a["prefix"].format(year=y)

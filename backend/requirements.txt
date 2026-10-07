@@ -19,6 +19,14 @@ numpy==1.26.4
 datasets>=2.19                 # needed by SentenceTransformer.fit() during legal fine-tuning
 accelerate>=0.26               # needed by SentenceTransformer.fit() during legal fine-tuning
 
+# ---- Legal ML (clause classifier, benchmarks, data tooling) ----
+scikit-learn>=1.5          # clause classifier (app/legal/clauses.py)
+joblib>=1.4
+pandas>=2.2                # parquet datasets in eval/ and scripts/
+pyarrow>=16
+pyyaml>=6.0                # dataset registry CLI
+requests>=2.32
+
 # ---- Vector database ----
 chromadb==0.5.23
 

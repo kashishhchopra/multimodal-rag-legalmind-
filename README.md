@@ -619,3 +619,36 @@ Honest limitations (documented rather than faked):
 experience — a large, real, pre-trained legal knowledge base → ask about a clause/seal/case
 → retrieve both text and the visual region → generate a grounded, cited, disclaimer-carrying
 answer — genuinely works, end to end, with no further setup required.*
+
+
+---
+
+## LegalMind 2.0: real-data extension
+
+See [ROADMAP_STATUS.md](ROADMAP_STATUS.md) for what is done, measured and still open, and
+[DATASETS.md](DATASETS.md) for every dataset, licence and download state.
+
+```bash
+# 1. datasets (registry in datasets/registry.yaml; data lands in data_lake/, git-ignored)
+python3 scripts/datasets_cli.py list --priority P0
+python3 scripts/datasets_cli.py fetch cuad
+python3 scripts/datasets_cli.py fetch sc_judgments --years 2023 2024        # ~200-400MB per year
+
+# 2. bulk-ingest judgments into a vector store (resumable; scans are queued, not OCR'd)
+cd backend && TEXT_EMBEDDING_MODEL=BAAI/bge-small-en-v1.5 VECTOR_DB_PATH=../data_lake/corpus_store \
+  .venv/bin/python ../scripts/ingest_judgments.py --years 2023 2024 --limit 350 --index
+
+# 3. retrieval ablation on real Indian legal data (BM25 / dense / hybrid / +reranker)
+.venv/bin/python -m eval.retrieval_bench --datasets mteb__AILA_casedocs --models BAAI/bge-small-en-v1.5
+
+# 4. models
+.venv/bin/python scripts/train_clause_classifier.py                  # LEDGAR + CUAD
+.venv/bin/python scripts/build_training_pairs.py                     # -> ../data_lake/pairs/pairs.jsonl
+.venv/bin/python scripts/finetune_embedder_v2.py --pairs ../data_lake/pairs/pairs.jsonl   # GPU recommended
+.venv/bin/python scripts/finetune_reranker.py   --pairs ../data_lake/pairs/pairs.jsonl
+python3 ../scripts/vision/make_synthetic_stamps.py -n 2000 && python ../scripts/vision/train_detector.py
+```
+
+New API: `POST /api/search` (cross-document, metadata filters), `GET /api/documents/{id}/clauses`
+(clause type + risk flags), `GET /api/legal/sections?q=Section 420 IPC` (IPC/CrPC/IEA to BNS/BNSS/BSA).
+The second design formerly in `legalmind/` is archived in `archive/` (single codebase decision).
