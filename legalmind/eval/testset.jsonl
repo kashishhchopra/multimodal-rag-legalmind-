@@ -1,0 +1,3 @@
+{"question": "What is the termination notice period in this agreement?", "doc_id": "REPLACE_WITH_REAL_DOC_ID", "ground_truth": "30 days' written notice.", "gold_chunk_ids": ["REPLACE_WITH_GOLD_CHUNK_ID"], "parse_path": "native"}
+{"question": "What law governs this contract?", "doc_id": "REPLACE_WITH_REAL_DOC_ID", "ground_truth": "The laws of the State of Delaware.", "gold_chunk_ids": ["REPLACE_WITH_GOLD_CHUNK_ID"], "parse_path": "native"}
+{"question": "Is there a cap on liability, and what is it?", "doc_id": "REPLACE_WITH_REAL_DOC_ID", "ground_truth": "Liability is capped at fees paid in the preceding 12 months.", "gold_chunk_ids": ["REPLACE_WITH_GOLD_CHUNK_ID"], "parse_path": "ocr"}

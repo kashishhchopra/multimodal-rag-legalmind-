@@ -1,0 +1,36 @@
+# ---- Web framework ----
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# ---- Document processing ----
+PyMuPDF==1.25.1            # fitz: text + image + page-render extraction
+pdfplumber==0.11.4        # table extraction
+Pillow==11.1.0            # image handling
+pytesseract==0.3.13       # OCR (needs the tesseract binary installed separately)
+opencv-python-headless==4.10.0.84   # diagram-aware OCR preprocessing (line removal)
+
+# ---- Embeddings / ML ----
+sentence-transformers==3.3.1   # BGE text model + CLIP image/text model
+torch==2.5.1                   # backend for sentence-transformers
+numpy==1.26.4
+datasets>=2.19                 # needed by SentenceTransformer.fit() during legal fine-tuning
+accelerate>=0.26               # needed by SentenceTransformer.fit() during legal fine-tuning
+
+# ---- Vector database ----
+chromadb==0.5.23
+
+# ---- LLM providers (pluggable) ----
+google-generativeai==0.8.3     # default provider (Gemini)
+openai==1.59.6                 # optional alternate provider
+
+# ---- Utilities ----
+python-dotenv==1.0.1
+httpx==0.28.1
+
+# ---- Testing ----
+pytest==8.3.4
+pytest-asyncio==0.25.2
+reportlab==4.2.5          # used by tests to synthesize a small sample PDF

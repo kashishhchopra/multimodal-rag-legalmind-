@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+
+# generated / large artifacts
+data/native/*
+data/scanned/*
+!data/native/.gitkeep
+!data/scanned/.gitkeep
+notebooks/.ipynb_checkpoints/
+qdrant_storage/
+*.log

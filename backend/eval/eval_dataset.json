@@ -1,0 +1,41 @@
+{
+  "document": "electronics_manual.pdf",
+  "notes": "Small, manually-labelled evaluation set for the bundled sample document. Ground-truth 'relevant_pages' and 'relevant_figures' were labelled by hand from the source PDF. Extend this with your own documents and labels; DO NOT invent metric values — run evaluate.py to compute them from real retrieval.",
+  "items": [
+    {
+      "id": "q1",
+      "question": "What does R1 do in the switching circuit?",
+      "relevant_pages": [1, 3],
+      "relevant_figures": ["Table 3"],
+      "answer_should_mention": ["current-limiting", "resistor", "base"]
+    },
+    {
+      "id": "q2",
+      "question": "Explain Figure 12 and what Q1 is doing.",
+      "relevant_pages": [1, 2],
+      "relevant_figures": ["Figure 12"],
+      "answer_should_mention": ["switching", "transistor", "Q1"]
+    },
+    {
+      "id": "q3",
+      "question": "Which component is the load in the circuit?",
+      "relevant_pages": [1, 3],
+      "relevant_figures": ["Table 3"],
+      "answer_should_mention": ["LED", "load"]
+    },
+    {
+      "id": "q4",
+      "question": "What is the value and part number of the transistor?",
+      "relevant_pages": [3],
+      "relevant_figures": ["Table 3"],
+      "answer_should_mention": ["BC547", "NPN"]
+    },
+    {
+      "id": "q5",
+      "question": "How does the value of R1 affect whether Q1 saturates?",
+      "relevant_pages": [1],
+      "relevant_figures": [],
+      "answer_should_mention": ["base current", "larger", "saturate"]
+    }
+  ]
+}

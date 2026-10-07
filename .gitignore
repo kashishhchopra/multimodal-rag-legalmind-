@@ -1,0 +1,51 @@
+# ---- Secrets ----
+.env
+backend/.env
+frontend/.env
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# ---- Runtime data (keep the folders, ignore contents) ----
+backend/data/*
+!backend/data/.gitkeep
+backend/vector_store/*
+!backend/vector_store/.gitkeep
+
+# ---- Node / frontend ----
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ---- Models cache ----
+.cache/
+*.log
+
+# ---- Fine-tuned model artifacts (regenerate with scripts/finetune_legal_embeddings.py) ----
+backend/app/models/legal-bge-finetuned/*
+!backend/app/models/legal-bge-finetuned/.gitkeep
+!backend/app/models/legal-bge-finetuned/training_report.json
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Added for LegalMind 2.0 ----
+backend/.venv/
+.env.*
+!.env.example
+data_lake/
+mlruns/
+runs/
+*.tar
+*.parquet
+backend/checkpoints/*
+!backend/checkpoints/.gitkeep
+legalmind/data/native/*
+legalmind/data/scanned/*

@@ -1,0 +1,346 @@
+{
+  "document": "legal_knowledge_base.pdf",
+  "document_id": "legal_knowledge_base",
+  "notes": "Auto-generated from the synthetic legal knowledge base's build manifest, so 'relevant_pages' are guaranteed to be the REAL start pages of the cited document inside the actual generated PDF (see app/legal_data/build_pdfs.py). Run `python -m eval.evaluate_legal --k 5` to compute real retrieval metrics; never hand-edit metric values.",
+  "items": [
+    {
+      "id": "contract_1",
+      "question": "Who are the parties in 'Non-Disclosure Agreement No. 1000' and what is the governing law?",
+      "relevant_pages": [
+        2
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "parties",
+        "governing law"
+      ]
+    },
+    {
+      "id": "contract_clause_1",
+      "question": "What does the Confidentiality clause say in 'Non-Disclosure Agreement No. 1000'?",
+      "relevant_pages": [
+        3
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "confidential",
+        "disclose"
+      ]
+    },
+    {
+      "id": "contract_2",
+      "question": "Who are the parties in 'Non-Disclosure Agreement No. 1001' and what is the governing law?",
+      "relevant_pages": [
+        6
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "parties",
+        "governing law"
+      ]
+    },
+    {
+      "id": "contract_clause_2",
+      "question": "What does the Confidentiality clause say in 'Non-Disclosure Agreement No. 1001'?",
+      "relevant_pages": [
+        7
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "confidential",
+        "disclose"
+      ]
+    },
+    {
+      "id": "contract_3",
+      "question": "Who are the parties in 'Non-Disclosure Agreement No. 1002' and what is the governing law?",
+      "relevant_pages": [
+        10
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "parties",
+        "governing law"
+      ]
+    },
+    {
+      "id": "contract_clause_3",
+      "question": "What does the Confidentiality clause say in 'Non-Disclosure Agreement No. 1002'?",
+      "relevant_pages": [
+        11
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "confidential",
+        "disclose"
+      ]
+    },
+    {
+      "id": "contract_4",
+      "question": "Who are the parties in 'Lease Agreement No. 1003' and what is the governing law?",
+      "relevant_pages": [
+        14
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "parties",
+        "governing law"
+      ]
+    },
+    {
+      "id": "contract_clause_4",
+      "question": "What does the Confidentiality clause say in 'Lease Agreement No. 1003'?",
+      "relevant_pages": [
+        15
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "confidential",
+        "disclose"
+      ]
+    },
+    {
+      "id": "contract_5",
+      "question": "Who are the parties in 'Lease Agreement No. 1004' and what is the governing law?",
+      "relevant_pages": [
+        18
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "parties",
+        "governing law"
+      ]
+    },
+    {
+      "id": "contract_clause_5",
+      "question": "What does the Confidentiality clause say in 'Lease Agreement No. 1004'?",
+      "relevant_pages": [
+        19
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "confidential",
+        "disclose"
+      ]
+    },
+    {
+      "id": "contract_6",
+      "question": "Who are the parties in 'Lease Agreement No. 1005' and what is the governing law?",
+      "relevant_pages": [
+        22
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "parties",
+        "governing law"
+      ]
+    },
+    {
+      "id": "contract_clause_6",
+      "question": "What does the Confidentiality clause say in 'Lease Agreement No. 1005'?",
+      "relevant_pages": [
+        23
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "confidential",
+        "disclose"
+      ]
+    },
+    {
+      "id": "case_1",
+      "question": "What was the outcome and holding in Rao v. Nova \u2014 Breach Of Contract ((2018) LGL 200 (High))?",
+      "relevant_pages": [
+        98,
+        99
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "case_2",
+      "question": "What was the outcome and holding in Nair v. Bluepeak \u2014 Employment Termination ((2019) LGL 201 (District))?",
+      "relevant_pages": [
+        100,
+        101
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "case_3",
+      "question": "What was the outcome and holding in Kapoor v. Meridian \u2014 Landlord-Tenant Dispute ((2020) LGL 202 (Commercial))?",
+      "relevant_pages": [
+        101,
+        102
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "case_4",
+      "question": "What was the outcome and holding in Iyer v. Sunrise \u2014 Negligence And Tortious Liability ((2021) LGL 203 (Consumer))?",
+      "relevant_pages": [
+        102,
+        103
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "case_5",
+      "question": "What was the outcome and holding in Sethi v. Vantage \u2014 Intellectual Property Infringement ((2022) LGL 204 (Company))?",
+      "relevant_pages": [
+        103,
+        104
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "case_6",
+      "question": "What was the outcome and holding in Menon v. Crestview \u2014 Consumer Protection ((2023) LGL 205 (Arbitration))?",
+      "relevant_pages": [
+        104,
+        105
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "case_7",
+      "question": "What was the outcome and holding in Malhotra v. Orion \u2014 Company Law - Oppression And Mismanagement ((2024) LGL 206 (High))?",
+      "relevant_pages": [
+        105,
+        106
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "case_8",
+      "question": "What was the outcome and holding in Bhatt v. Bayline \u2014 Arbitration And Enforcement Of Award ((2025) LGL 207 (District))?",
+      "relevant_pages": [
+        107,
+        108
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "holding",
+        "outcome"
+      ]
+    },
+    {
+      "id": "statute_1",
+      "question": "What does Section 10 of the General Contract Code provide?",
+      "relevant_pages": [
+        128,
+        129
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "General Contract Code",
+        "Section 10"
+      ]
+    },
+    {
+      "id": "statute_2",
+      "question": "What does Section 2 of the Consumer Protection Code provide?",
+      "relevant_pages": [
+        129,
+        130
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "Consumer Protection Code",
+        "Section 2"
+      ]
+    },
+    {
+      "id": "statute_3",
+      "question": "What does Section 166 of the Companies Code provide?",
+      "relevant_pages": [
+        130,
+        131
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "Companies Code",
+        "Section 166"
+      ]
+    },
+    {
+      "id": "statute_4",
+      "question": "What does Section 25 of the Labour Welfare Code provide?",
+      "relevant_pages": [
+        131,
+        132
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "Labour Welfare Code",
+        "Section 25"
+      ]
+    },
+    {
+      "id": "statute_5",
+      "question": "What does Section 29 of the Intellectual Property Code provide?",
+      "relevant_pages": [
+        132,
+        133
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "Intellectual Property Code",
+        "Section 29"
+      ]
+    },
+    {
+      "id": "statute_6",
+      "question": "What does Section 34 of the Arbitration and Conciliation Code provide?",
+      "relevant_pages": [
+        133,
+        134
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "Arbitration and Conciliation Code",
+        "Section 34"
+      ]
+    },
+    {
+      "id": "statute_7",
+      "question": "What does Section 54 of the Property Transfer Code provide?",
+      "relevant_pages": [
+        134,
+        135
+      ],
+      "relevant_figures": [],
+      "answer_should_mention": [
+        "Property Transfer Code",
+        "Section 54"
+      ]
+    }
+  ]
+}
