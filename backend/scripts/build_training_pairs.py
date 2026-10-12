@@ -7,9 +7,10 @@ Sources (all offline, no LLM calls):
   ledgar    "<label> clause"             -> provision text                   (LEDGAR train split only)
   issue     "Issue for Consideration"    -> best-matching reasoning chunk    (SC judgments; round-trip filtered)
   citation  citing passage               -> headnote/issue chunk of the cited case (when cited case is in corpus)
-  ict       one sentence of a passage    -> the rest of that passage (inverse cloze; label-free, works for every year)
+  ctx       one sentence of a passage    -> the ADJACENT passage of the same judgment (label-free, works for every year)
+            (an earlier inverse-cloze variant, query -> rest of its own passage, was dropped: zero-shot MRR was 1.0, i.e. no signal)
             Headnotes ("Issue for Consideration") exist only in the newest SC reporter format, so ICT is what gives the
-            2019-2022 judgments any training signal. Negatives: top BM25 chunks of OTHER judgments from the same year (hard) + the adjacent chunk.
+            2019-2022 judgments any training signal. Negatives: top BM25 chunks of OTHER judgments from the same year.
 LLM-generated questions are a separate, opt-in step (see --llm-questions): they cost API quota and
 send judgment text to a provider, so they are never run implicitly.
 
@@ -67,7 +68,7 @@ def ledgar_pairs(rng, max_pairs):
     return rows[:max_pairs]
 
 
-def ict_pairs(by_doc, docs, args, rng):
+def ctx_pairs(by_doc, docs, args, rng):
     out = []
     by_year = defaultdict(list)
     for d, cs in by_doc.items():
@@ -89,13 +90,17 @@ def ict_pairs(by_doc, docs, args, rng):
                 if not sents:
                     continue
                 q = rng.choice(sents)
-                rest = c["text"].replace(q, " ", 1).strip()
+                idx0 = by_doc[d].index(c)
+                nbrs = [by_doc[d][j] for j in (idx0 + 1, idx0 - 1) if 0 <= j < len(by_doc[d]) and by_doc[d][j]["section"] == c["section"] and len(by_doc[d][j]["text"]) > 500]
+                if not nbrs:
+                    continue
+                rest = nbrs[0]["text"]  # positive: the neighbouring passage, which shares the case but not the sentence
                 hard = [ytext[h]["text"] for h, _ in ybm.search(q, 12) if ytext[h]["doc_id"] != d][:3]
                 if len(hard) < 2:
                     continue
                 idx = by_doc[d].index(c)
-                neg = hard + ([by_doc[d][idx + 1]["text"]] if idx + 1 < len(by_doc[d]) else [])
-                out.append({"query": q, "pos": rest, "neg": neg, "source": "ict", "year": year, "doc": d})
+                neg = hard
+                out.append({"query": q, "pos": rest, "neg": neg, "source": "ctx", "year": year, "doc": d})
                 made += 1
             if made >= cap:
                 break
@@ -138,7 +143,7 @@ def judgment_pairs(args, rng):
                 if heads:
                     out.append({"query": c["text"][:900], "pos": heads[0]["text"], "neg": [], "source": "citation", "year": docs[c["doc_id"]]["year"], "doc": c["doc_id"]})
                     break
-    out += ict_pairs(by_doc, docs, args, rng)
+    out += ctx_pairs(by_doc, docs, args, rng)
     return out
 
 
