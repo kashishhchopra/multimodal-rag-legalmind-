@@ -16,6 +16,7 @@ _TMP = Path(tempfile.mkdtemp(prefix="mmrag_test_"))
 os.environ["MMRAG_FAKE_EMBEDDINGS"] = "1"
 os.environ["DATA_PATH"] = str(_TMP / "data")
 os.environ["VECTOR_DB_PATH"] = str(_TMP / "vector_store")
+os.environ["LLM_PROVIDER"] = "gemini"  # never depend on the developer's real .env
 os.environ["LLM_API_KEY"] = ""  # force the evidence-only fallback in query tests
 os.environ["CORS_ORIGINS"] = "http://localhost:5173"
 
