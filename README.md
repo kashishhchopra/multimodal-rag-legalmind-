@@ -680,3 +680,24 @@ flowchart LR
   O --> M[memo PDF/DOCX/MD, feedback]
   V --> I[clauses + risk, summary, timeline, comparison]
 ```
+
+### Authentication, security notes
+
+Auth is **off by default**. To turn it on, set in `backend/.env`:
+
+```
+AUTH_ENABLED=1
+AUTH_SECRET=<at least 16 random characters, e.g. python3 -c "import secrets;print(secrets.token_urlsafe(32))">
+```
+
+The first account registered in the UI becomes the admin; later accounts only see documents they uploaded. Uploads, queries,
+deletes and logins are written to an audit table in `data/auth.db`. Known limits: extracted page images are served from the
+unauthenticated `/static/` mount (image tags cannot send a Bearer token), there is no rate limiting or password reset, and tokens
+are HS256 JWTs kept in browser storage. Do not expose this to the internet without a reverse proxy and review.
+Docker: `backend/.dockerignore` keeps `.env` and `.venv` out of images; secrets are supplied at run time through `env_file`.
+
+### Troubleshooting (found the hard way)
+- **`.env`**: `LLM_PROVIDER` must be `openai` or `gemini`; the key goes on `LLM_API_KEY`. The health endpoint and errors never echo a malformed value.
+- **NaN cross-encoder scores** on macOS CPU: weights memory-mapped from safetensors produced NaN in matmul; `app/models/torch_fixes.py:de_mmap` clones them. Evaluation code now raises on non-finite scores.
+- **Torch MPS stalls** on long batches: embeddings default to CPU (`MMRAG_DEVICE` overrides).
+- **Never `kill -9` an indexing process**: it corrupted a Chroma SQLite file once. `scripts/reindex_corpus.py` is resumable.
