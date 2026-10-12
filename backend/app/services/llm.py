@@ -135,4 +135,6 @@ def get_provider() -> LLMProvider:
         return GeminiProvider(s.llm_api_key, s.llm_model)
     if provider == "openai":
         return OpenAIProvider(s.llm_api_key, s.llm_model)
-    raise LLMError(f"Unknown LLM_PROVIDER: '{provider}' (expected 'gemini' or 'openai').")
+    # Never echo the value: a mistyped .env often has a secret pasted on the wrong line.
+    shown = provider if len(provider) <= 12 and provider.isalnum() else f"<{len(provider)}-character value hidden>"
+    raise LLMError(f"Unknown LLM_PROVIDER: {shown} (expected 'gemini' or 'openai'). Check backend/.env.")
