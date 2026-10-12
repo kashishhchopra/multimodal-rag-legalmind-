@@ -652,3 +652,31 @@ python3 ../scripts/vision/make_synthetic_stamps.py -n 2000 && python ../scripts/
 New API: `POST /api/search` (cross-document, metadata filters), `GET /api/documents/{id}/clauses`
 (clause type + risk flags), `GET /api/legal/sections?q=Section 420 IPC` (IPC/CrPC/IEA to BNS/BNSS/BSA).
 The second design formerly in `legalmind/` is archived in `archive/` (single codebase decision).
+
+
+### Architecture (LegalMind 2.0)
+
+```mermaid
+flowchart LR
+  subgraph Ingest
+    A[SC judgment tars / statute PDFs / uploads] --> B[classify native vs scan]
+    B --> C[clean, metadata, dedupe]
+    C --> D[structure-aware chunks]
+    D --> E[bge embeddings + CLIP visuals]
+    B -.scans.-> Q[OCR queue, worker not built]
+  end
+  E --> V[(Chroma: text, visual, region)]
+  subgraph Query
+    U[question + history] --> R[follow-up rewrite / Hindi to English]
+    R --> X[IPC to BNS section expansion]
+    X --> H[dense + BM25, RRF, metadata filters]
+    H --> G{retrieval gate}
+    G -- weak --> N[refuse]
+    G -- ok --> L[LLM answer]
+    L --> K[claim support check]
+    K --> O[answer + citations + verification]
+  end
+  V --> H
+  O --> M[memo PDF/DOCX/MD, feedback]
+  V --> I[clauses + risk, summary, timeline, comparison]
+```

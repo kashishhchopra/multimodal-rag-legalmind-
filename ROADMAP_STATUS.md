@@ -1,6 +1,6 @@
 # LegalMind 2.0: roadmap status
 
-Last updated 2026-10-08. Maps to `LegalMind_BigData_Roadmap.pdf`. "Done" means implemented **and** run or tested here; "Written" means code exists but the full run has not happened.
+Last updated 2026-10-13. Maps to `LegalMind_BigData_Roadmap.pdf`. "Done" means implemented **and** run or tested here; "Written" means code exists but the full run has not happened.
 
 ## Findings so far (real data, CPU runs)
 
