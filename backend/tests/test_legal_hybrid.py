@@ -152,3 +152,76 @@ def test_statute_parser_finds_monotonic_sections(tmp_path):
     chunks = parse_sections(str(pdf), "TEST")
     assert [c.section for c in chunks] == ["1", "2", "3"]
     assert chunks[1].chunk_id == "TEST_s2_0" and "cheating" in chunks[1].text
+
+
+# ---- verification / guard ----
+def test_verify_flags_unsupported_numbers_and_pages():
+    from app.legal.verify import retrieval_gate, verify_answer
+
+    ev = [{"id": "c1", "page": 2, "text": "The agreement terminates after thirty days written notice by either party."},
+          {"id": "c2", "page": 3, "text": "The governing law is the law of India and courts at Delhi have jurisdiction."}]
+    good = "The agreement terminates after thirty days written notice by either party (Page 2)."
+    assert verify_answer(good, ev).status == "ok"
+    bad = "The agreement carries a penalty of 50,000 rupees on early termination by either party."
+    v = verify_answer(bad, ev)
+    assert v.status == "flagged" and v.claims[0].missing_numbers
+    wrong_page = "The governing law is the law of India and courts at Delhi have jurisdiction (Page 9)."
+    assert verify_answer(wrong_page, ev).claims[0].bad_page_refs == [9]
+    assert verify_answer("Disclaimer: This is an AI-generated summary of the document.", ev).status == "no_claims"
+    assert retrieval_gate([0.1, 0.2], 0.3) is False and retrieval_gate([0.5], 0.3) is True
+
+
+# ---- timeline / redact / summary / memo / compare / feedback ----
+def test_timeline_normalises_dates_and_sorts():
+    from app.legal.timeline import extract_timeline
+
+    ev = extract_timeline([{"id": "a", "page_number": 1, "text": "The FIR was lodged on 5 March 2019. The trial court convicted him on 12.08.2021. Notice dated September 3, 2018 was served."}])
+    assert [e.date for e in ev] == ["2018-09-03", "2019-03-05", "2021-08-12"]
+
+
+def test_redact_identifiers_only():
+    from app.legal.redact import redact
+
+    text, counts = redact("Call 9876543210 or mail a.b@example.com; PAN ABCDE1234F; Aadhaar 2345 6789 0123; account number 123456789012.")
+    assert counts == {"AADHAAR": 1, "PAN": 1, "EMAIL": 1, "PHONE": 1, "ACCOUNT": 1}
+    assert "9876543210" not in text and "ABCDE1234F" not in text
+
+
+def test_summary_is_extractive_with_sections():
+    from app.legal.summary import summarise
+
+    chunks = [
+        {"id": "1", "page_number": 1, "section": "issue", "text": "Whether the conviction under Section 302 IPC can be sustained on circumstantial evidence alone."},
+        {"id": "2", "page_number": 2, "section": "judgment", "text": "The complaint was lodged by the informant against the appellant on that day. We hold that the chain of circumstances is complete. Accordingly the appeal is dismissed."},
+    ]
+    s = summarise(chunks)
+    assert s["issue"] and "IPC 302" in s["statutes_cited"]
+    assert any("appeal is dismissed" in h["text"] for h in s["holding"])
+    full = " ".join(c["text"] for c in chunks)
+    assert all(h["text"] in full for h in s["holding"] + s["facts"])  # nothing invented
+
+
+def test_memo_formats_and_feedback_roundtrip(tmp_path):
+    from app.legal import feedback, memo
+
+    for fmt, magic in (("pdf", b"%PDF"), ("docx", b"PK"), ("md", b"# ")):
+        out = memo.FORMATS[fmt][0]("T", "Q?", "A.", [{"label": "Page 1", "page_number": 1, "snippet": "s"}], {"status": "ok", "support_ratio": 1.0})
+        assert out.startswith(magic)
+    feedback.add(tmp_path, "d", "q", "a", -1, "wrong", "unsupported_claims")
+    feedback.add(tmp_path, "d", "q", "a", 1, "", "")
+    assert feedback.stats(tmp_path) == {"up": 1, "down": 1, "down_by_answer_status": {"unsupported_claims": 1}}
+
+
+def test_compare_aligns_by_clause_category():
+    from app.legal import clauses, compare
+
+    if not clauses.model_available():
+        import pytest
+
+        pytest.skip("clause model not trained")
+    a = [{"id": "a1", "page_number": 1, "text": "This Agreement shall be governed by and construed in accordance with the laws of the State of New York."}]
+    b = [{"id": "b1", "page_number": 1, "text": "This Agreement shall be governed by and construed in accordance with the laws of India."},
+         {"id": "b2", "page_number": 2, "text": "Neither party shall assign this Agreement without the prior written consent of the other party."}]
+    out = compare.compare(a, b)
+    cats = {r["category"]: r["status"] for r in out["rows"]}
+    assert cats.get("Governing Law") in ("similar", "different") and cats.get("Anti-Assignment") == "only_in_b"

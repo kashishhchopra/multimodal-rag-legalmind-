@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .api.documents import router as documents_router, search_router
+from .api.legal import router as legal_router
 from .config import get_settings
 from .utils.errors import AppError
 
@@ -44,6 +45,7 @@ app.mount("/static", StaticFiles(directory=str(settings.data_dir)), name="static
 
 app.include_router(documents_router)
 app.include_router(search_router)
+app.include_router(legal_router)
 
 
 @app.exception_handler(AppError)

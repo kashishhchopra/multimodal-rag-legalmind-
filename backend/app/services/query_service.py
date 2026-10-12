@@ -14,7 +14,8 @@ from PIL import Image
 from ..config import get_settings
 from ..retrieval import vector_store
 from ..retrieval.retriever import MultimodalRetriever
-from ..schemas import QueryResponse
+from ..legal.verify import retrieval_gate, verify_answer
+from ..schemas import ClaimVerification, QueryResponse, VerificationReport
 from ..utils.errors import LLMError, MissingAPIKeyError
 from . import llm as llm_module
 from .prompts import SYSTEM_PROMPT, build_user_prompt
@@ -71,6 +72,19 @@ def answer_question(
         response.warning = "no_evidence"
         return response
 
+    if settings.guard_enabled and result.text_evidence and not retrieval_gate(
+        [t.score for t in result.text_evidence], settings.guard_min_top_score
+    ):
+        # Weak retrieval: say so instead of letting the LLM improvise from irrelevant text.
+        logger.info("guard refused: top score %.3f < %.2f", max(t.score for t in result.text_evidence), settings.guard_min_top_score)
+        response.answer = (
+            "I could not find sufficiently relevant evidence in the indexed text to answer this reliably. "
+            "Try rephrasing, naming the section/clause or party, or narrowing the filters."
+        )
+        response.warning = "low_retrieval_confidence"
+        response.verification = VerificationReport(status="refused", support_ratio=0.0)
+        return response
+
     try:
         provider = llm_module.get_provider()
 
@@ -92,6 +106,18 @@ def answer_question(
         response.answer = provider.generate(
             SYSTEM_PROMPT, user_prompt, images, max_output_tokens=profile.max_output_tokens
         )
+        if settings.guard_enabled:
+            v = verify_answer(
+                response.answer,
+                [{"id": t.chunk_id, "text": t.text, "page": t.page_number} for t in result.text_evidence],
+                settings.guard_min_claim_support,
+            )
+            response.verification = VerificationReport(
+                status=v.status, support_ratio=v.support_ratio, unsupported=v.unsupported,
+                claims=[ClaimVerification(**c.__dict__) for c in v.claims],
+            )
+            if v.status == "flagged" and not response.warning:
+                response.warning = "unsupported_claims"
     except MissingAPIKeyError:
         response.answer = _evidence_only_answer(result)
         response.warning = "missing_api_key"

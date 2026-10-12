@@ -132,6 +132,22 @@ class RetrievedVisual(BaseModel):
     bounding_box: Optional[BoundingBox] = None
 
 
+class ClaimVerification(BaseModel):
+    claim: str
+    support: float
+    best_source: Optional[str] = None
+    missing_numbers: list = Field(default_factory=list)
+    bad_page_refs: list = Field(default_factory=list)
+    supported: bool = True
+
+
+class VerificationReport(BaseModel):
+    status: str                    # ok | flagged | no_claims | refused
+    support_ratio: float = 1.0
+    claims: List[ClaimVerification] = Field(default_factory=list)
+    unsupported: List[str] = Field(default_factory=list)
+
+
 class QueryResponse(BaseModel):
     question: str
     answer: str
@@ -141,6 +157,7 @@ class QueryResponse(BaseModel):
     combined_confidence: float = 0.0     # heuristic 0..1, see retrieval.py
     provider: str = ""
     warning: str = ""                    # e.g. "LLM key missing — evidence only"
+    verification: Optional[VerificationReport] = None
 
 
 class SearchRequest(BaseModel):

@@ -58,6 +58,11 @@ class Settings(BaseSettings):
     hybrid_candidates: int = Field(default=30)  # per-ranker pool fed into the fusion
     expand_legal_sections: bool = Field(default=True)  # Section 420 IPC -> also BNS 318(4)
 
+    # ---- Hallucination guard ----
+    guard_enabled: bool = Field(default=True)
+    guard_min_top_score: float = Field(default=0.30)   # best chunk cosine below this -> refuse before calling the LLM
+    guard_min_claim_support: float = Field(default=0.5)  # content-word overlap needed for a claim to count as supported
+
     # ---- Server ----
     host: str = Field(default="0.0.0.0")
     port: int = Field(default=8000)
