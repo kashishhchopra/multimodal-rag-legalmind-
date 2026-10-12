@@ -349,3 +349,18 @@ def test_doctype_router_hint():
     j = doctype.classify("IN THE SUPREME COURT OF INDIA CIVIL APPELLATE JURISDICTION Criminal Appeal No. 12 of 2020 The appeal is allowed and the conviction set aside. Heard learned counsel.")
     c = doctype.classify("This Services Agreement is entered into between the Company and the Contractor. Either party may terminate this Agreement on thirty days written notice. Governing law shall be the laws of New York.")
     assert j["type"] == "judgment" and c["type"] == "contract" and "summary" in j["suggested_tools"]
+
+
+def test_assert_finite_rejects_nan_and_de_mmap_keeps_values():
+    import numpy as np
+    import pytest
+    import torch
+
+    from app.models.torch_fixes import assert_finite, de_mmap
+
+    with pytest.raises(FloatingPointError):
+        assert_finite([0.1, float("nan")])
+    m = torch.nn.Linear(4, 2)
+    before = m.weight.detach().clone()
+    de_mmap(m)
+    assert np.allclose(before.numpy(), m.weight.detach().numpy())

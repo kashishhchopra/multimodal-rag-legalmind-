@@ -11,9 +11,13 @@ from __future__ import annotations
 import argparse
 import json
 import random
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 import numpy as np
+from app.models.torch_fixes import assert_finite, de_mmap
 from sentence_transformers import CrossEncoder, InputExample
 from torch.utils.data import DataLoader
 
@@ -22,7 +26,7 @@ def mrr(model, rows) -> float:
     out = []
     for r in rows:
         cands = [r["pos"]] + r["neg"]
-        scores = model.predict([(r["query"], c) for c in cands], show_progress_bar=False)
+        scores = assert_finite(model.predict([(r["query"], c) for c in cands], show_progress_bar=False))
         out.append(1.0 / (1 + int((scores > scores[0]).sum())))
     return round(float(np.mean(out)), 4)
 
@@ -57,6 +61,7 @@ def main() -> None:
         raise SystemExit("not enough pairs with hard negatives; ingest more judgments and rebuild pairs")
 
     model = CrossEncoder(args.base, num_labels=1, max_length=args.max_length, device=args.device)
+    de_mmap(model)
     before = mrr(model, val)
     print("zero-shot MRR@10:", before)
     ex = []

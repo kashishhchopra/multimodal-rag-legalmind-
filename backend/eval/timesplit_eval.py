@@ -19,6 +19,7 @@ from pathlib import Path
 
 import numpy as np
 
+from app.models.torch_fixes import assert_finite, de_mmap
 from app.retrieval.hybrid import BM25Index, rrf_fuse
 
 LAKE = Path(__file__).resolve().parents[2] / "data_lake"
@@ -91,11 +92,12 @@ def main() -> None:
         results.append({"config": f"hybrid {m}", **metrics([dedupe_docs(r, chunk_doc) for r in hyb], gold)})
         if a.reranker:
             ce = CrossEncoder(a.reranker, max_length=384, device=a.device)
+            de_mmap(ce)
             by_id = dict(zip(ids, texts))
             rer = []
             for x, cands in enumerate(hyb):
                 head = cands[: a.rerank_top]
-                sc = ce.predict([(qs[x][:600], by_id[c]) for c in head], show_progress_bar=False)
+                sc = assert_finite(ce.predict([(qs[x][:600], by_id[c]) for c in head], show_progress_bar=False))
                 rer.append([c for _, c in sorted(zip(sc, head), key=lambda t: -t[0])] + cands[a.rerank_top:])
             results.append({"config": f"hybrid+rerank({Path(a.reranker).name}) {m}", **metrics([dedupe_docs(r, chunk_doc) for r in rer], gold)})
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)

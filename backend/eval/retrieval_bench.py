@@ -24,6 +24,7 @@ from typing import Dict, List, Sequence
 import numpy as np
 import pandas as pd
 
+from app.models.torch_fixes import assert_finite, de_mmap
 from app.retrieval.hybrid import BM25Index, rrf_fuse
 
 DEVICE = "cpu"  # MPS has stalled on long-document batches on macOS; override with --device
@@ -114,10 +115,11 @@ def rerank(model_name: str, ranked: Dict[str, List[str]], docs: Dict[str, str], 
     from sentence_transformers import CrossEncoder
 
     ce = CrossEncoder(model_name, max_length=512, device=DEVICE)
+    de_mmap(ce)
     out = {}
     for q, cands in ranked.items():
         head = cands[:top]
-        scores = ce.predict([(qs[q], docs[d]) for d in head], show_progress_bar=False)
+        scores = assert_finite(ce.predict([(qs[q], docs[d]) for d in head], show_progress_bar=False))
         out[q] = [d for _, d in sorted(zip(scores, head), key=lambda x: -x[0])] + cands[top:]
     return out
 
