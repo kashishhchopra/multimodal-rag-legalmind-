@@ -19,7 +19,9 @@ sys.path.insert(0, str(ROOT / "backend"))
 from app.ingestion.statutes import parse_constitution, parse_sections  # noqa: E402
 
 ACTS = {"BNS": ("BNS_2023.pdf", 2023), "BNSS": ("BNSS_2023_bilingual.pdf", 2023), "BSA": ("BSA_2023.pdf", 2023),
-        "COI": ("Constitution_of_India_2019_english.pdf", 2019)}  # COI: articles; Art. 370 is not captured by the parser
+        "COI": ("Constitution_of_India_2019_english.pdf", 2019),
+        "CONTRACT": ("ContractAct_1872.pdf", 1872), "SRA": ("SpecificRelief_1963.pdf", 1963), "LIMITATION": ("Limitation_1963.pdf", 1963),
+        "STAMP": ("StampAct_1899.pdf", 1899), "ITACT": ("IT_Act_2000.pdf", 2000), "DPDP": ("DPDP_2023.pdf", 2023)}  # COI: articles; Art. 370 is not captured by the parser
 
 
 def main() -> None:

@@ -30,11 +30,18 @@ def parse_sections(pdf_path: str, act: str, max_chars: int = 1800) -> List[Statu
     for i, p in enumerate(doc, 1):
         offsets.append((len(full), i))
         full += p.get_text() + "\n"
-    chain, nxt = [], 1
-    for m in _HEAD.finditer(full):
-        if int(m.group(1)) == nxt:
-            chain.append((m.start(), nxt))
-            nxt += 1
+    # Look for section n, then n+1 ... each only within a window after the previous hit. A missing number (repealed or
+    # footnote-wrapped section) is skipped instead of ending the chain; the window stops stray "12. ..." list items far away
+    # from derailing the walk.
+    chain, cursor, misses, n = [], 0, 0, 1
+    while n <= 900 and misses < 40:
+        m = re.compile(rf"(?m)^\s*(?:\d+\s*\[)?\s*{n}\.\s*(?:\d+\s*\[)?\s*(?=[A-Z(\"“])").search(full, cursor, cursor + 40000)
+        if m:
+            chain.append((m.start(), n))
+            cursor, misses = m.start() + 1, 0
+        else:
+            misses += 1
+        n += 1
     page_at = lambda pos: max((pg for off, pg in offsets if off <= pos), default=1)
     out: List[StatuteChunk] = []
     for i, (start, n) in enumerate(chain):
