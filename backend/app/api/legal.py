@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from .. import auth
 from ..config import get_settings
 from ..legal import compare as compare_mod
+from ..legal import doctype as doctype_mod
 from ..legal import feedback as feedback_mod
 from ..legal import memo as memo_mod
 from ..legal import telemetry
@@ -40,6 +41,13 @@ def _chunks(document_id: str) -> List[dict]:
 @router.get("/documents/{document_id}/summary")
 async def document_summary(document_id: str) -> dict:
     return {"document_id": document_id, **summarise(_chunks(document_id))}
+
+
+@router.get("/documents/{document_id}/type")
+async def document_type(document_id: str) -> dict:
+    chunks = _chunks(document_id)
+    head = " ".join(c["text"] for c in chunks[:2])
+    return {"document_id": document_id, "prediction": doctype_mod.classify(head)}
 
 
 @router.get("/documents/{document_id}/timeline")

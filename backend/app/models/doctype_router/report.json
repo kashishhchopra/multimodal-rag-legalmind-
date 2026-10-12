@@ -1,0 +1,15 @@
+{
+  "n_train": 1304,
+  "n_test": 232,
+  "accuracy": 0.9957,
+  "per_class_f1": {
+    "judgment": 1.0,
+    "statute": 0.982,
+    "contract": 0.995
+  },
+  "classes_not_covered": [
+    "notice",
+    "affidavit",
+    "other"
+  ]
+}

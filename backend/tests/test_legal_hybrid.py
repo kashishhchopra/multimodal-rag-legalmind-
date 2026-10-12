@@ -337,3 +337,15 @@ def test_telemetry_summary(tmp_path):
         telemetry.record(tmp_path, "document", ms, st, 400, 80, 3)
     s = telemetry.summary(tmp_path)
     assert s["queries"] == 3 and s["latency_p50_ms"] == 300 and s["by_status"]["low_retrieval_confidence"] == 1
+
+
+def test_doctype_router_hint():
+    import pytest
+
+    from app.legal import doctype
+
+    if not doctype.MODEL_PATH.exists():
+        pytest.skip("router not trained")
+    j = doctype.classify("IN THE SUPREME COURT OF INDIA CIVIL APPELLATE JURISDICTION Criminal Appeal No. 12 of 2020 The appeal is allowed and the conviction set aside. Heard learned counsel.")
+    c = doctype.classify("This Services Agreement is entered into between the Company and the Contractor. Either party may terminate this Agreement on thirty days written notice. Governing law shall be the laws of New York.")
+    assert j["type"] == "judgment" and c["type"] == "contract" and "summary" in j["suggested_tools"]
