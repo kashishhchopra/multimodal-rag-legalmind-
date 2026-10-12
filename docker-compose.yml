@@ -9,6 +9,10 @@ services:
       # Persist uploaded docs, extracted images and the vector store on the host
       - ./backend/data:/app/data
       - ./backend/vector_store:/app/vector_store
+      # Trained models (clause/doc-type classifiers, fine-tuned embedder/reranker) are git-ignored, so mount them
+      - ./backend/app/models:/app/app/models
+      # Optional real corpus index: set VECTOR_DB_PATH=/app/corpus_store in backend/.env to search it
+      - ./data_lake/corpus_store:/app/corpus_store
       # Optional: cache downloaded HF models between runs
       - hf_cache:/root/.cache/huggingface
     restart: unless-stopped

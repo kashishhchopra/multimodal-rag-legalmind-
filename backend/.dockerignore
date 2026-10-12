@@ -1,0 +1,13 @@
+# Keep secrets, virtualenvs and runtime data OUT of the image (secrets come from env_file at run time)
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/
+vector_store/
+checkpoints/
+tests/
+eval/results/
