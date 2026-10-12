@@ -1,0 +1,545 @@
+old_code,old_section,new_code,new_section,title
+CRPC,1,BNSS,1,"Short title, extent and commencement."
+CRPC,2,BNSS,2,Definitions.
+CRPC,2,BNSS,2(1)(c),"""bailable offence""."
+CRPC,2,BNSS,2(1)(f),"""charge""."
+CRPC,2,BNSS,2(1)(g),"""cognizable offence""."
+CRPC,2,BNSS,2(1)(h),"""complaint""."
+CRPC,2,BNSS,2(1)(j),"""High Court""."
+CRPC,2,BNSS,2(1)(k),"""inquiry""."
+CRPC,2,BNSS,2(1)(l),"""investigation""."
+CRPC,2,BNSS,2(1)(n),"""local jurisdiction""."
+CRPC,2,BNSS,2(1)(o),"""non-cognizable offence""."
+CRPC,2,BNSS,2(1)(p),"""notification""."
+CRPC,2,BNSS,2(1)(q),"""offence""."
+CRPC,2,BNSS,2(1)(r),"""officer in charge of a police station""."
+CRPC,2,BNSS,2(1)(s),"""place""."
+CRPC,2,BNSS,2(1)(t),"""police report""."
+CRPC,2,BNSS,2(1)(u),"""police station""."
+CRPC,2,BNSS,2(1)(v),"""Public Prosecutor""."
+CRPC,2,BNSS,2(1)(x),"""summons-case""."
+CRPC,2,BNSS,2(1)(y),"""victim""."
+CRPC,2,BNSS,2(1)(z),"""warrant-case""."
+CRPC,2,BNSS,2(2),Words and expressions used.
+CRPC,3,BNSS,3,Construction of references.
+CRPC,4,BNSS,4,Trial of offences under Bharatiya Nyaya Sanhita and other laws.
+CRPC,5,BNSS,5,Saving.
+CRPC,6,BNSS,6,Classes of Criminal Courts.
+CRPC,7,BNSS,7,Territorial divisions.
+CRPC,9,BNSS,8,Court of Session.
+CRPC,11,BNSS,9,Courts of Judicial Magistrates.
+CRPC,12,BNSS,10,"Chief Judicial Magistrate and Additional Chief Judicial Magistrate, etc."
+CRPC,13,BNSS,11,Special Judicial Magistrates.
+CRPC,14,BNSS,12,Local jurisdiction of Judicial Magistrates.
+CRPC,15,BNSS,13,Subordination of Judicial Magistrates.
+CRPC,20,BNSS,14,Executive Magistrates.
+CRPC,21,BNSS,15,Special Executive Magistrates.
+CRPC,22,BNSS,16,Local Jurisdiction of Executive Magistrates.
+CRPC,23,BNSS,17,Subordination of Executive Magistrates.
+CRPC,24,BNSS,18,Public Prosecutors.
+CRPC,25,BNSS,19,Assistant Public Prosecutors.
+CRPC,25A,BNSS,20,Directorate of Prosecution.
+CRPC,26,BNSS,21,Courts by which offences are triable.
+CRPC,28,BNSS,22,Sentences which High Courts and Sessions Judges may pass.
+CRPC,29,BNSS,23,Sentences which Magistrates may pass.
+CRPC,30,BNSS,24,Sentence of imprisonment in default of fine.
+CRPC,31,BNSS,25,Sentence in cases of conviction of several offences at one trial.
+CRPC,32,BNSS,26,Mode of conferring powers.
+CRPC,33,BNSS,27,Powers of officers appointed.
+CRPC,34,BNSS,28,Withdrawal of powers.
+CRPC,35,BNSS,29,Powers of Judges and Magistrates exercisable by their successors-in-office.
+CRPC,36,BNSS,30,Powers of superior officers of police.
+CRPC,37,BNSS,31,Public when to assist Magistrates and police.
+CRPC,38,BNSS,32,"Aid to person, other than police officer, executing warrant."
+CRPC,39,BNSS,33,Public to give information of certain offences.
+CRPC,40,BNSS,34,Duty of officers employed in connection with the affairs of a village to make certain report.
+CRPC,41,BNSS,35,When police may arrest without warrant.
+CRPC,41A,BNSS,35,When police may arrest without warrant.
+CRPC,41B,BNSS,36,Procedure of arrest and duties of officer making arrest.
+CRPC,41C,BNSS,37,Designated Police Officer.
+CRPC,41D,BNSS,38,Right of arrested person to meet an advocate of his choice during interrogation.
+CRPC,42,BNSS,39,Arrest on refusal to give name and residence.
+CRPC,43,BNSS,40,Arrest by private person and procedure on such arrest.
+CRPC,44,BNSS,41,Arrest by Magistrate.
+CRPC,45,BNSS,42,Protection of members of the Armed Forces from arrest.
+CRPC,46,BNSS,43,Arrest how made.
+CRPC,47,BNSS,44,Search of place entered by person sought to be arrested.
+CRPC,48,BNSS,45,Pursuit of offenders into other jurisdictions.
+CRPC,49,BNSS,46,No unnecessary restraint.
+CRPC,50,BNSS,47,Person arrested to be informed of grounds of arrest and of right to bail.
+CRPC,50A,BNSS,48,"Obligation of person making arrest to inform about the arrest, etc , to relative or friend."
+CRPC,51,BNSS,49,Search of arrested person.
+CRPC,52,BNSS,50,Power to seize offensive weapons.
+CRPC,53,BNSS,51,Examination of accused by medical practitioner at the request of police officer.
+CRPC,53A,BNSS,52,Examination of person accused of rape by medical practitioner.
+CRPC,54,BNSS,53,Examination of arrested person by medical officer.
+CRPC,54A,BNSS,54,Identification of person arrested.
+CRPC,55,BNSS,55,Procedure when police officer deputes subordinate to arrest without warrant.
+CRPC,55A,BNSS,56,Health and safety of arrested person.
+CRPC,56,BNSS,57,Person arrested to be taken before Magistrate or officer in charge of police station.
+CRPC,57,BNSS,58,Person arrested not to be detained more than twenty- four hours.
+CRPC,58,BNSS,59,Police to report apprehensions.
+CRPC,59,BNSS,60,Discharge of person apprehended.
+CRPC,60,BNSS,61,"Power, on escape, to pursue and retake."
+CRPC,60A,BNSS,62,Arrest to be made strictly according to the Sanhita.
+CRPC,61,BNSS,63,Form of summons.
+CRPC,62,BNSS,64,Summons how served.
+CRPC,63,BNSS,65,"Service of summons on corporate bodies, firms, and societies."
+CRPC,64,BNSS,66,Service when persons summoned cannot be found.
+CRPC,65,BNSS,67,Procedure when service cannot be effected as before provided.
+CRPC,66,BNSS,68,Service on Government servant.
+CRPC,67,BNSS,69,Service of summons outside local limits.
+CRPC,68,BNSS,70,Proof of service in such cases and when serving officer not present.
+CRPC,69,BNSS,71,Service of summons on witness by post.
+CRPC,70,BNSS,72,Form of warrant of arrest and duration.
+CRPC,71,BNSS,73,Power to direct security to be taken.
+CRPC,72,BNSS,74,Warrants to whom directed.
+CRPC,73,BNSS,75,Warrant may be directed to any person.
+CRPC,74,BNSS,76,Warrant directed to police officer.
+CRPC,75,BNSS,77,Notification of substance of warrant.
+CRPC,76,BNSS,78,Person arrested to be brought before court without delay.
+CRPC,77,BNSS,79,Where warrant may be executed.
+CRPC,78,BNSS,80,Warrant forwarded for execution outside jurisdiction.
+CRPC,79,BNSS,81,Warrant directed to police officer for execution outside jurisdiction.
+CRPC,80,BNSS,82,Procedure on arrest of person against whom warrant issued.
+CRPC,81,BNSS,83,Procedure by Magistrate before whom such person arrested is brought.
+CRPC,82,BNSS,84,Proclamation for person absconding.
+CRPC,83,BNSS,85,Attachment of property of person absconding.
+CRPC,84,BNSS,87,Claims and objections to attachment.
+CRPC,85,BNSS,88,"Release, sale and restoration of attached property."
+CRPC,86,BNSS,89,Appeal from order rejecting application for restoration of attached property.
+CRPC,87,BNSS,90,"Issue of warrant in lieu of, or in addition to, summons."
+CRPC,88,BNSS,91,Power to take bond or bail bond for appearance.
+CRPC,89,BNSS,92,Arrest on breach of bond or bail bond for appearance.
+CRPC,90,BNSS,93,Provisions of this Chapter generally applicable to summonses and warrants of arrest.
+CRPC,91,BNSS,94,Summons to produce document or other thing.
+CRPC,92,BNSS,95,Procedure as to letters.
+CRPC,93,BNSS,96,When search-warrant may be issued.
+CRPC,94,BNSS,97,"Search of place suspected to contain stolen property, forged documents, etc."
+CRPC,95,BNSS,98,Power to declare certain publications forfeited and to issue search-warrants for the same.
+CRPC,96,BNSS,99,Application to High Court to set aside declaration of forfeiture.
+CRPC,97,BNSS,100,Search for persons wrongfully confined.
+CRPC,98,BNSS,101,Power to compel restoration of abducted females.
+CRPC,99,BNSS,102,"Direction, etc, of search- warrants."
+CRPC,100,BNSS,103,Persons in charge of closed place to allow search.
+CRPC,101,BNSS,104,Disposal of things found in search beyond jurisdiction.
+CRPC,102,BNSS,106,Power of police officer to seize certain property.
+CRPC,103,BNSS,108,Magistrate may direct search in his presence.
+CRPC,104,BNSS,109,"Power to impound document, etc , produced."
+CRPC,105,BNSS,110,Reciprocal arrangements regarding processes.
+CRPC,105A,BNSS,111,Definitions.
+CRPC,166A,BNSS,112,Letter of request to competent authority for investigation in a country or place outside India.
+CRPC,166B,BNSS,113,Letter of request from a country or place outside India to a Court or an authority for investigation in India.
+CRPC,105B,BNSS,114,Assistance in securing transfer of persons.
+CRPC,105C,BNSS,115,Assistance in relation to orders of attachment or forfeiture of property.
+CRPC,105D,BNSS,116,Identifying unlawfully acquired property.
+CRPC,105E,BNSS,117,Seizure or attachment of property.
+CRPC,105F,BNSS,118,Management of properties seized or forfeited under this Chapter.
+CRPC,105G,BNSS,119,Notice of forfeiture of property.
+CRPC,105H,BNSS,120,Forfeiture of property in certain cases.
+CRPC,105I,BNSS,121,Fine in lieu of forfeiture.
+CRPC,105J,BNSS,122,Certain transfers to be null and void.
+CRPC,105K,BNSS,123,Procedure in respect of letter of request.
+CRPC,105L,BNSS,124,Application of this Chapter.
+CRPC,106,BNSS,125,Security for keeping the peace on conviction.
+CRPC,107,BNSS,126,Security for keeping the peace in other cases.
+CRPC,108,BNSS,127,Security for good behaviour from persons disseminating seditious matters.
+CRPC,109,BNSS,128,Security for good behaviour from suspected persons.
+CRPC,110,BNSS,129,Security for good behaviour from habitual offenders.
+CRPC,111,BNSS,130,Order to be made.
+CRPC,112,BNSS,131,Procedure in respect of person present in Court.
+CRPC,113,BNSS,132,Summons or warrant in case of person not so present.
+CRPC,114,BNSS,133,Copy of order to accompany summons or warrant.
+CRPC,115,BNSS,134,Power to dispense with personal attendance.
+CRPC,116,BNSS,135,Inquiry as to truth of information.
+CRPC,117,BNSS,136,Order to give security.
+CRPC,118,BNSS,137,Discharge of person informed against.
+CRPC,119,BNSS,138,Commencement of period for which security is required.
+CRPC,120,BNSS,139,Contents of bond.
+CRPC,121,BNSS,140,Power to reject sureties.
+CRPC,122,BNSS,141,Imprisonment in default of security.
+CRPC,123,BNSS,142,Power to release persons imprisoned for failing to give security.
+CRPC,124,BNSS,143,Security for unexpired period of bond.
+CRPC,125,BNSS,144,"Order for maintenance of wives, children and parents."
+CRPC,126,BNSS,145,Procedure.
+CRPC,127,BNSS,146,Alteration in allowance.
+CRPC,128,BNSS,147,Enforcement of order of maintenance.
+CRPC,129,BNSS,148,Dispersal of assembly by use of civil force.
+CRPC,130,BNSS,149,Use of armed forces to disperse assembly.
+CRPC,131,BNSS,150,Power of certain armed force officers to disperse assembly.
+CRPC,132,BNSS,151,"Protection against prosecution for acts done under sections 148, 149 and 150."
+CRPC,133,BNSS,152,Conditional order for removal of nuisance.
+CRPC,134,BNSS,153,Service or notification of order.
+CRPC,135,BNSS,154,Person to whom order is addressed to obey or show cause.
+CRPC,136,BNSS,155,Penalty for failure to comply with section 154.
+CRPC,137,BNSS,156,Procedure where existence of public right is denied.
+CRPC,138,BNSS,157,Procedure where person against whom order is made under section 152 appears to show cause.
+CRPC,139,BNSS,158,Power of Magistrate to direct local investigation and examination of an expert.
+CRPC,140,BNSS,159,"Power of Magistrate to furnish written instructions, etc."
+CRPC,141,BNSS,160,Procedure on order being made absolute and consequences of disobedience.
+CRPC,142,BNSS,161,Injunction pending inquiry.
+CRPC,143,BNSS,162,Magistrate may prohibit repetition or continuance of public nuisance.
+CRPC,144,BNSS,163,Power to issue order in urgent cases of nuisance or apprehended danger.
+CRPC,145,BNSS,164,Procedure where dispute concerning land or water is likely to cause breach of peace.
+CRPC,146,BNSS,165,Power to attach subject of dispute and to appoint receiver.
+CRPC,147,BNSS,166,Dispute concerning right of use of land or water.
+CRPC,148,BNSS,167,Local inquiry.
+CRPC,149,BNSS,168,Police to prevent cognizable offences.
+CRPC,150,BNSS,169,Information of design to commit cognizable offences.
+CRPC,151,BNSS,170,Arrest to prevent the commission of cognizable offences.
+CRPC,152,BNSS,171,Prevention of injury to public property.
+CRPC,154,BNSS,173,Information in cognizable cases.
+CRPC,155,BNSS,174,Information as to non- cognizable cases and investigation of such cases.
+CRPC,156,BNSS,175,Police officer's power to investigate cognizable case.
+CRPC,157,BNSS,176,Procedure for investigation.
+CRPC,158,BNSS,177,Report how submitted.
+CRPC,159,BNSS,178,Power to hold investigation or preliminary inquiry.
+CRPC,160,BNSS,179,Police officer's power to require attendance of witnesses.
+CRPC,161,BNSS,180,Examination of witnesses by police.
+CRPC,162,BNSS,181,Statements to police and use thereof.
+CRPC,163,BNSS,182,No inducement to be offered.
+CRPC,164,BNSS,183,Recording of confessions and statements.
+CRPC,164A,BNSS,184,Medical examination of the victim of rape.
+CRPC,165,BNSS,185,Search by police officer.
+CRPC,166,BNSS,186,When officer in charge of police station may require another to issue search- warrant.
+CRPC,167,BNSS,187,Procedure when investigation cannot be completed in twenty-four hours.
+CRPC,168,BNSS,188,Report of investigation by subordinate police officer.
+CRPC,169,BNSS,189,Release of accused when evidence deficient.
+CRPC,170,BNSS,190,"Cases to be sent to Magistrate, when evidence is sufficient."
+CRPC,171,BNSS,191,Complainant and witnesses not to be required to accompany police officer and not to be subjected to restraint.
+CRPC,172,BNSS,192,Diary of proceedings in investigation.
+CRPC,173,BNSS,193,Report of police officer on completion of investigation.
+CRPC,174,BNSS,194,"Police to enquire and report on suicide, etc."
+CRPC,175,BNSS,195,Power to summon persons.
+CRPC,176,BNSS,196,Inquiry by Magistrate into cause of death
+CRPC,177,BNSS,197,Ordinary place of inquiry and trial.
+CRPC,178,BNSS,198,Place of inquiry or trial.
+CRPC,179,BNSS,199,Offence triable where act is done or consequence ensues.
+CRPC,180,BNSS,200,Place of trial where act is an offence by reason of relation to other offence
+CRPC,181,BNSS,201,Place of trial in case of certain offences.
+CRPC,182,BNSS,202,"Offences committed by means of electronic communications, letters, etc."
+CRPC,183,BNSS,203,Offence committed on journey or voyage.
+CRPC,184,BNSS,204,Place of trial for offences triable together.
+CRPC,185,BNSS,205,Power to order cases to be tried in different sessions divisions.
+CRPC,186,BNSS,206,"High Court to decide, in case of doubt, district where inquiry or trial shall take place."
+CRPC,187,BNSS,207,Power to issue summons or warrant for offence committed beyond local jurisdiction.
+CRPC,188,BNSS,208,Offence committed outside India.
+CRPC,189,BNSS,209,Receipt of evidence relating to offences committed outside India.
+CRPC,190,BNSS,210,Cognizance of offences by Magistrates.
+CRPC,191,BNSS,211,Transfer on application of the accused.
+CRPC,192,BNSS,212,Making over of cases to Magistrates.
+CRPC,193,BNSS,213,Cognizance of offences by Courts of Session.
+CRPC,194,BNSS,214,Additional Sessions Judges to try cases made over to them.
+CRPC,195,BNSS,215,"Prosecution for contempt of lawful authority of public servants, for offences against public justice and for offences relating to documents given in evidence."
+CRPC,195A,BNSS,216,"Procedure for witnesses in case of threatening, etc."
+CRPC,196,BNSS,217,Prosecution for offences against the State and for criminal conspiracy to commit such offence.
+CRPC,197,BNSS,218,Prosecution of Judges and public servants.
+CRPC,198,BNSS,219,Prosecution for offences against marriage.
+CRPC,198A,BNSS,220,"Prosecution of offences under section 498A of the Bharatiya Nyaya Sanhita, 2023."
+CRPC,198B,BNSS,221,Cognizance of offence
+CRPC,199,BNSS,222,Prosecution for defamation.
+CRPC,200,BNSS,223,Examination of complainant.
+CRPC,201,BNSS,224,Procedure by Magistrate not competent to take cognizance of the case.
+CRPC,202,BNSS,225,Postponement of issue of process.
+CRPC,203,BNSS,226,Dismissal of complaint.
+CRPC,204,BNSS,227,Issue of process.
+CRPC,205,BNSS,228,Magistrate may dispense with personal attendance of accused.
+CRPC,206,BNSS,229,Special summons in cases of petty offence.
+CRPC,207,BNSS,230,Supply to the accused of copy of police report and other documents.
+CRPC,208,BNSS,231,Supply of copies of statements and documents to accused in other cases triable by Court of Session.
+CRPC,209,BNSS,232,Commitment of case to Court of Session when offence is triable exclusively by it.
+CRPC,210,BNSS,233,Procedure to be followed when there is a complaint case and police investigation in respect of the same offence.
+CRPC,211,BNSS,234,Contents of charge.
+CRPC,212,BNSS,235,"Particulars as to time, place and person."
+CRPC,213,BNSS,236,When manner of committing offence must be stated.
+CRPC,214,BNSS,237,Words in charge taken in sense of law under which offence is punishable.
+CRPC,215,BNSS,238,Effect of errors.
+CRPC,216,BNSS,239,Court may alter charge.
+CRPC,217,BNSS,240,Recall of witnesses when charge altered.
+CRPC,218,BNSS,241,Separate charges for distinct offences.
+CRPC,219,BNSS,242,Offences of same kind within year may be charged together.
+CRPC,220,BNSS,243,Trial for more than one offence.
+CRPC,221,BNSS,244,Where it is doubtful what offence has been committed.
+CRPC,222,BNSS,245,When offence proved included in offence charged.
+CRPC,223,BNSS,246,What persons may be charged jointly.
+CRPC,224,BNSS,247,Withdrawal of remaining charges on conviction on one of several charges.
+CRPC,225,BNSS,248,Trial to be conducted by Public Prosecutor.
+CRPC,226,BNSS,249,Opening case for prosecution.
+CRPC,227,BNSS,250,Discharge.
+CRPC,228,BNSS,251,Framing of charge.
+CRPC,229,BNSS,252,Conviction on plea of guilty.
+CRPC,230,BNSS,253,Date for prosecution evidence.
+CRPC,231,BNSS,254,Evidence for prosecution.
+CRPC,232,BNSS,255,Acquittal.
+CRPC,233,BNSS,256,Entering upon defence.
+CRPC,234,BNSS,257,Arguments.
+CRPC,235,BNSS,258,Judgment of acquittal or conviction.
+CRPC,236,BNSS,259,Previous conviction.
+CRPC,237,BNSS,260,Procedure in cases instituted under sib-section 2 of section 222.
+CRPC,238,BNSS,261,Compliance with section 230
+CRPC,239,BNSS,262,When accused shall be discharged.
+CRPC,240,BNSS,263,Framing of charge.
+CRPC,241,BNSS,264,Conviction on plea of guilty.
+CRPC,242,BNSS,265,Evidence for prosecution.
+CRPC,243,BNSS,266,Evidence for defence.
+CRPC,244,BNSS,267,Evidence for prosecution.
+CRPC,245,BNSS,268,When accused shall be discharged.
+CRPC,246,BNSS,269,Procedure where accused is not discharged.
+CRPC,247,BNSS,270,Evidence for defence.
+CRPC,248,BNSS,271,Acquittal or conviction.
+CRPC,249,BNSS,272,Absence of complainant.
+CRPC,250,BNSS,273,Compensation for accusation without reasonable cause.
+CRPC,251,BNSS,274,Substance of accusation to be stated.
+CRPC,252,BNSS,275,Conviction on plea of guilty.
+CRPC,253,BNSS,276,Conviction on plea of guilty in absence of accused in petty cases.
+CRPC,254,BNSS,277,Procedure when not convicted.
+CRPC,255,BNSS,278,Acquittal or conviction.
+CRPC,256,BNSS,279,Non-appearance or death of complainant.
+CRPC,257,BNSS,280,Withdrawal of complaint.
+CRPC,258,BNSS,281,Power to stop proceedings in certain cases.
+CRPC,259,BNSS,282,Power of Court to convert summons-cases into warrant- cases.
+CRPC,260,BNSS,283,Power to try summarily.
+CRPC,261,BNSS,284,Summary trial by Magistrate of the second class.
+CRPC,262,BNSS,285,Procedure for summary trials.
+CRPC,263,BNSS,286,Record in summary trials.
+CRPC,264,BNSS,287,Judgment in cases tried summarily.
+CRPC,265,BNSS,288,Language of record and judgment.
+CRPC,265A,BNSS,289,Application of the Chapter.
+CRPC,265B,BNSS,290,Application for plea bargaining.
+CRPC,265C,BNSS,291,Guidelines for mutually satisfactory disposition.
+CRPC,265D,BNSS,292,Report of the mutually satisfactory disposition to be submitted before the Court.
+CRPC,265E,BNSS,293,Disposal of the case.
+CRPC,265F,BNSS,294,Judgment of the Court.
+CRPC,265G,BNSS,295,Finality of the judgment.
+CRPC,265H,BNSS,296,Power of the Court in plea bargaining.
+CRPC,265,BNSS,297,Period of detention undergone by the accused to be set off against the sentence of imprisonment.
+CRPC,265J,BNSS,298,Savings.
+CRPC,265K,BNSS,299,Statements of accused not to be used.
+CRPC,265L,BNSS,300,Non-application of the Chapter.
+CRPC,266,BNSS,301,Definitions.
+CRPC,267,BNSS,302,Power to require attendance of prisoners.
+CRPC,268,BNSS,303,Power of State Government or Central Government to exclude certain persons from operation of section 302.
+CRPC,269,BNSS,304,Officer in charge of prison to abstain from carrying out order in certain contingencies.
+CRPC,270,BNSS,305,Prisoner to be brought to Court in custody.
+CRPC,271,BNSS,306,Power to issue commission for examination of witness in prison.
+CRPC,272,BNSS,307,Language of Courts.
+CRPC,273,BNSS,308,Evidence to be taken in presence of accused.
+CRPC,274,BNSS,309,Record in summons-cases and inquiries.
+CRPC,275,BNSS,310,Record in warrant-cases.
+CRPC,276,BNSS,311,Record in trial before Court of Session.
+CRPC,277,BNSS,312,Language of record of evidence.
+CRPC,278,BNSS,313,Procedure in regard to such evidence when completed.
+CRPC,279,BNSS,314,Interpretation of evidence to accused or his pleader.
+CRPC,280,BNSS,315,Remarks respecting demeanour of witness.
+CRPC,281,BNSS,316,Record of examination of accused.
+CRPC,282,BNSS,317,Interpreter to be bound to interpret truthfully.
+CRPC,283,BNSS,318,Record in High Court.
+CRPC,284,BNSS,319,When attendance of witness may be dispensed with and commission issued.
+CRPC,285,BNSS,320,Commission to whom to be issued.
+CRPC,286,BNSS,321,Execution of commissions.
+CRPC,287,BNSS,322,Parties may examine witnesses.
+CRPC,288,BNSS,323,Return of commission.
+CRPC,289,BNSS,324,Adjournment of proceeding.
+CRPC,290,BNSS,325,Execution of foreign commissions.
+CRPC,291,BNSS,326,Deposition of medical witness.
+CRPC,291A,BNSS,327,Identification report of Magistrate.
+CRPC,292,BNSS,328,Evidence of officers of the Mint.
+CRPC,293,BNSS,329,Reports of certain Government scientific experts.
+CRPC,294,BNSS,330,No formal proof of certain documents.
+CRPC,295,BNSS,331,Affidavit in proof of conduct of public servants.
+CRPC,296,BNSS,332,Evidence of formal character on affidavit.
+CRPC,297,BNSS,333,Authorities before whom affidavits may be sworn.
+CRPC,298,BNSS,334,Previous conviction or acquittal how proved.
+CRPC,299,BNSS,335,Record of evidence in absence of accused.
+CRPC,300,BNSS,337,Person once convicted or acquitted not to be tried for same offence.
+CRPC,301,BNSS,338,Appearance by Public Prosecutors.
+CRPC,302,BNSS,339,Permission to conduct prosecution.
+CRPC,303,BNSS,340,Right of person against whom proceedings are instituted to be defended.
+CRPC,304,BNSS,341,Legal aid to accused at State expense in certain cases.
+CRPC,305,BNSS,342,Procedure when corporation or registered society is an accused.
+CRPC,306,BNSS,343,Tender of pardon to accomplice.
+CRPC,307,BNSS,344,Power to direct tender of pardon.
+CRPC,308,BNSS,345,Trial of person not complying with conditions of pardon.
+CRPC,309,BNSS,346,Power to postpone or adjourn proceedings.
+CRPC,310,BNSS,347,Local inspection.
+CRPC,311,BNSS,348,"Power to summon material witness, or examine person present."
+CRPC,311A,BNSS,349,Power of Magistrate to order person to give specimen signatures or handwriting.
+CRPC,312,BNSS,350,Expenses of complainants and witnesses.
+CRPC,313,BNSS,351,Power to examine the accused.
+CRPC,314,BNSS,352,Oral arguments and memorandum of arguments.
+CRPC,315,BNSS,353,Accused person to be competent witness.
+CRPC,316,BNSS,354,No influence to be used to induce disclosure.
+CRPC,317,BNSS,355,Provision for inquiries and trial being held in the absence of accused in certain cases.
+CRPC,318,BNSS,357,Procedure where accused does not understand proceedings.
+CRPC,319,BNSS,358,Power to proceed against other persons appearing to be guilty of offence.
+CRPC,320,BNSS,359,Compounding of offences.
+CRPC,321,BNSS,360,Withdrawal from prosecution.
+CRPC,322,BNSS,361,Procedure in cases which Magistrate cannot dispose of.
+CRPC,323,BNSS,362,"Procedure when, after commencement of inquiry or trial, Magistrate finds case should be committed."
+CRPC,324,BNSS,363,"Trial of persons previously convicted of offences against coinage, stamp-law or property."
+CRPC,325,BNSS,364,Procedure when Magistrate cannot pass sentence sufficiently severe.
+CRPC,326,BNSS,365,Conviction or commitment on evidence partly recorded by one Magistrate and partly by another.
+CRPC,327,BNSS,366,Court to be open.
+CRPC,328,BNSS,367,Procedure in case of accused being person of unsound mind.
+CRPC,329,BNSS,368,Procedure in case of person of unsound mind tried before Court.
+CRPC,330,BNSS,369,Release of person with mental illness pending investigation or trial.
+CRPC,331,BNSS,370,Resumption of inquiry or trial.
+CRPC,332,BNSS,371,Procedure on accused appearing before Magistrate or Court.
+CRPC,333,BNSS,372,When accused appears to have been of sound mind.
+CRPC,334,BNSS,373,Judgment of acquittal on ground of unsoundness of mind.
+CRPC,335,BNSS,374,Person acquitted on ground of unsoundness of mind to be detained in safe custody.
+CRPC,336,BNSS,375,Power of State Government to empower officer-in-charge to discharge.
+CRPC,337,BNSS,376,Procedure where prisoner of unsound mind is reported capable of making his defence.
+CRPC,338,BNSS,377,Procedure where person of unsound mind detained is declared fit to be released.
+CRPC,339,BNSS,378,Delivery of person of unsound mind to care of relative or friend.
+CRPC,340,BNSS,379,Procedure in cases mentioned in section 215.
+CRPC,341,BNSS,380,Appeal.
+CRPC,342,BNSS,381,Power to order costs.
+CRPC,343,BNSS,382,Procedure of Magistrate taking cognizance.
+CRPC,344,BNSS,383,Summary procedure for trial for giving false evidence.
+CRPC,345,BNSS,384,Procedure in certain cases of contempt.
+CRPC,346,BNSS,385,Procedure where Court considers that case should not be dealt with under section 384.
+CRPC,347,BNSS,386,When Registrar or Sub- Registrar to be deemed a Civil Court.
+CRPC,348,BNSS,387,Discharge of offender on submission of apology.
+CRPC,349,BNSS,388,Imprisonment or committal of person refusing to answer or produce document.
+CRPC,350,BNSS,389,Summary procedure for punishment for non- attendance by a witness in obedience to summons.
+CRPC,351,BNSS,390,"Appeals from convictions under sections 383, 384, 388 and 389."
+CRPC,352,BNSS,391,Certain Judges and Magistrates not to try certain offences when committed before themselves.
+CRPC,353,BNSS,392,Judgment.
+CRPC,354,BNSS,393,Language and contents of judgment.
+CRPC,356,BNSS,394,Order for notifying address of previously convicted offender.
+CRPC,357,BNSS,395,Order to pay compensation.
+CRPC,357A,BNSS,396,"Victim compensation scheme. Compensation to be in addition to fine under section 65, section 70 and sub- section (1) of section 124 of the Bharatiya Nyaya Sanhita, 2023 [under section 326A or section "
+CRPC,357B,BNSS,396,"Victim compensation scheme. Compensation to be in addition to fine under section 65, section 70 and sub- section (1) of section 124 of the Bharatiya Nyaya Sanhita, 2023 [under section 326A or section "
+CRPC,357C,BNSS,397,Treatment of victims.
+CRPC,358,BNSS,399,Compensation to persons groundlessly arrested.
+CRPC,359,BNSS,400,Order to pay costs in non- cognizable cases.
+CRPC,360,BNSS,401,Order to release on probation of good conduct or after admonition.
+CRPC,361,BNSS,402,Special reasons to be recorded in certain cases.
+CRPC,362,BNSS,403,Court not to alter judgment.
+CRPC,363,BNSS,404,Copy of judgment to be given to the accused and other persons.
+CRPC,364,BNSS,405,Judgment when to be translated
+CRPC,365,BNSS,406,Court of Session to send copy of finding and sentence to District Magistrate.
+CRPC,366,BNSS,407,Sentence of death to be submitted by Court of Session for confirmation.
+CRPC,367,BNSS,408,Power to direct further inquiry to be made or additional evidence to be taken.
+CRPC,368,BNSS,409,Power of High Court to confirm sentence or annul conviction.
+CRPC,369,BNSS,410,Confirmation or new sentence to be signed by two Judges.
+CRPC,370,BNSS,411,Procedure in case of difference of opinion.
+CRPC,371,BNSS,412,Procedure in cases submitted to High Court for confirmation.
+CRPC,372,BNSS,413,No appeal to lie unless otherwise provided.
+CRPC,373,BNSS,414,Appeal from orders requiring security or refusal to accept or rejecting surety for keeping peace or good behaviour.
+CRPC,374,BNSS,415,Appeals from convictions.
+CRPC,375,BNSS,416,No appeal in certain cases when accused pleads guilty.
+CRPC,376,BNSS,417,No appeal in petty cases.
+CRPC,377,BNSS,418,Appeal by the State Government against sentence.
+CRPC,378,BNSS,419,Appeal in case of acquittal.
+CRPC,379,BNSS,420,Appeal against conviction by High Court in certain cases.
+CRPC,380,BNSS,421,Special right of appeal in certain cases.
+CRPC,381,BNSS,422,Appeal to Court of Session how heard.
+CRPC,382,BNSS,423,Petition of appeal.
+CRPC,383,BNSS,424,Procedure when appellant in jail.
+CRPC,384,BNSS,425,Summary dismissal of appeal.
+CRPC,385,BNSS,426,Procedure for hearing appeals not dismissed summarily.
+CRPC,386,BNSS,427,Powers of the Appellate Court.
+CRPC,387,BNSS,428,Judgments of Subordinate Appellate Court.
+CRPC,388,BNSS,429,Order of High Court on appeal to be certified to lower Court.
+CRPC,389,BNSS,430,Suspension of sentence pending the appeal; release of appellant on bail.
+CRPC,390,BNSS,431,Arrest of accused in appeal from acquittal
+CRPC,391,BNSS,432,Appellate Court may take further evidence or direct it to be taken.
+CRPC,392,BNSS,433,Procedure where Judges of Court of Appeal are equally divided.
+CRPC,393,BNSS,434,Finality of judgments and orders on appeal.
+CRPC,394,BNSS,435,Abatement of appeals.
+CRPC,395,BNSS,436,Reference to High Court.
+CRPC,396,BNSS,437,Disposal of case according to decision of High Court.
+CRPC,397,BNSS,438,Calling for records to exercise powers of revision.
+CRPC,398,BNSS,439,Power to order inquiry.
+CRPC,399,BNSS,440,Sessions Judge's powers of revision.
+CRPC,400,BNSS,441,Power of Additional Sessions Judge.
+CRPC,401,BNSS,442,High Court's powers of revision.
+CRPC,402,BNSS,443,Power of High Court to withdraw or transfer revision cases.
+CRPC,403,BNSS,444,Option of Court to hear parties.
+CRPC,405,BNSS,445,High Court's order to be certified to lower Court.
+CRPC,406,BNSS,446,Power of Supreme Court to transfer cases and appeals.
+CRPC,407,BNSS,447,Power of High Court to transfer cases and appeals.
+CRPC,408,BNSS,448,Power of Sessions Judge to transfer cases and appeals.
+CRPC,409,BNSS,449,Withdrawal of cases and appeals by Session Judge.
+CRPC,410,BNSS,450,Withdrawal of cases by Judicial Magistrate.
+CRPC,411,BNSS,451,Making over or withdrawal of cases by Executive Magistrates.
+CRPC,412,BNSS,452,Reasons to be recorded.
+CRPC,413,BNSS,453,Execution of order passed under section 409.
+CRPC,414,BNSS,454,Execution of sentence of death passed by High Court.
+CRPC,415,BNSS,455,Commutation of sentence of death in case of appeal to Supreme Court.
+CRPC,416,BNSS,456,Postponement of capital sentence on pregnant woman.
+CRPC,417,BNSS,457,Power to appoint place of imprisonment.
+CRPC,418,BNSS,458,Execution of sentence of imprisonment.
+CRPC,419,BNSS,459,Direction of warrant for execution.
+CRPC,420,BNSS,460,Warrant with whom to be lodged.
+CRPC,421,BNSS,461,Warrant for levy of fine.
+CRPC,422,BNSS,462,Effect of such warrant.
+CRPC,423,BNSS,463,Warrant for levy of fine issued by a Court in any territory to which this Sanhita does not extend.
+CRPC,424,BNSS,464,Suspension of execution of sentence of imprisonment.
+CRPC,425,BNSS,465,Who may issue warrant.
+CRPC,426,BNSS,466,Sentence on escaped convict when to take effect.
+CRPC,427,BNSS,467,Sentence on offender already sentenced for another offence.
+CRPC,428,BNSS,468,Period of detention undergone by the accused to be set off against the sentence of imprisonment.
+CRPC,429,BNSS,469,Saving.
+CRPC,430,BNSS,470,Return of warrant on execution of sentence.
+CRPC,431,BNSS,471,Money ordered to be paid recoverable as a fine.
+CRPC,432,BNSS,473,Power to suspend or remit sentences.
+CRPC,433,BNSS,474,Power to commute sentence.
+CRPC,433A,BNSS,475,Restriction on powers of remission or commutation in certain cases.
+CRPC,434,BNSS,476,Concurrent power of Central Government in case of death sentences.
+CRPC,435,BNSS,477,State Government to act after concurrence with Central Government in certain cases.
+CRPC,436,BNSS,478,In what cases bail to be taken.
+CRPC,436A,BNSS,479,Maximum period for which an undertrial prisoner can be detained.
+CRPC,437,BNSS,480,When bail may be taken in case of non-bailable offence.
+CRPC,437A,BNSS,481,Bail to require accused to appear before next appellate Court.
+CRPC,438,BNSS,482,Direction for grant of bail to person apprehending arrest.
+CRPC,439,BNSS,483,Special powers of High Court or Court of Session regarding bail.
+CRPC,440,BNSS,484,Amount of bond and reduction thereof.
+CRPC,441,BNSS,485,Bond of accused and sureties.
+CRPC,441A,BNSS,486,Declaration by sureties.
+CRPC,442,BNSS,487,Discharge from custody.
+CRPC,443,BNSS,488,Power to order sufficient bail when that first taken is insufficient.
+CRPC,444,BNSS,489,Discharge of sureties.
+CRPC,445,BNSS,490,Deposit instead of recognizance.
+CRPC,446,BNSS,491,Procedure when bond has been forfeited.
+CRPC,446A,BNSS,492,Cancellation of bond and bail bond.
+CRPC,447,BNSS,493,Procedure in case of insolvency of death of surety or when a bond is forfeited.
+CRPC,448,BNSS,494,Bond required from child.
+CRPC,449,BNSS,495,Appeal from orders under section 491.
+CRPC,450,BNSS,496,Power to direct levy of amount due on certain recognizances.
+CRPC,451,BNSS,497,Order for custody and disposal of property pending trial in certain cases.
+CRPC,452,BNSS,498,Order for disposal of property at conclusion of trial.
+CRPC,453,BNSS,499,Payment to innocent purchaser of money found on accused.
+CRPC,454,BNSS,500,Appeal against orders under section 498 or section 499.
+CRPC,455,BNSS,501,Destruction of libellous and other matter.
+CRPC,456,BNSS,502,Power to restore possession of immovable property.
+CRPC,457,BNSS,503,Procedure by police upon seizure of property.
+CRPC,458,BNSS,504,Procedure where no claimant appears within six months.
+CRPC,459,BNSS,505,Power to sell perishable property.
+CRPC,460,BNSS,506,Irregularities which do not vitiate proceedings.
+CRPC,461,BNSS,507,Irregularities which vitiate proceedings.
+CRPC,462,BNSS,508,Proceedings in wrong place.
+CRPC,463,BNSS,509,Non-compliance with provisions of section 183 or section 316.
+CRPC,464,BNSS,510,"Effect of omission to frame, or absence of, or error in, charge."
+CRPC,465,BNSS,511,"Finding or sentence when reversible by reason of error, omission or irregularity."
+CRPC,466,BNSS,512,Defect or error not to make attachment unlawful.
+CRPC,467,BNSS,513,Definitions.
+CRPC,468,BNSS,514,Bar to taking cognizance after lapse of the period of limitation.
+CRPC,469,BNSS,515,Commencement of the period of limitation.
+CRPC,470,BNSS,516,Exclusion of time in certain cases.
+CRPC,471,BNSS,517,Exclusion of date on which Court is closed.
+CRPC,472,BNSS,518,Continuing offence.
+CRPC,473,BNSS,519,Extension of period of limitation in certain cases.
+CRPC,474,BNSS,520,Trials before High Courts.
+CRPC,475,BNSS,521,Delivery to commanding officers of persons liable to be tried by Court-martial.
+CRPC,476,BNSS,522,Forms.
+CRPC,477,BNSS,523,Power of High Court to make rules.
+CRPC,478,BNSS,524,Power to alter functions allocated to Executive Magistrate in certain cases.
+CRPC,479,BNSS,525,Case in which Judge or Magistrate is personally interested.
+CRPC,480,BNSS,526,Practicing advocate not to sit as Magistrate in certain Courts.
+CRPC,481,BNSS,527,Public servant concerned in sale not to purchase or bid for property.
+CRPC,482,BNSS,528,Saving of inherent powers of High Court.
+CRPC,483,BNSS,529,Duty of High Court to exercise continuous superintendence over Courts.
+CRPC,484,BNSS,531,Repeal and savings.

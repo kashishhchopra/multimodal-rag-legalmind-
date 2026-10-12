@@ -151,11 +151,13 @@ def fetch_hf(ds: dict, max_gb: float, sample_rows: int) -> None:
             continue
         if size == 0 and rev is None:
             break
+        if a.get("allow_patterns"):
+            size = 0  # size guard applies to the whole repo; patterns select a subset
         if size > max_gb * 1e9:
             print(f"{ds['id']}: {size/1e9:.1f}GB exceeds --max-gb {max_gb}; skipped (raise --max-gb to fetch)")
             return
         try:
-            snapshot_download(repo_id=repo, repo_type="dataset", revision=rev, local_dir=dest)
+            snapshot_download(repo_id=repo, repo_type="dataset", revision=rev, local_dir=dest, allow_patterns=a.get("allow_patterns"))
         except Exception as e:  # noqa: BLE001 - report and try next revision
             print(f"{ds['id']}: revision {rev} failed: {e}")
             continue
@@ -167,6 +169,30 @@ def fetch_hf(ds: dict, max_gb: float, sample_rows: int) -> None:
     print(f"{ds['id']}: could not fetch {repo} (gated, renamed or empty). Check the dataset card and accept terms if gated.")
 
 
+# ----------------------------------------------------------------- plain URL (zip or file)
+def fetch_url(ds: dict) -> None:
+    import zipfile
+
+    a = ds["access"]
+    dest_dir = LAKE / "manual" / ds["id"]
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    fname = dest_dir / a.get("filename", "download.bin")
+    if not fname.exists():
+        with requests.get(a["url"], stream=True, timeout=120, allow_redirects=True, headers={"User-Agent": "LegalMind research"}) as r:
+            r.raise_for_status()
+            with fname.open("wb") as f:
+                for chunk in r.iter_content(1 << 20):
+                    f.write(chunk)
+    if fname.suffix == ".zip":
+        z = zipfile.ZipFile(fname)
+        names = [n for n in z.namelist() if n.strip("/")]  # a bare "/" root entry is harmless noise
+        if any(n.startswith("/") or ".." in Path(n).parts for n in names):
+            sys.exit(f"{fname}: unsafe paths in zip; not extracting")
+        z.extractall(dest_dir / "extracted", members=names)
+    record(ds["id"], source=a["url"].split("?")[0], path=str(fname.relative_to(ROOT)), bytes=fname.stat().st_size, sha256=sha256(fname))
+    print(f"ok {fname}")
+
+
 # ----------------------------------------------------------------- CLI
 def fetch_one(ds: dict, args) -> None:
     kind = ds["access"]["kind"]
@@ -174,6 +200,8 @@ def fetch_one(ds: dict, args) -> None:
         fetch_s3(ds, args.years or [], args.meta_only, args.max_gb)
     elif kind == "hf":
         fetch_hf(ds, args.max_gb, args.sample_rows)
+    elif kind == "url":
+        fetch_url(ds)
     else:
         print(f"[manual] {ds['id']} ({ds['priority']}): {ds['name']}\n         -> {ds['access'].get('url')}")
         for fb in ds["access"].get("mteb_fallback", []):

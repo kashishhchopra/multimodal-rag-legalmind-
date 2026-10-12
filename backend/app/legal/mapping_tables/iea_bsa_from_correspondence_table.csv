@@ -1,0 +1,195 @@
+old_code,old_section,new_code,new_section,title
+IEA,1,BSA,1,"Short title, application and commencement."
+IEA,3,BSA,2,Definitions.
+IEA,3,BSA,2(1)(a),"""Court""."
+IEA,1,BSA,2(1)(a),"""Court""."
+IEA,4,BSA,2(1)(b),"""conclusive proof""."
+IEA,3,BSA,2(1)(b),"""conclusive proof""."
+IEA,3,BSA,2(1)(c),"""disproved""."
+IEA,8,BSA,2(1)(c),"""disproved""."
+IEA,3,BSA,2(1)(d),"""document""."
+IEA,5,BSA,2(1)(d),"""document""."
+IEA,3,BSA,2(1)(f),"""fact""."
+IEA,2,BSA,2(1)(f),"""fact""."
+IEA,3,BSA,2(1)(g),"""facts in issue""."
+IEA,4,BSA,2(1)(g),"""facts in issue""."
+IEA,4,BSA,2(1)(h),"""may presume""."
+IEA,1,BSA,2(1)(h),"""may presume""."
+IEA,3,BSA,2(1)(i),"""not proved""."
+IEA,9,BSA,2(1)(i),"""not proved""."
+IEA,3,BSA,2(1)(j),"""proved""."
+IEA,7,BSA,2(1)(j),"""proved""."
+IEA,3,BSA,2(1)(k),"""relevant""."
+IEA,4,BSA,2(1)(l),"""shall presume""."
+IEA,2,BSA,2(1)(l),"""shall presume""."
+IEA,5,BSA,3,Evidence maybe given of facts in issue and relevant facts.
+IEA,6,BSA,4,Relevancy of facts forming part of same transaction.
+IEA,7,BSA,5,"Facts which are occasion, cause or effect of facts in issue or relevant facts."
+IEA,8,BSA,6,"Motive, preparation and previous or subsequent conduct."
+IEA,9,BSA,7,Facts necessary to explain or introduce fact in issue or relevant facts.
+IEA,10,BSA,8,Things said or done by conspirator in reference to common design.
+IEA,11,BSA,9,When facts not otherwise relevant become relevant.
+IEA,12,BSA,10,Facts tending to enable Court to determine amount are relevant in suits for damages.
+IEA,13,BSA,11,Facts relevant when right or custom is in question.
+IEA,14,BSA,12,"Facts showing existence of state of mind, or of body or bodily feeling."
+IEA,15,BSA,13,Facts bearing on question whether act was accidental or intentional.
+IEA,16,BSA,14,Existence of course of business when relevant.
+IEA,17,BSA,15,Admission defined.
+IEA,18,BSA,16,Admission by party to proceeding or his agent.
+IEA,19,BSA,17,Admissions by persons whose position must be proved as against party to suit.
+IEA,20,BSA,18,Admissions by persons expressly referred to by party to suit.
+IEA,21,BSA,19,"Proof of admissions against persons making them, and by or on their behalf."
+IEA,22,BSA,20,When oral admissions as to contents of documents are relevant.
+IEA,23,BSA,21,Admissions in civil cases when relevant.
+IEA,24,BSA,22(1),"Confession caused by inducement, threat, coercion or promise, when irrelevant in criminal proceeding."
+IEA,25,BSA,23(1),Confession to police officer.
+IEA,26,BSA,23(2),Confession by accused while in custody of police not to be proved against him.
+IEA,30,BSA,24,Consideration of proved confession affecting person making it and others jointly under trial for same offence.
+IEA,31,BSA,25,"Admissions not conclusive proof, but may estop."
+IEA,32,BSA,26,"Cases in which statement of relevant fact by person who is dead or cannot be found, etc., is relevant."
+IEA,33,BSA,27,"Relevancy of certain evidence for proving, in subsequent proceeding, truth of facts therein stated."
+IEA,34,BSA,28,Entries in books of account when relevant.
+IEA,35,BSA,29,Relevancy of entry in public record or an electronic record made in performance of duty.
+IEA,36,BSA,30,"Relevancy of statements in maps, charts and plans."
+IEA,37,BSA,31,Relevancy of statement as to fact of public nature contained in certain Acts or notifications.
+IEA,38,BSA,32,Relevancy of statements as to any law contained in law books including electronic or digital form.
+IEA,39,BSA,33,"What evidence to be given when statement forms part of a conversation, document, electronic record, book or series of letters or papers."
+IEA,40,BSA,34,Previous judgments relevant to bar a second suit or trial.
+IEA,41,BSA,35,"Relevancy of certain judgments in probate, etc., jurisdiction."
+IEA,42,BSA,36,"Relevancy and effect of judgments, orders or decrees, other than those mentioned in section35[41 IEA]."
+IEA,43,BSA,37,"Judgments, etc., other than those mentioned in sections 34, 35 and 36 [40to 42 IEA] when relevant."
+IEA,44,BSA,38,"Fraud or collusion in obtaining judgment, or incompetency of Court, may be proved."
+IEA,45,BSA,39(1),Opinions of experts.
+IEA,45A,BSA,39(2),Opinion of Examiner of Electronic Evidence.
+IEA,46,BSA,40,Facts bearing upon opinions of experts.
+IEA,47,BSA,41(1),"Opinion as to handwriting and signature, when relevant."
+IEA,47A,BSA,41(2),"Opinion as to electronic signature, when relevant."
+IEA,48,BSA,42,"Opinion as to existence of general custom or right, when relevant."
+IEA,49,BSA,43,"Opinion as to usages, tenets, etc., when relevant."
+IEA,50,BSA,44,"Opinion on relationship, when relevant."
+IEA,51,BSA,45,"Grounds of opinion, when relevant."
+IEA,52,BSA,46,"In civil cases character to prove conduct imputed, irrelevant."
+IEA,53,BSA,47,In criminal cases previous good character relevant.
+IEA,53A,BSA,48,Evidence of character or previous sexual experience not relevant in certain cases.
+IEA,54,BSA,49,"Previous bad character not relevant, except in reply."
+IEA,55,BSA,50,Character as affecting damages.
+IEA,56,BSA,51,Fact judicially noticeable need not be proved.
+IEA,57,BSA,52,Facts of which Court shall take judicial notice.
+IEA,58,BSA,53,Facts admitted need not be proved.
+IEA,59,BSA,54,Proof of facts by oral evidence.
+IEA,60,BSA,55,Oral evidence to be direct.
+IEA,61,BSA,56,Proof of contents of documents.
+IEA,62,BSA,57,Primary evidence.
+IEA,63,BSA,58,Secondary evidence.
+IEA,64,BSA,59,Proof of documents by primary evidence.
+IEA,65,BSA,60,Cases in which secondary evidence relating to documents may be given.
+IEA,65A,BSA,62,Special provisions as to evidence relating to electronic record.
+IEA,65B,BSA,63,Admissibility of electronic records.
+IEA,66,BSA,64,Rules as to notice to produce.
+IEA,67,BSA,65,Proof of signature and handwriting of person alleged to have signed or written document produced.
+IEA,67A,BSA,66,Proof as to electronic signature.
+IEA,68,BSA,67,Proof of execution of document required by law to be attested.
+IEA,69,BSA,68,Proof where no attesting witness found.
+IEA,70,BSA,69,Admission of execution by party to attested document.
+IEA,71,BSA,70,Proof when attesting witness denies execution.
+IEA,72,BSA,71,Proof of document not required by law to be attested.
+IEA,73,BSA,72,"Comparison of signature, writing or seal with others admitted or proved."
+IEA,73A,BSA,73,Proof as to verification of digital signature.
+IEA,74,BSA,74(1),Public and private documents.
+IEA,75,BSA,74(2),Public and private documents.
+IEA,76,BSA,75,Certified copies of public documents.
+IEA,77,BSA,76,Proof of documents by production of certified copies.
+IEA,78,BSA,77,Proof of other official documents.
+IEA,79,BSA,78,Presumption as to genuineness of certified copies.
+IEA,80,BSA,79,"Presumption as to documents produced as record of evidence, etc."
+IEA,81,BSA,80,"Presumption as to Gazettes, newspapers, [private Acts of parliament] and other documents."
+IEA,81A,BSA,81,Presumption as to Gazettes in electronic or digital record.
+IEA,83,BSA,82,Presumption as to maps or plans made by authority of Government.
+IEA,84,BSA,83,Presumption as to collections of laws and reports of decisions.
+IEA,85,BSA,84,Presumption as to powers-of- attorney.
+IEA,85A,BSA,85,Presumption as to electronic agreements.
+IEA,85B,BSA,86,Presumption as to electronic records and electronic signatures.
+IEA,85C,BSA,87,Presumption as to Electronic Signature Certificates.
+IEA,86,BSA,88,Presumption as to certified copies of foreign judicial records.
+IEA,87,BSA,89,"Presumption as to books, maps and charts."
+IEA,88A,BSA,90,Presumption as to electronic messages.
+IEA,89,BSA,91,"Presumption as to due execution, etc., of documents not produced."
+IEA,90,BSA,92,Presumption as to documents thirty years old.
+IEA,90A,BSA,93,Presumption as to electronic records five years old.
+IEA,91,BSA,94,"Evidence of terms of contracts, grants and other dispositions of property reduced to form of document."
+IEA,92,BSA,95,Exclusion of evidence of oral agreement.
+IEA,93,BSA,96,Exclusion of evidence to explain or amend ambiguous document.
+IEA,94,BSA,97,Exclusion of evidence against application of document to existing facts.
+IEA,95,BSA,98,Evidence as to document unmeaning in reference to existing facts.
+IEA,96,BSA,99,Evidence as to application of language which can apply to one only of several persons.
+IEA,97,BSA,100,"Evidence as to application of language to one of two sets of facts, to neither of which the whole correctly applies."
+IEA,98,BSA,101,"Evidence as to meaning of illegible characters, etc."
+IEA,99,BSA,102,Who may give evidence of agreement varying terms of document.
+IEA,100,BSA,103,Saving of provisions of Indian Succession Act relating to wills.
+IEA,101,BSA,104,Burden of proof.
+IEA,102,BSA,105,On whom burden of proof lies.
+IEA,103,BSA,106,Burden of proof as to particular fact.
+IEA,104,BSA,107,Burden of proving fact to be proved to make evidence admissible.
+IEA,105,BSA,108,Burden of proving that case of accused comes within exceptions.
+IEA,106,BSA,109,Burden of proving fact especially within knowledge.
+IEA,107,BSA,110,Burden of proving death of person known to have been alive within thirty years.
+IEA,108,BSA,111,Burden of proving that person is alive who has not been heard of for seven years.
+IEA,109,BSA,112,"Burden of proof as to relationship in the cases of partners, landlord and tenant, principal and agent."
+IEA,110,BSA,113,Burden of proof as to ownership.
+IEA,111,BSA,114,Proof of good faith in transactions where one party is in relation of active confidence.
+IEA,111A,BSA,115,Presumption as to certain offences.
+IEA,112,BSA,116,"Birth during marriage, conclusive proof of legitimacy."
+IEA,113A,BSA,117,Presumption as to abetment of suicide by a married woman.
+IEA,113B,BSA,118,Presumption as to dowry death.
+IEA,114,BSA,119,Court may presume existence of certain facts.
+IEA,114A,BSA,120,Presumption as to absence of consent in certain prosecution for rape.
+IEA,115,BSA,121,Estoppel.
+IEA,116,BSA,122,Estoppel of tenant and of licensee of person in possession.
+IEA,117,BSA,123,"Estoppel of acceptor of bill of exchange, bailee or licensee."
+IEA,118,BSA,124,Who may testify.
+IEA,119,BSA,125,Witness unable to communicate verbally.
+IEA,120,BSA,126,Competency of husband and wife as witnesses in certain cases.
+IEA,121,BSA,127,Judges and Magistrates.
+IEA,122,BSA,128,Communications during marriage.
+IEA,123,BSA,129,Evidence as to affairs of State.
+IEA,124,BSA,130,Official communications.
+IEA,125,BSA,131,Information as to commission of offences.
+IEA,127,BSA,132(3),"Professional communications to apply interpreters, etc""."
+IEA,128,BSA,133,Privilege not waived by volunteering evidence.
+IEA,129,BSA,134,Confidential communication with legal advisers.
+IEA,130,BSA,135,Production of title-deeds of witness not a party.
+IEA,131,BSA,136,"Production of documents or electronic records which another person, having possession, could refuse to produce."
+IEA,132,BSA,137,Witness not excused from answering on ground that answer will criminate.
+IEA,133,BSA,138,Accomplice.
+IEA,134,BSA,139,Number of witnesses.
+IEA,135,BSA,140,Order of production and examination of witnesses.
+IEA,136,BSA,141,Judge to decide as to admissibility of evidence.
+IEA,137,BSA,142,Examination of witnesses.
+IEA,138,BSA,143,Order of examinations.
+IEA,139,BSA,144,Cross- examination of person called to produce a document.
+IEA,140,BSA,145,Witnesses to character.
+IEA,141,BSA,146(1),Leading questions.
+IEA,143,BSA,146(4),When they (leading) may be asked.
+IEA,144,BSA,147,Evidence as to matters in writing.
+IEA,145,BSA,148,Cross- examination as to previous statements in writing.
+IEA,146,BSA,149,Questions lawful in cross- examination.
+IEA,147,BSA,150,When witness to be compelled to answer.
+IEA,148,BSA,151,Court to decide when question shall be asked and when witness compelled to answer.
+IEA,149,BSA,152,Question not to be asked without reasonable grounds.
+IEA,150,BSA,153,Procedure of Court in case of question being asked without reasonable grounds.
+IEA,151,BSA,154,Indecent and scandalous questions.
+IEA,152,BSA,155,Questions intended to insult or annoy.
+IEA,153,BSA,156,Exclusion of evidence to contradict answers to questions testing veracity.
+IEA,154,BSA,157,Question by party to his own witness.
+IEA,155,BSA,158,Impeaching credit of witness.
+IEA,156,BSA,159,"Questions tending to corroborate evidence of relevant fact, admissible."
+IEA,157,BSA,160,Former statements of witness may be proved to corroborate later testimony as to same fact.
+IEA,158,BSA,161,What matters may be proved in connection with proved statement relevant under section 26 or 27. [ section 32 or 33].
+IEA,159,BSA,162,Refreshing memory.
+IEA,160,BSA,163,Testimony to facts stated in document mentioned in section 162[159].
+IEA,161,BSA,164,Right of adverse party as to writing used to refresh memory.
+IEA,162,BSA,165,Production of documents.
+IEA,163,BSA,166,"Giving, as evidence, of document called for and produced on notice."
+IEA,164,BSA,167,"Using, as evidence, of document production of which was refused on notice."
+IEA,165,BSA,168,Judge's power to put questions or order production.
+IEA,167,BSA,169,No new trial for improper admission or rejection of evidence.

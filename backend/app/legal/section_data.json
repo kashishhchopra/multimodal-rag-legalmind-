@@ -1,5 +1,5 @@
 {
- "_note": "Hand-curated high-traffic subset, NOT the full official table. Target section numbers (69 of 69) were checked against the official MHA texts of BNS/BNSS/BSA downloaded 2026-10-08: each target section's text covers the stated topic. Sub-clause numbers such as 318(4) and the old-section side are NOT independently verified. Drop the full official comparison table as CSV into data_lake/bns_mapping/ (columns: old_code,old_section,new_code,new_section,title) to extend or override.",
+ "_note": "Hand-curated high-traffic subset, NOT the full official table. Target section numbers (69 of 69) were checked against the official MHA texts of BNS/BNSS/BSA downloaded 2026-10-08: each target section's text covers the stated topic. Sub-clause numbers such as 318(4) and the old-section side are NOT independently verified. Drop the full official comparison table as CSV into data_lake/bns_mapping/ (columns: old_code,old_section,new_code,new_section,title) to extend or override. Corrections after cross-checking with the correspondence table (2026-10-12): IPC 191 -> BNS 227 (was 229), IPC 325 -> BNS 117(2) (was 116, which is the definition of grievous hurt, IPC 320).",
  "ipc_to_bns": {
   "34": [
    "3(5)",
@@ -34,7 +34,7 @@
    "Promoting enmity between groups"
   ],
   "191": [
-   "229",
+   "227",
    "Giving false evidence"
   ],
   "201": [
@@ -90,8 +90,8 @@
    "Hurt by dangerous weapons"
   ],
   "325": [
-   "116",
-   "Grievous hurt"
+   "117(2)",
+   "Punishment for voluntarily causing grievous hurt"
   ],
   "326": [
    "118(2)",
@@ -196,6 +196,10 @@
   "511": [
    "62",
    "Attempt to commit offences"
+  ],
+  "193": [
+   "229",
+   "Punishment for false evidence"
   ]
  },
  "crpc_to_bnss": {

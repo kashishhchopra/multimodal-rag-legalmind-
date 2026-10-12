@@ -1,0 +1,537 @@
+old_code,old_section,new_code,new_section,title
+IPC,47,BNS,2(2),"""animal""."
+IPC,28,BNS,2(4),"""Counterfeit""."
+IPC,20,BNS,2(5),"""Court""."
+IPC,46,BNS,2(6),"""Death""."
+IPC,24,BNS,2(7),"""Dishonestly""."
+IPC,29,BNS,2(8),"""Document""."
+IPC,29A,BNS,2(8),"""Document""."
+IPC,25,BNS,2(9),Fraudulently.
+IPC,8,BNS,2(10),Gender.
+IPC,52,BNS,2(11),Good faith.
+IPC,17,BNS,2(12),Government.
+IPC,52A,BNS,2(13),Harbour.
+IPC,44,BNS,2(14),Injury.
+IPC,43,BNS,2(15),Illegal and legally bound to do.
+IPC,19,BNS,2(16),Judge.
+IPC,45,BNS,2(17),Life.
+IPC,42,BNS,2(18),Local law.
+IPC,10,BNS,2(19),Man.
+IPC,49,BNS,2(20),Month and year.
+IPC,22,BNS,2(21),Movable property.
+IPC,9,BNS,2(22),Number.
+IPC,51,BNS,2(23),Oath.
+IPC,40,BNS,2(24),Offence.
+IPC,33,BNS,2(25),Omission.
+IPC,11,BNS,2(26),Person.
+IPC,12,BNS,2(27),Public.
+IPC,21,BNS,2(28),Public servant.
+IPC,26,BNS,2(29),Reason to believe.
+IPC,41,BNS,2(30),Special law.
+IPC,30,BNS,2(31),Valuable security.
+IPC,48,BNS,2(32),Vessel.
+IPC,39,BNS,2(33),Voluntarily.
+IPC,31,BNS,2(34),Will.
+IPC,10,BNS,2(35),Woman.
+IPC,23,BNS,2(36),Wrongful gain.
+IPC,1,BNS,2(36),Wrongful gain.
+IPC,23,BNS,2(37),Wrongful loss.
+IPC,2,BNS,2(37),Wrongful loss.
+IPC,23,BNS,2(38),"Gaining wrongfully, losing wrongfully."
+IPC,3,BNS,2(38),"Gaining wrongfully, losing wrongfully."
+IPC,29A,BNS,2(39),Words and expressions used but not defined.
+IPC,6,BNS,3(1),General explanations.
+IPC,7,BNS,3(2),General explanations- Sense of expression once explained.
+IPC,27,BNS,3(3),"General explanations- Property in possession of wife, clerk or servant."
+IPC,32,BNS,3(4),"General explanations-""Words referring to acts include illegal omissions""."
+IPC,34,BNS,3(5),General explanations- Acts done by several persons in furtherance of common intention.
+IPC,35,BNS,3(6),General explanations- When such an act is criminal by reason of its being done with a criminal knowledge or intention.
+IPC,36,BNS,3(7),General explanations- Effect caused partly by act and partly by omission.
+IPC,37,BNS,3(8),General explanations- Co-operation by doing one of several acts constituting an offence.
+IPC,38,BNS,3(9),General explanations- Persons concerned in Criminal act may be guilty of different offences.
+IPC,53,BNS,4,Punishments.
+IPC,54,BNS,5,Commutation of sentence.
+IPC,55,BNS,5,Commutation of sentence.
+IPC,57,BNS,6,Fractions of terms of punishment.
+IPC,60,BNS,7,Sentence may be (in certain cases of imprisonment) wholly or partly rigorous or simple.
+IPC,63,BNS,8(1),"Amount of fine, liability in default of payment of fine, etc."
+IPC,64,BNS,8(2),Sentence of imprisonment for non- payment of fine.
+IPC,65,BNS,8(3),"Limit to imprisonment for non- payment of fine, when imprisonment and fine awardable."
+IPC,66,BNS,8(4),Description of imprisonment for non- payment of fine.
+IPC,67,BNS,8(5),"Imprisonment for non-payment of fine, when offence punishable with fine only."
+IPC,68,BNS,8(6),Imprisonment to terminate on payment of fine. Termination of imprisonment on payment of proportional part of fine.
+IPC,69,BNS,8(6),Imprisonment to terminate on payment of fine. Termination of imprisonment on payment of proportional part of fine.
+IPC,70,BNS,8(7),"Fine leviable within six years, or during imprisonment. Death not to discharge property from liability."
+IPC,71,BNS,9,Limit of punishment of offence made up of several offences.
+IPC,72,BNS,10,"Punishment of person guilty of one of several offences, the judgment stating that it is doubtful of which."
+IPC,73,BNS,11,Solitary confinement.
+IPC,74,BNS,12,Limit of solitary confinement.
+IPC,75,BNS,13,Enhanced punishment for certain offences after previous conviction.
+IPC,76,BNS,14,"Act done by a person bound, or by mistake of fact believing himself bound, by law."
+IPC,77,BNS,15,Act of Judge when acting judicially.
+IPC,78,BNS,16,Act done pursuant to the judgment or order of Court.
+IPC,79,BNS,17,"Act done by a person justified, or by mistake of fact believing himself justified, by law."
+IPC,80,BNS,18,Accident in doing a lawful act.
+IPC,81,BNS,19,"Act likely to cause harm, but done without criminal intent, and to prevent other harm."
+IPC,82,BNS,20,Act of a child under seven years of age.
+IPC,83,BNS,21,Act of a child above seven and under twelve of immature understanding.
+IPC,84,BNS,22,Act of a person of unsound mind.
+IPC,85,BNS,23,Act of a person incapable of judgment by reason of intoxication caused against his will.
+IPC,86,BNS,24,Offence requiring a particular intent or knowledge committed by one who is intoxicated.
+IPC,87,BNS,25,"Act not intended and not known to be likely to cause death or grievous hurt, done by consent."
+IPC,88,BNS,26,"Act not intended to cause death, done by consent in good faith for person's benefit."
+IPC,89,BNS,27,"Act done in good faith for benefit of child or person, by or by consent of guardian."
+IPC,90,BNS,28,Consent known to be given under fear or misconception.
+IPC,91,BNS,29,Exclusion of acts which are offences independently of harm caused.
+IPC,92,BNS,30,Act done in good faith for benefit of a person without consent.
+IPC,93,BNS,31,Communication made in good faith.
+IPC,94,BNS,32,Act to which a person is compelled by threats.
+IPC,95,BNS,33,Act causing slight harm.
+IPC,96,BNS,34,Things done in private defence.
+IPC,97,BNS,35,Right of private defence of body and of property.
+IPC,98,BNS,36,"Right of private defence against the act of a person of unsound mind, etc."
+IPC,99,BNS,37,Act against which there is no right to private defence Extent to which the right may be exercised.
+IPC,100,BNS,38,When the right of private defence of property extends to causing death.
+IPC,101,BNS,39,When such right extends to causing any harm other than death.
+IPC,102,BNS,40,Commencement and continuance of the right of private defence of the body.
+IPC,103,BNS,41,When the right of private defence of property extends to causing death.
+IPC,104,BNS,42,When such right extends to causing any harm other than death.
+IPC,105,BNS,43,Commencement and continuance of the right of private defence of property.
+IPC,106,BNS,44,Right of private defence against deadly assault when there is risk of harm to innocent person.
+IPC,107,BNS,45,Abetment of a thing.
+IPC,108,BNS,46,Abettor.
+IPC,108A,BNS,47,Abetment in India of offences outside India.
+IPC,109,BNS,49,Punishment of abetment if act abetted is committed in consequence and where no express provision is made for its punishment.
+IPC,110,BNS,50,Punishment of abetment if person abetted does act with different intention from that of abettor.
+IPC,111,BNS,51,Liability of abettor when one act abetted and different act done.
+IPC,112,BNS,52,Abettor when liable to cumulative punishment for act abetted and for act done.
+IPC,113,BNS,53,Liability of abettor for an effect caused by the act abetted different from that intended by the abettor.
+IPC,114,BNS,54,Abettor present when offence committed.
+IPC,115,BNS,55,Abetment of offence punishable with death or imprisonment for life.
+IPC,116,BNS,56,Abetment of offence punishable with imprisonment.
+IPC,117,BNS,57,Abetting commission of offence by the public or by more than ten persons.
+IPC,118,BNS,58,Concealing design to commit offence punishable with death or imprisonment for life.
+IPC,119,BNS,59,Public servant concealing design to commit offence which it is his duty to prevent.
+IPC,120,BNS,60,Concealing design to commit offence punishable with imprisonment.
+IPC,120A,BNS,61(1),Criminal conspiracy definition.
+IPC,120B,BNS,61(2),Criminal conspiracy punishment.
+IPC,511,BNS,62,Punishment for attempting to commit offences punishable with imprisonment for life or other imprisonment.
+IPC,375,BNS,63,Rape definition.
+IPC,376,BNS,64,Punishment for rape.
+IPC,1,BNS,64,Punishment for rape.
+IPC,2,BNS,64,Punishment for rape.
+IPC,376,BNS,65(1),Punishment for rape in certain cases- rape on a woman under sixteen years.
+IPC,3,BNS,65(1),Punishment for rape in certain cases- rape on a woman under sixteen years.
+IPC,376AB,BNS,65(2),Punishment for rape in certain cases- rape on a woman under twelve years.
+IPC,376A,BNS,66,Punishment for causing death or resulting in persistent vegetative state of victim.
+IPC,376B,BNS,67,Sexual intercourse by husband upon his wife during separation.
+IPC,376C,BNS,68,Sexual intercourse by a person in authority.
+IPC,376D,BNS,70(1),Gang rape.
+IPC,376DB,BNS,70(2),Gang rape on women under the age of eighteen.
+IPC,376E,BNS,71,Punishment for repeat offenders.
+IPC,228A,BNS,72,Disclosure of identity of victim of certain offences etc.
+IPC,1,BNS,72,Disclosure of identity of victim of certain offences etc.
+IPC,2,BNS,72,Disclosure of identity of victim of certain offences etc.
+IPC,228A,BNS,73,Printing or publishing any matter relating to court proceedings without permission.
+IPC,3,BNS,73,Printing or publishing any matter relating to court proceedings without permission.
+IPC,354,BNS,74,Assault or use of criminal force to woman with intent to outrage her modesty.
+IPC,354A,BNS,75,Sexual harassment.
+IPC,354B,BNS,76,Assault or use of criminal force to woman with intent disrobe.
+IPC,354C,BNS,77,Voyeurism.
+IPC,354D,BNS,78,Stalking.
+IPC,509,BNS,79,"Word, gesture or act intended to insult the modesty of a woman."
+IPC,304B,BNS,80,Dowry death.
+IPC,493,BNS,81,Cohabitation caused by man deceitfully inducing belief of lawful marriage.
+IPC,494,BNS,82(1),Marrying again during lifetime of husband or wife.
+IPC,495,BNS,82(2),Marrying again during lifetime of husband or wife with concealment of former marriage from person with whom subsequent marriage is contracted.
+IPC,496,BNS,83,Marriage ceremony fraudulently gone through without lawful marriage.
+IPC,498,BNS,84,Enticing or taking away or detaining with criminal intent a married Woman.
+IPC,498A,BNS,85,Husband or relative of husband of a woman subjecting her to cruelty.
+IPC,498A,BNS,86,Cruelty defined.
+IPC,366,BNS,87,"Kidnapping or abducting in order to murder or for ransom, etc."
+IPC,312,BNS,88,Causing miscarriage.
+IPC,313,BNS,89,Causing miscarriage without woman’s consent.
+IPC,314,BNS,90,Death caused by act done with intent to cause miscarriage.
+IPC,315,BNS,91,Act done with intent to prevent child being born alive or to cause it to die after birth.
+IPC,316,BNS,92,Causing death of quick unborn child by act amounting to culpable homicide.
+IPC,317,BNS,93,"Exposure and abandonment of child under twelve years, by parent or person having care of it."
+IPC,318,BNS,94,Concealment of birth by secret disposal of dead body.
+IPC,366A,BNS,96,Procuration of child.
+IPC,369,BNS,97,Kidnapping or abducting child under ten years with intent to steal from its person.
+IPC,372,BNS,98,"Selling minor for purposes of prostitution, etc."
+IPC,373,BNS,99,"Buying minor for purposes of prostitution, etc."
+IPC,299,BNS,100,Culpable homicide.
+IPC,300,BNS,101,Murder.
+IPC,301,BNS,102,Culpable homicide by causing death of person other than person whose death was intended.
+IPC,302,BNS,103(1),Punishment for murder.
+IPC,303,BNS,104,Punishment for murder by life- convict.
+IPC,304,BNS,105,Punishment for culpable homicide not amounting to murder.
+IPC,304A,BNS,106(1),Causing death by negligence.
+IPC,305,BNS,107,Abetment of suicide of child or person of unsound mind.
+IPC,306,BNS,108,Abetment of suicide.
+IPC,307,BNS,109,Attempt to murder.
+IPC,308,BNS,110,Attempt to commit culpable homicide.
+IPC,319,BNS,114,Hurt.
+IPC,321,BNS,115(1),Voluntarily causing hurt.
+IPC,323,BNS,115(2),Punishment for voluntarily causing hurt.
+IPC,320,BNS,116,Grievous hurt definition.
+IPC,322,BNS,117(1),Voluntarily causing grievous hurt punishment.
+IPC,325,BNS,117(2),Punishment for voluntarily causing grievous hurt.
+IPC,324,BNS,118(1),Voluntarily causing hurt or grievous hurt by dangerous weapons or means.
+IPC,326,BNS,118(2),Voluntarily causing hurt or grievous hurt by dangerous weapons or means.
+IPC,327,BNS,119(1),"Voluntarily causing hurt or grievous hurt to extort property, or to constrain to an illegal act."
+IPC,329,BNS,119(2),"Voluntarily causing hurt or grievous hurt to extort property, or to constrain to an illegal act."
+IPC,330,BNS,120(1),Voluntarily causing hurt or grievous hurt to extort confession or to compel restoration of property.
+IPC,331,BNS,120(2),"Voluntarily causing grievous hurt to extort confession, or to compel restoration of property."
+IPC,332,BNS,121(1),Voluntarily causing hurt to deter public servant from his duty.
+IPC,333,BNS,121(2),Voluntarily causing grievous hurt to deter public servant from his duty.
+IPC,334,BNS,122(1),Voluntarily causing provocation hurt on.
+IPC,335,BNS,122(2),Voluntarily causing grievous hurt on provocation.
+IPC,328,BNS,123,Causing harm by means of poison etc with intent to commit an offence.
+IPC,326A,BNS,124(1),Voluntarily causing grievous hurt by use of acid etc.
+IPC,326B,BNS,124(2),Voluntarily causing grievous hurt by throwing or attempting to throw acid.
+IPC,336,BNS,125,Act endangering life or personal safety of others.
+IPC,337,BNS,125(a),Where hurt is caused.
+IPC,338,BNS,125(b),Where grievous hurt is caused.
+IPC,339,BNS,126(1),Wrongful restraint.
+IPC,341,BNS,126(2),Punishment for Wrongful restraint.
+IPC,340,BNS,127(1),Wrongful confinement.
+IPC,342,BNS,127(2),Punishment for Wrongful confinement.
+IPC,343,BNS,127(3),Wrongful confinement for three or more days.
+IPC,344,BNS,127(4),Wrongful confinement for ten or more days.
+IPC,345,BNS,127(5),Wrongful confinement of person for whose liberation writ has been issued.
+IPC,346,BNS,127(6),Wrongful confinement in secret.
+IPC,347,BNS,127(7),"Wrongful confinement to extort property, or constrain to illegal act."
+IPC,348,BNS,127(8),"Wrongful confinement to extort confession, or compel restoration of property."
+IPC,349,BNS,128,Force.
+IPC,350,BNS,129,Criminal force.
+IPC,351,BNS,130,Assault.
+IPC,352,BNS,131,Punishment for assault or criminal force otherwise than on grave provocation.
+IPC,353,BNS,132,Assault or criminal force to deter public servant from discharge of his duty.
+IPC,355,BNS,133,"Assault or criminal force with intent to dishonour person, otherwise than on grave provocation."
+IPC,356,BNS,134,Assault or criminal force in attempt to commit theft of property carried by a person.
+IPC,357,BNS,135,Assault or criminal force in attempt to wrongfully confine a person.
+IPC,358,BNS,136,Assault or criminal force on grave provocation.
+IPC,359,BNS,137(1),Kidnapping.
+IPC,360,BNS,137(1)(a),Kidnapping from India.
+IPC,361,BNS,137(1)(b),Kidnapping from lawful guardianship.
+IPC,363,BNS,137(2),Punishment for kidnapping.
+IPC,362,BNS,138,Abduction.
+IPC,363A,BNS,139,Kidnapping or maiming a child for purposes of begging.
+IPC,364,BNS,140(1),"Kidnapping or abducting in order to murder, etc."
+IPC,364A,BNS,140(2),"Kidnapping for ransom, etc."
+IPC,365,BNS,140(3),Kidnapping or abducting with intent secretly and wrongfully to confine person.
+IPC,367,BNS,140(4),"Kidnapping or abducting in order to subject person to grievous hurt, slavery, etc."
+IPC,366B,BNS,141,Importation of girl or boy from foreign country.
+IPC,368,BNS,142,"Wrongfully concealing or keeping in confinement, kidnapped or abducted person."
+IPC,370,BNS,143,Trafficking of person.
+IPC,370A,BNS,144,Exploitation of a trafficked person.
+IPC,371,BNS,145,Habitual dealing in slaves.
+IPC,374,BNS,146,Unlawful compulsory labour.
+IPC,121,BNS,147,"Waging, or attempting to wage war. or abetting waging of war, against the Government of India."
+IPC,121A,BNS,148,Conspiracy to commit offences punishable by Section 147.
+IPC,122,BNS,149,"Collecting arms, etc., with intention of waging war against the Government of India."
+IPC,123,BNS,150,Concealing with intent to facilitate design to wage war.
+IPC,124,BNS,151,"Assaulting President, Governor, etc., with intent to compel or restrain the exercise of any lawful power."
+IPC,125,BNS,153,Waging war against Government of any Foreign State at peace with Government of India.
+IPC,126,BNS,154,Committing depredation on territories of Foreign State at peace with Government of India.
+IPC,127,BNS,155,Receiving property taken by war or depredation mentioned in Sections 153 and 154.
+IPC,128,BNS,156,Public servant voluntarily allowing prisoner of State or war to escape.
+IPC,129,BNS,157,Public servant negligently suffering such prisoner to escape.
+IPC,130,BNS,158,"Aiding escape of, rescuing or harbouring such prisoner."
+IPC,131,BNS,159,"Abetting mutiny, attempting to seduce a soldier, sailor or airman from his duty."
+IPC,132,BNS,160,"Abetment of mutiny, if mutiny is committed in consequence thereof."
+IPC,133,BNS,161,"Abetment of assault by soldier, sailor or airman on his superior officer, when in execution of his office."
+IPC,134,BNS,162,"Abetment of such assault, if the assault is committed."
+IPC,135,BNS,163,"Abetment of desertion of soldier, sailor or airman."
+IPC,136,BNS,164,Harbouring deserter.
+IPC,137,BNS,165,"Deserter concealed on board, of master merchant vessel through negligence."
+IPC,138,BNS,166,"Abetment of act of insubordination by soldier, sailor or airman."
+IPC,139,BNS,167,Persons subject to certain Acts.
+IPC,140,BNS,168,"Wearing garb or carrying token used by soldier, sailor or airman."
+IPC,171A,BNS,169,"Candidate, electoral right defined."
+IPC,171B,BNS,170,Bribery.
+IPC,171C,BNS,171,Undue influence at elections.
+IPC,171D,BNS,172,Personation at elections.
+IPC,171E,BNS,173,Punishment for bribery.
+IPC,171F,BNS,174,Punishment for undue influence or personation at an election.
+IPC,171G,BNS,175,False statement in connection with an election.
+IPC,171H,BNS,176,Illegal payment in connection with an election.
+IPC,171,BNS,177,Failure to keep election accounts.
+IPC,230,BNS,178,"Counterfeiting coin, Government stamps, currency- notes or bank- notes."
+IPC,232,BNS,178,"Counterfeiting coin, Government stamps, currency- notes or bank- notes."
+IPC,246,BNS,178,"Counterfeiting coin, Government stamps, currency- notes or bank- notes."
+IPC,249,BNS,178,"Counterfeiting coin, Government stamps, currency- notes or bank- notes."
+IPC,255,BNS,178,"Counterfeiting coin, Government stamps, currency- notes or bank- notes."
+IPC,489A,BNS,178,"Counterfeiting coin, Government stamps, currency- notes or bank- notes."
+IPC,237,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,241,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,250,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,251,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,254,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,258,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,260,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,489B,BNS,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes."
+IPC,242,BNS,180,"Possession of forged or counterfeit coin, Government stamp, currency- notes or bank-notes."
+IPC,243,BNS,180,"Possession of forged or counterfeit coin, Government stamp, currency- notes or bank-notes."
+IPC,252,BNS,180,"Possession of forged or counterfeit coin, Government stamp, currency- notes or bank-notes."
+IPC,253,BNS,180,"Possession of forged or counterfeit coin, Government stamp, currency- notes or bank-notes."
+IPC,259,BNS,180,"Possession of forged or counterfeit coin, Government stamp, currency- notes or bank-notes."
+IPC,489C,BNS,180,"Possession of forged or counterfeit coin, Government stamp, currency- notes or bank-notes."
+IPC,233,BNS,181,"Making or possessing instruments or materials for forging or counterfeiting coin, govt stamps, currency notes or bank notes."
+IPC,234,BNS,181,"Making or possessing instruments or materials for forging or counterfeiting coin, govt stamps, currency notes or bank notes."
+IPC,235,BNS,181,"Making or possessing instruments or materials for forging or counterfeiting coin, govt stamps, currency notes or bank notes."
+IPC,256,BNS,181,"Making or possessing instruments or materials for forging or counterfeiting coin, govt stamps, currency notes or bank notes."
+IPC,257,BNS,181,"Making or possessing instruments or materials for forging or counterfeiting coin, govt stamps, currency notes or bank notes."
+IPC,489D,BNS,181,"Making or possessing instruments or materials for forging or counterfeiting coin, govt stamps, currency notes or bank notes."
+IPC,489E,BNS,182,Making or using documents resembling currency-notes or bank- notes.
+IPC,261,BNS,183,"Effacing, writing from substance bearing Government stamp, removing from document a stamp used for it, with intent to cause loss to Government."
+IPC,262,BNS,184,Using Government stamp known to have been before used.
+IPC,263,BNS,185,Erasure of mark denoting that stamp has been used.
+IPC,263A,BNS,186,Prohibition of fictitious stamps.
+IPC,244,BNS,187,Person employed in mint causing coin to be of different weight or composition from that fixed by law.
+IPC,245,BNS,188,Unlawfully taking coining instrument from mint.
+IPC,141,BNS,189(1),Unlawful assembly.
+IPC,142,BNS,189(2),Unlawful assembly- Being member of unlawful assembly.
+IPC,145,BNS,189(3),"Unlawful assembly- Joining or continuing in unlawful assembly, knowing it has been commanded to disperse."
+IPC,144,BNS,189(4),Unlawful assembly- Joining unlawful assembly armed with deadly weapon.—
+IPC,151,BNS,189(5),Unlawful assembly- Knowingly joining or continuing in assembly of five or more persons after it has been commanded to disperse.—
+IPC,150,BNS,189(6),"Unlawful assembly- Hiring, or conniving at hiring, of persons to join unlawful assembly."
+IPC,157,BNS,189(7),Unlawful assembly- Harbouring persons hired for an unlawful assembly.
+IPC,149,BNS,190,Every member of unlawful assembly guilty of offence committed in prosecution of common object.
+IPC,146,BNS,191(1),Rioting-Offence defined.
+IPC,147,BNS,191(2),Rioting- Punishment for rioting.
+IPC,148,BNS,191(3),Rioting- Being armed with deadly weapon.—
+IPC,153,BNS,192,Wantonly giving provocation with intent to cause riot if rioting be committed if not committed.
+IPC,154,BNS,193(1),"Liability of owner, occupier, etc., of land on which an unlawful assembly or riot takes place."
+IPC,155,BNS,193(2),Liability of person for whose benefit riot is committed.
+IPC,156,BNS,193(3),Liability of agent of owner or occupier for whose benefit riot is committed.
+IPC,159,BNS,194(1),Affray- defined.
+IPC,160,BNS,194(2),Punishment for Affray.
+IPC,152,BNS,195(1),"Assaulting or obstructing public servant when suppressing riot, etc."
+IPC,152,BNS,195(2),"Assaulting or obstructing public servant when suppressing riot, etc."
+IPC,153A,BNS,196,"Promoting enmity between different groups on grounds of religion, race, place of birth, residence, language, etc., and doing acts prejudicial to maintenance of harmony."
+IPC,153B,BNS,197,"Imputations, assertions prejudicial to national integration."
+IPC,166,BNS,198,"Public servant disobeying law, with intent to cause injury to any person."
+IPC,166A,BNS,199,Public servant disobeying direction under law.
+IPC,166B,BNS,200,Punishment for non-treatment of victim.
+IPC,167,BNS,201,Public servant framing an incorrect document with intent to cause injury.
+IPC,168,BNS,202,Public servant unlawfully engaging in trade.
+IPC,169,BNS,203,Public servant unlawfully buying or bidding for property.
+IPC,170,BNS,204,Personating a public servant.
+IPC,171,BNS,205,Wearing garb or carrying token used by public servant with fraudulent intent.
+IPC,172,BNS,206,Absconding to avoid service of summons or other proceeding.
+IPC,173,BNS,207,"Preventing service of summons or other proceeding, or preventing publication thereof."
+IPC,174,BNS,208,Non-attendance in obedience to an order from public servant.
+IPC,174A,BNS,209,"Non-appearance in response to a proclamation under section 84 of Bharatiya Nagarik Suraksha Sanhita,2023."
+IPC,175,BNS,210,"Omission to produce document or electronic record to public servant by person, legally bound to produce it."
+IPC,176,BNS,211,Omission to give notice or information to public servant by person legally bound to give it.
+IPC,177,BNS,212,Furnishing false information.
+IPC,178,BNS,213,Refusing oath or affirmation when duly required by public servant to make it.
+IPC,179,BNS,214,Refusing to answer public servant authorised to question.
+IPC,180,BNS,215,Refusing to sign statement.
+IPC,181,BNS,216,False statement on oath or affirmation to public servant or person authorised to administer an oath or affirmation.
+IPC,182,BNS,217,"False information, with intent to cause public servant to use his lawful power to the injury of another person."
+IPC,183,BNS,218,Resistance to the taking of property by the lawful authority of a public servant.
+IPC,184,BNS,219,Obstructing sale of property offered by authority of public servant for sale.
+IPC,185,BNS,220,Illegal purchase or bid for property offered for sale by authority of public servant.
+IPC,186,BNS,221,Obstructing public servant in discharge of public functions.
+IPC,187,BNS,222,Omission to assist public servant when bound by law to give assistance.
+IPC,188,BNS,223,Disobedience to order duly promulgated by public servant.
+IPC,189,BNS,224,Threat of injury to public servant.
+IPC,190,BNS,225,Threat of injury to induce person to refrain from applying for protection.
+IPC,191,BNS,227,Giving false evidence.
+IPC,192,BNS,228,Fabricating false evidence.
+IPC,193,BNS,229,Punishment for false evidence.
+IPC,194,BNS,230,Giving or fabricating false evidence with intent to procure conviction of capital offence.
+IPC,195,BNS,231,Giving or fabricating false evidence with intent to procure conviction of offence punishable with imprisonment for life or imprisonment.
+IPC,195A,BNS,232,Threatening any person to give false evidence.
+IPC,196,BNS,233,Using evidence known to be false.
+IPC,197,BNS,234,Issuing or signing false certificate.
+IPC,198,BNS,235,Using as true a certificate known to be false.
+IPC,199,BNS,236,False statement made in declaration which is by law receivable as evidence.
+IPC,200,BNS,237,Using as true such declaration knowing it to be false.
+IPC,201,BNS,238,"Causing disappearance of evidence ,or giving false information to screen offender."
+IPC,202,BNS,239,Intentional omission to give information of offence by person bound to inform.
+IPC,203,BNS,240,Giving false information respecting an offence committed.
+IPC,204,BNS,241,Destruction of document or electronic record to prevent its production as evidence.
+IPC,205,BNS,242,False personation for purpose of act or proceeding in suit or prosecution.
+IPC,206,BNS,243,Fraudulent removal or concealment of property to prevent its seizure as forfeited or in execution.
+IPC,207,BNS,244,Fraudulent claim to property to prevent its seizure as forfeited or in execution.
+IPC,208,BNS,245,Fraudulently suffering decree for sum not due.
+IPC,209,BNS,246,Dishonestly making false claim in Court.
+IPC,210,BNS,247,Fraudulently obtaining decree for sum not due.
+IPC,211,BNS,248,False charge of offence made with intent to injure.
+IPC,212,BNS,249,Harbouring offender.
+IPC,213,BNS,250,"Taking gift, etc., to screen an offender from punishment."
+IPC,214,BNS,251,Offering gift or restoration of property in consideration of screening offender.
+IPC,215,BNS,252,"Taking gift to help to recover stolen property, etc."
+IPC,216,BNS,253,Harbouring offender who has escaped from custody or whose apprehension has been ordered.
+IPC,216A,BNS,254,Penalty for harbouring robbers or dacoits.
+IPC,217,BNS,255,Public servant disobeying direction of law with intent to save person from punishment or property from forfeiture.
+IPC,218,BNS,256,Public servant framing incorrect record or writing with intent to save person from punishment or property from forfeiture.
+IPC,219,BNS,257,"Public servant in judicial proceeding corruptly making report, etc. contrary to law."
+IPC,220,BNS,258,Commitment for trial or confinement by person having authority who knows that he is acting contrary to law.
+IPC,221,BNS,259,Intentional omission to apprehend on part of public servant bound to apprehend.
+IPC,222,BNS,260,Intentional omission to apprehend on part of public servant bound to apprehend person under sentence or lawfully committed.
+IPC,223,BNS,261,Escape from confinement or custody negligently suffered by public servant.
+IPC,224,BNS,262,Resistance or obstruction by a person to his lawful apprehension.
+IPC,225,BNS,263,Resistance or obstruction to lawful apprehension of another person.
+IPC,225A,BNS,264,"Omission to apprehend, or sufferance of escape, on part of public servant, in cases not otherwise provided for."
+IPC,225B,BNS,265,Resistance or obstruction to lawful apprehension or escape or rescue in cases not otherwise provided for.
+IPC,227,BNS,266,Violation of condition of remission of punishment.
+IPC,228,BNS,267,Intentional insult or interruption to public servant sitting in judicial proceeding.
+IPC,229,BNS,268,Personation of assessor.
+IPC,229A,BNS,269,Failure by person released on bail or bond to appear in Court.
+IPC,268,BNS,270,Public nuisance.
+IPC,269,BNS,271,Negligent act likely to spread infection of disease dangerous to life.
+IPC,270,BNS,272,Malignant act likely to spread infection of disease dangerous to life.
+IPC,271,BNS,273,Disobedience to quarantine rule.
+IPC,272,BNS,274,Adulteration of food or drink intended for sale.
+IPC,273,BNS,275,Sale of noxious food or drink.
+IPC,274,BNS,276,Adulteration of drugs.
+IPC,275,BNS,277,Sale of adulterated drugs.
+IPC,276,BNS,278,Sale of drug as a different drug or preparation.
+IPC,277,BNS,279,Fouling water of public spring or reservoir.
+IPC,278,BNS,280,Making atmosphere noxious to health.
+IPC,279,BNS,281,Rash driving or riding on a public way.
+IPC,280,BNS,282,Rash navigation of vessel.
+IPC,281,BNS,283,"Exhibition of false light, mark or buoy."
+IPC,282,BNS,284,Conveying person by water for hire in unsafe or overloaded vessel.
+IPC,283,BNS,285,Danger or obstruction in public way or line of navigation.
+IPC,284,BNS,286,Negligent conduct with respect to poisonous substance.
+IPC,285,BNS,287,Negligent conduct with respect to fire or combustible matter.
+IPC,286,BNS,288,Negligent conduct with respect to explosive substance.
+IPC,287,BNS,289,Negligent conduct with respect to machinery.
+IPC,288,BNS,290,"Negligent conduct with respect to pulling down, repairing or constructing buildings, etc."
+IPC,289,BNS,291,Negligent conduct with respect to animal.
+IPC,290,BNS,292,Punishment for public nuisance in cases not otherwise provided for.
+IPC,291,BNS,293,Continuance of nuisance after injunction to discontinue.
+IPC,292,BNS,294,"Sale, etc., of obscene books, etc."
+IPC,293,BNS,295,"Sale, etc., of obscene objects to young person."
+IPC,294,BNS,296,Obscene acts and songs.
+IPC,294A,BNS,297,Keeping lottery office.
+IPC,295,BNS,298,Injuring or defiling place of worship with intent to insult the religion of any class.
+IPC,295A,BNS,299,"Deliberate and malicious acts intended to outrage religious feelings of any class, by insulting its religion or religious beliefs."
+IPC,296,BNS,300,Disturbing religious assembly.
+IPC,297,BNS,301,"Trespassing on burial places, etc."
+IPC,298,BNS,302,"Uttering words, etc., with deliberate intent to wound the religious feelings of any person."
+IPC,378,BNS,303(1),Theft.
+IPC,379,BNS,303(2),Punishment for theft.
+IPC,380,BNS,305,"Theft in a dwelling house, or means of transportation or place of worship, etc."
+IPC,381,BNS,306,Theft by clerk or servant of property in possession of master.
+IPC,382,BNS,307,"Theft after preparation made for causing death, hurt or restraint in order to committing of theft."
+IPC,383,BNS,308(1),Extortion.
+IPC,384,BNS,308(2),Extortion punishment.
+IPC,385,BNS,308(3),Putting person in fear of injury in order to commit extortion.
+IPC,387,BNS,308(4),"Putting person in fear of death or of grievous hurt, in order to commit extortion."
+IPC,386,BNS,308(5),Extortion by putting a person in fear of death or grievous hurt.
+IPC,388,BNS,308(6),"Extortion by threat of accusation of an offence punishable with death or imprisonment for life, etc."
+IPC,389,BNS,308(7),"Putting person in fear or accusation of offence, in order to commit extortion."
+IPC,392,BNS,309(4),Robbery- Punishment for robbery.
+IPC,393,BNS,309(5),Robbery- Attempt to commit robbery.
+IPC,394,BNS,309(6),Robbery- Voluntarily causing hurt in committing robbery.
+IPC,391,BNS,310(1),Dacoity definition.
+IPC,395,BNS,310(2),Dacoity punishment .
+IPC,396,BNS,310(3),Dacoity with murder.
+IPC,399,BNS,310(4),Making preparation to commit dacoity.
+IPC,402,BNS,310(5),Assembling for purpose of committing dacoity.
+IPC,400,BNS,310(6),Punishment for belonging to gang of dacoits.
+IPC,397,BNS,311,"Robbery or dacoity, with attempt to cause death or grievous hurt."
+IPC,398,BNS,312,Attempt to commit robbery or dacoity when armed with deadly weapon.
+IPC,401,BNS,313,"Punishment for belonging to gang of robbers, etc."
+IPC,403,BNS,314,Dishonest misappropriation of property.
+IPC,404,BNS,315,Dishonest misappropriation of property possessed by deceased person at the time of his death.
+IPC,405,BNS,316(1),Criminal breach of trust.
+IPC,406,BNS,316(2),Punishment for criminal breach of trust.
+IPC,407,BNS,316(3),"Criminal breach of trust by carrier, etc."
+IPC,408,BNS,316(4),Criminal breach of trust by clerk or servant.
+IPC,409,BNS,316(5),"Criminal breach of trust by public servant, or by banker, merchant or agent."
+IPC,410,BNS,317(1),Stolen property.
+IPC,411,BNS,317(2),Dishonestly receiving stolen property.
+IPC,412,BNS,317(3),Dishonestly receiving property stolen in the commission of a dacoity.
+IPC,413,BNS,317(4),Habitually dealing in stolen property.
+IPC,414,BNS,317(5),Assisting in concealment of stolen property.
+IPC,415,BNS,318(1),Cheating.
+IPC,417,BNS,318(2),Cheating punishment.
+IPC,418,BNS,318(3),Cheating with knowledge that wrongful loss may ensue to person whose interest offender is bound to protect.
+IPC,420,BNS,318(4),Cheating and dishonestly inducing delivery of property.
+IPC,416,BNS,319(1),Cheating by personation.
+IPC,419,BNS,319(2),Cheating by personation punishment.
+IPC,421,BNS,320,Dishonest or fraudulent removal or concealment of property to prevent distribution among creditors.
+IPC,422,BNS,321,Dishonestly or fraudulently preventing debt being available for creditors.
+IPC,423,BNS,322,Dishonest or fraudulent execution of deed of transfer containing false statement of consideration.
+IPC,424,BNS,323,Dishonest or fraudulent removal or concealment of property.
+IPC,425,BNS,324(1),Mischief.
+IPC,426,BNS,324(2),Mischief punishment.
+IPC,427,BNS,324(4),Mischief causing damage to the amount of twenty thousand rupees and more but less than one lakh rupees.
+IPC,440,BNS,324(6),Mischief committed after preparation made for causing death or hurt.
+IPC,428,BNS,325,Mischief by killing or maiming animal.
+IPC,429,BNS,325,Mischief by killing or maiming animal.
+IPC,430,BNS,326(a),"Mischief by injury, inundation, fire or explosive substance, etc."
+IPC,431,BNS,326(b),"Mischief by injury to public road, bridge, river or channel."
+IPC,432,BNS,326(c),Mischief by causing inundation or obstruction to public drainage attended with damage.
+IPC,433,BNS,326(d),"Mischief by injury, inundation, fire or explosive substance, etc."
+IPC,434,BNS,326(e),"Mischief by destroying or moving, etc., a land-mark fixed by public authority."
+IPC,435,BNS,326(f),"Mischief by injury, inundation, fire or explosive substance, etc."
+IPC,436,BNS,326(g),"Mischief by fire or explosive substance with intent to destroy house, etc."
+IPC,437,BNS,327(1),"Mischief with intent to destroy or make unsafe a rail, aircraft, decked vessel or one of twenty tons burden."
+IPC,438,BNS,327(2),Punishment for above offence.
+IPC,439,BNS,328,"Punishment for intentionally running vessel aground or ashore with intent to commit theft, etc."
+IPC,441,BNS,329(1),Criminal trespass and house- trespass.
+IPC,442,BNS,329(2),Criminal trespass and house- trespass.
+IPC,447,BNS,329(3),Criminal trespass punishment.
+IPC,448,BNS,329(4),Punishment for house- trespass.
+IPC,443,BNS,330(1),Lurking house trespass.
+IPC,445,BNS,330(2),House breaking.
+IPC,453,BNS,331(1),Punishment for house- trespass or house-breaking.
+IPC,456,BNS,331(2),Punishment for lurking house-trespass or house-breaking by night.
+IPC,454,BNS,331(3),Lurking house-trespass or house- breaking in order to commit offence punishable with imprisonment.
+IPC,457,BNS,331(4),Lurking house-trespass or house- breaking by night in order to commit offence punishable with imprisonment.
+IPC,455,BNS,331(5),"Lurking house-trespass or house- breaking after preparation for hurt, assault or wrongful restraint."
+IPC,458,BNS,331(6),"Lurking house-trespass or house- breaking by night after preparation for hurt, assault, or wrongful restraint."
+IPC,459,BNS,331(7),Grievous hurt caused whilst committing lurking house-trespass or house-breaking.
+IPC,460,BNS,331(8),All persons jointly concerned in lurking house-trespass or house- breaking by night punishable where death or grievous hurt caused by one of them.
+IPC,449,BNS,332(a),House-trespass in order to commit offence punishable with death.
+IPC,450,BNS,332(b),House-trespass in order to commit offence punishable with imprisonment for life.
+IPC,451,BNS,332(c),House-trespass in order to commit offence punishable with imprisonment.
+IPC,452,BNS,333,"House-trespass after preparation for hurt, assault or wrongful restraint."
+IPC,461,BNS,334(1),Dishonestly breaking open receptacle containing property.
+IPC,462,BNS,334(2),Punishment for same offence when committed by person entrusted with custody.
+IPC,464,BNS,335,Making a false document.
+IPC,463,BNS,336(1),Forgery.
+IPC,465,BNS,336(2),Forgery punishment.
+IPC,468,BNS,336(3),Forgery for purpose of cheating.
+IPC,469,BNS,336(4),Forgery for purpose of harming reputation.
+IPC,466,BNS,337,"Forgery of record of Court or of public register, etc."
+IPC,467,BNS,338,"Forgery of valuable security, will, etc."
+IPC,474,BNS,339,"Having possession of document described in Section 337 or Section 338, knowing it to be forged and intending to use it as genuine."
+IPC,470,BNS,340(1),Forged document or electronic record. and using it as genuine.
+IPC,471,BNS,340(2),Using as genuine a forged document or electronic record.
+IPC,472,BNS,341(1),"Making or possessing counterfeit seal, etc., with intent to commit forgery, punishable under section 338."
+IPC,473,BNS,341(2),"Making or possessing counterfeit seal, etc., with intent to commit forgery punishable otherwise."
+IPC,475,BNS,342(1),"Counterfeiting device or mark used for authenticating documents described in section 338, or possessing counterfeit marked material."
+IPC,476,BNS,342(2),"Counterfeiting device or mark used for authenticating documents described in section 338, or possessing counterfeit marked material."
+IPC,477,BNS,343,"Fraudulent cancellation, destruction, etc. of will, authority to adopt, or valuable security."
+IPC,477A,BNS,344,Falsification of accounts.
+IPC,479,BNS,345(1),Property mark.
+IPC,481,BNS,345(2),Using a false property mark.
+IPC,482,BNS,345(3),Punishment for using a false property mark.
+IPC,489,BNS,346,Tampering with property mark with intent to cause injury.
+IPC,483,BNS,347(1),Counterfeiting a property mark.
+IPC,484,BNS,347(2),Counterfeiting a mark used by a public servant.
+IPC,485,BNS,348,Making or possession of any instrument for counterfeiting a property mark.
+IPC,486,BNS,349,Selling goods marked with counterfeit property mark.
+IPC,487,BNS,350(1),Making a false mark upon any receptacle containing goods.
+IPC,488,BNS,350(2),Punishment for making use of any such false mark.
+IPC,503,BNS,351(1),Criminal intimidation.
+IPC,507,BNS,351(4),Criminal intimidation by an anonymous communication.
+IPC,504,BNS,352,Intentional insult with intent to provoke breach of the peace.
+IPC,505,BNS,353,Statements conducing to public mischief.
+IPC,508,BNS,354,Act caused by inducing person to believe that he will be rendered an object of the Divine displeasure.
+IPC,510,BNS,355,Misconduct in public by a drunken person.
+IPC,499,BNS,356(1),Defamation.
+IPC,500,BNS,356(2),Defamation punishment.
+IPC,501,BNS,356(3),Printing or engraving matter known to be defamatory.
+IPC,502,BNS,356(4),Sale of printed or engraved substance containing defamatory matter.
+IPC,491,BNS,357,Breach of contract to attend on and supply wants of helpless person.

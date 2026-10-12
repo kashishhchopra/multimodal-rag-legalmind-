@@ -21,12 +21,12 @@ datasets:
     use: Scale-up tier, cross-document search, throughput tests
     access: {kind: s3, bucket: indian-high-court-judgments, prefix: "data/", meta_prefix: "metadata/"}
   - id: il_tur
-    name: IL-TUR benchmark
+    name: IL-TUR benchmark (includes IL-PCR, ILDC/CJPE, legal NER, statute ID, rhetorical roles, summarisation, HLDC bail)
     section: "3.1"
     priority: P1
-    license: verify
-    use: Standard Indian legal evaluation suite
-    access: {kind: hf, repo: Exploration-Lab/IL-TUR}
+    license: CC-BY-NC-SA-4.0 (non-commercial; verified on HF card)
+    use: Indian legal eval; PCR queries/candidates, NER, rhetorical roles, statute identification
+    access: {kind: hf, repo: Exploration-Lab/IL-TUR, allow_patterns: ["README.md", "pcr/*", "lner/*", "lsi/*", "rr/*", "summ/*", "lmt/*", "cjpe/expert*", "cjpe/test*", "bail/dev_specific*"]}
   - id: aila_ilpcr
     name: AILA / FIRE tracks and IL-PCR
     section: "3.1"
@@ -52,8 +52,8 @@ datasets:
     name: ILDC / CJPE (Indian Legal Documents Corpus)
     section: "3.1"
     priority: P2
-    license: verify
-    use: Outcome-explanation analysis only (see Section 9)
+    license: CC-BY-NC (non-commercial)
+    use: Outcome-explanation analysis only (see Section 9); also inside IL-TUR cjpe/
     access: {kind: manual, url: "https://github.com/Exploration-Lab/CJPE"}
   - id: opennyai
     name: OpenNyAI datasets (NER, rhetorical roles)
@@ -63,17 +63,18 @@ datasets:
     use: Legal NER, rhetorical-role tagger
     access: {kind: manual, url: "https://huggingface.co/opennyaiorg"}
   - id: in_abs
-    name: IN-Abs / IN-Ext summarisation
+    name: IN-Abs / IN-Ext / UK-Abs summarisation (Zenodo 7152317)
     section: "3.1"
     priority: P1
-    license: verify
+    license: CC-BY-4.0 (verified on Zenodo)
+    attribution: "Shukla et al. 2022, Legal Case Document Summarization (doi 10.5281/zenodo.7152317)"
     use: Judgment summariser
-    access: {kind: manual, url: "https://zenodo.org/ (Shukla et al. 2022; search IN-Abs)"}
+    access: {kind: url, url: "https://zenodo.org/api/records/7152317/files/dataset.zip/content", filename: dataset.zip}
   - id: hldc
     name: HLDC (Hindi Legal Documents Corpus)
     section: "3.1"
     priority: P2
-    license: verify
+    license: CC-BY-NC (non-commercial); bail subset inside IL-TUR
     use: Hindi legal retrieval
     access: {kind: manual, url: "https://github.com/Exploration-Lab/HLDC"}
   - id: indian_kanoon
@@ -242,12 +243,12 @@ datasets:
     access: {kind: manual, url: "official exam sites"}
   # ---------------- 3.5 Retrieval benchmarks ----------------
   - id: legalbench_rag
-    name: LegalBench-RAG
+    name: LegalBench-RAG (Pipitone & Alami 2024)
     section: "3.5"
     priority: P0
-    license: verify
-    use: Primary RAG retrieval metric
-    access: {kind: manual, url: "https://github.com/ZeroEntropy-AI/legalbenchrag"}
+    license: MIT code; data derives from CUAD/ContractNLI/MAUD/PrivacyQA, follow their terms
+    use: Primary RAG retrieval metric (snippet-level)
+    access: {kind: url, url: "https://www.dropbox.com/scl/fo/r7xfa5i3hdsbxex1w6amw/AID389Olvtm-ZLTKAPrw6k4?rlkey=5n8zrbk4c08lbit3iiexofmwg&st=0hu354cq&dl=1", filename: lbrag.zip}
   - id: clerc
     name: CLERC
     section: "3.5"

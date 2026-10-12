@@ -52,27 +52,37 @@ class Mapping:
 
 
 @lru_cache(maxsize=1)
-def _tables() -> Dict[str, Dict[str, Tuple[str, str]]]:
+def _tables() -> Dict[str, Dict[str, List[Tuple[str, str]]]]:
     data = json.loads((_HERE / "section_data.json").read_text())
-    tables = {k: {s: (v[0], v[1]) for s, v in data[k].items()} for k in ("ipc_to_bns", "crpc_to_bnss", "iea_to_bsa")}
+    tables = {k: {s: [(v[0], v[1])] for s, v in data[k].items()} for k in ("ipc_to_bns", "crpc_to_bnss", "iea_to_bsa")}
     csv_to_table = {"IPC": "ipc_to_bns", "CRPC": "crpc_to_bnss", "IEA": "iea_to_bsa", "EVIDENCE ACT": "iea_to_bsa"}
+    csv_files = sorted((_HERE / "mapping_tables").glob("*.csv"))
     if _LAKE_CSV_DIR.is_dir():
-        for path in _LAKE_CSV_DIR.glob("*.csv"):
+        csv_files += sorted(_LAKE_CSV_DIR.glob("*.csv"))
+    if csv_files:
+        for path in csv_files:
             with path.open(newline="", encoding="utf-8") as f:
                 for row in csv.DictReader(f):
                     t = csv_to_table.get(row["old_code"].strip().upper())
                     if t:
-                        tables[t][row["old_section"].strip().upper()] = (row["new_section"].strip(), row.get("title", "").strip())
+                        key, new = row["old_section"].strip().upper(), row["new_section"].strip()
+                        entries = tables[t].setdefault(key, [])
+                        if not any(new.startswith(n) or n.startswith(new) for n, _ in entries):  # full table adds alternates; curated entry stays first
+                            entries.append((new, row.get("title", "").strip()))
     return tables
 
 
-def old_to_new(code: str, section: str) -> Mapping | None:
+def old_to_new_all(code: str, section: str) -> List[Mapping]:
     key = _ALIASES.get(code.lower().strip())
     if key not in _CODES:
-        return None
+        return []
     old_label, new_label, table = _CODES[key]
-    hit = _tables()[table].get(section.strip().upper())
-    return Mapping(old_label, section.upper(), new_label, hit[0], hit[1]) if hit else None
+    return [Mapping(old_label, section.upper(), new_label, n, t) for n, t in _tables()[table].get(section.strip().upper(), [])]
+
+
+def old_to_new(code: str, section: str) -> Mapping | None:
+    hits = old_to_new_all(code, section)
+    return hits[0] if hits else None
 
 
 def new_to_old(code: str, section: str) -> List[Mapping]:
@@ -85,7 +95,8 @@ def new_to_old(code: str, section: str) -> List[Mapping]:
     base = lambda s: re.sub(r"\(.*", "", s).lower()  # "318(4)" matches a query for "318"
     return [
         Mapping(old_label, old_s, new_label, new_s, title)
-        for old_s, (new_s, title) in _tables()[table].items()
+        for old_s, entries in _tables()[table].items()
+        for new_s, title in entries
         if new_s.lower() == target or base(new_s) == target
     ]
 
@@ -107,8 +118,7 @@ def expand_query(query: str) -> Tuple[str, List[str]]:
     extras: List[str] = []
     for code, sec in find_references(query):
         if code in _CODES:
-            m = old_to_new(code, sec)
-            if m:
+            for m in old_to_new_all(code, sec):
                 extras.append(f"{m.old_code} {m.old_section} corresponds to {m.new_code} {m.new_section} ({m.title})")
         elif code in _NEW_TO_OLD:
             for m in new_to_old(code, sec):
