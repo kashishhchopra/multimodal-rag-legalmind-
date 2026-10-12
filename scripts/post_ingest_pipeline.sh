@@ -4,7 +4,7 @@
 # raise --max-train on a GPU. Re-runnable: each step overwrites its own outputs.
 set -e
 cd "$(dirname "$0")/.."
-PY=backend/.venv/bin/python
+PY="$PWD/backend/.venv/bin/python"
 export TEXT_EMBEDDING_MODEL=BAAI/bge-small-en-v1.5 VECTOR_DB_PATH="$PWD/data_lake/corpus_store" PYTHONUNBUFFERED=1
 echo "== statutes (parse only; indexed at the end by reindex_corpus.py)"; $PY -W ignore scripts/ingest_statutes.py
 echo "== pairs";    (cd backend && $PY -W ignore scripts/build_training_pairs.py --train-max-year 2022 --val-year 2023)
