@@ -1,4 +1,6 @@
-import { FileText, Image as ImageIcon, MapPin, Sparkles, AlertTriangle } from "lucide-react";
+import { useState } from "react";
+import { FileText, Image as ImageIcon, MapPin, Sparkles, AlertTriangle, ThumbsUp, ThumbsDown, Download, ShieldCheck } from "lucide-react";
+import { api } from "../services/api";
 import type { Citation, QueryResponse } from "../types";
 import VisualEvidenceCard from "./VisualEvidenceCard";
 
@@ -7,7 +9,79 @@ const WARNINGS: Record<string, string> = {
     "No LLM API key is configured, so this shows the retrieved evidence only. Set LLM_API_KEY in backend/.env for a full grounded answer.",
   llm_failed: "The LLM provider failed, so this shows the retrieved evidence only.",
   no_evidence: "No relevant evidence was found in this document for that question.",
+  low_retrieval_confidence:
+    "The best match in the document was too weak to answer reliably, so no answer was generated. Try rephrasing or naming a clause, section or party.",
+  unsupported_claims:
+    "Some statements in this answer are not clearly supported by the retrieved text. Check the flagged items below against the cited pages.",
 };
+
+function Verification({ r }: { r: QueryResponse }) {
+  const v = r.verification;
+  if (!v || v.status === "no_claims") return null;
+  const ok = v.status === "ok";
+  return (
+    <div className={`mt-3 rounded-lg px-3 py-2 text-xs ${ok ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+      <div className="flex items-center gap-1.5 font-medium">
+        <ShieldCheck className="h-3.5 w-3.5" />
+        {ok ? "All statements matched the retrieved evidence" : `${v.unsupported.length} statement(s) not clearly supported`}
+        <span className="ml-auto font-normal opacity-70">lexical check, not a legal opinion</span>
+      </div>
+      {!ok && (
+        <ul className="mt-1.5 list-disc space-y-1 pl-5">
+          {v.claims
+            .filter((c) => !c.supported)
+            .map((c, i) => (
+              <li key={i}>
+                {c.claim}
+                {c.missing_numbers.length > 0 && <span> — not found in evidence: {c.missing_numbers.join(", ")}</span>}
+                {c.bad_page_refs.length > 0 && <span> — page {c.bad_page_refs.join(", ")} was not retrieved</span>}
+              </li>
+            ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function Actions({ r, documentId }: { r: QueryResponse; documentId: string }) {
+  const [sent, setSent] = useState<1 | -1 | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  async function rate(rating: 1 | -1) {
+    setSent(rating);
+    try {
+      await api.feedback({
+        document_id: documentId,
+        question: r.question,
+        answer: r.answer,
+        rating,
+        status: r.warning || r.verification?.status || "",
+      });
+    } catch {
+      setSent(null);
+      setErr("Could not save feedback");
+    }
+  }
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3 text-xs text-slate-500">
+      <button onClick={() => rate(1)} disabled={sent !== null} aria-label="Helpful" className={`rounded-md p-1.5 hover:bg-slate-100 ${sent === 1 ? "text-emerald-600" : ""}`}>
+        <ThumbsUp className="h-4 w-4" />
+      </button>
+      <button onClick={() => rate(-1)} disabled={sent !== null} aria-label="Not helpful" className={`rounded-md p-1.5 hover:bg-slate-100 ${sent === -1 ? "text-red-600" : ""}`}>
+        <ThumbsDown className="h-4 w-4" />
+      </button>
+      {sent && <span>Thanks, saved.</span>}
+      {err && <span className="text-red-600">{err}</span>}
+      <span className="ml-auto flex items-center gap-1">
+        <Download className="h-3.5 w-3.5" /> Memo:
+        {(["pdf", "docx", "md"] as const).map((f) => (
+          <button key={f} onClick={() => api.downloadMemo(f, r).catch((e) => setErr(e.message))} className="rounded-md px-1.5 py-0.5 uppercase hover:bg-slate-100">
+            {f}
+          </button>
+        ))}
+      </span>
+    </div>
+  );
+}
 
 function CitationChip({ c }: { c: Citation }) {
   const icon =
@@ -63,6 +137,8 @@ export default function AnswerCard({
             {WARNINGS[response.warning]}
           </div>
         )}
+        <Verification r={response} />
+        {response.answer && <Actions r={response} documentId={documentId} />}
       </div>
 
       {/* Visual evidence */}

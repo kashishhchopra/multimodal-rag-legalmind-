@@ -60,6 +60,68 @@ export interface RetrievedText {
   page_number: number;
   text: string;
   score: number;
+  document_id?: string;
+  lexical_rank?: number | null;
+  dense_rank?: number | null;
+}
+
+export interface ClaimVerification {
+  claim: string;
+  support: number;
+  best_source?: string | null;
+  missing_numbers: string[];
+  bad_page_refs: number[];
+  supported: boolean;
+}
+
+export interface VerificationReport {
+  status: "ok" | "flagged" | "no_claims" | "refused";
+  support_ratio: number;
+  claims: ClaimVerification[];
+  unsupported: string[];
+}
+
+export interface ClauseOut {
+  category: string;
+  text: string;
+  page_number: number;
+  chunk_id: string;
+  confidence_margin: number;
+  risk_level: "low" | "medium" | "high";
+  risk_reason: string;
+  suggested_edit: string;
+  red_flags: string[];
+}
+
+export interface ClauseReport {
+  document_id: string;
+  clauses: ClauseOut[];
+  summary: { high: number; medium: number; low: number };
+  disclaimer: string;
+  warning?: string | null;
+}
+
+export interface SummarySentence {
+  text: string;
+  page: number;
+  chunk_id: string;
+}
+
+export interface DocumentSummary {
+  issue: SummarySentence[];
+  headnotes: SummarySentence[];
+  facts: SummarySentence[];
+  holding: SummarySentence[];
+  statutes_cited: string[];
+  cases_cited: string[];
+  note: string;
+}
+
+export interface TimelineEvent {
+  date: string;
+  text: string;
+  page_number: number;
+  chunk_id: string;
 }
 
 export interface RetrievedVisual {
@@ -82,6 +144,7 @@ export interface QueryResponse {
   combined_confidence: number;
   provider: string;
   warning: string;
+  verification?: VerificationReport | null;
 }
 
 export interface ChatMessage {

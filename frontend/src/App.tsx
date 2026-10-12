@@ -6,6 +6,8 @@ import DocumentStats from "./components/DocumentStats";
 import ChatPanel from "./components/ChatPanel";
 import ArchitectureModal from "./components/ArchitectureModal";
 import Lightbox from "./components/Lightbox";
+import InsightsPanel from "./components/InsightsPanel";
+import SearchPanel from "./components/SearchPanel";
 import { api } from "./services/api";
 import type { ChatMessage, DocumentInfo } from "./types";
 
@@ -21,6 +23,8 @@ export default function App() {
   const [lightbox, setLightbox] = useState<{ url: string; caption: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const pollRef = useRef<number | null>(null);
+  const [view, setView] = useState<"document" | "search">("document");
+  const [docTab, setDocTab] = useState<"chat" | "insights">("chat");
 
   const activeDoc = useMemo(
     () => documents.find((d) => d.document_id === activeId) || null,
@@ -166,11 +170,24 @@ export default function App() {
               Retrieve and reason over clauses, tables, seals, signatures and case citations.
             </p>
           </div>
-          {health && (
-            <div className="hidden items-center gap-2 rounded-lg bg-slate-100 px-3 py-1.5 text-xs text-slate-500 sm:flex">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" /> Backend connected
+          <div className="flex items-center gap-2">
+            <div className="flex rounded-lg bg-slate-100 p-0.5 text-xs">
+              {(["document", "search"] as const).map((v) => (
+                <button
+                  key={v}
+                  onClick={() => setView(v)}
+                  className={`rounded-md px-3 py-1.5 ${view === v ? "bg-white font-medium text-brand-700 shadow-sm" : "text-slate-500"}`}
+                >
+                  {v === "document" ? "Document" : "Search corpus"}
+                </button>
+              ))}
             </div>
-          )}
+            {health && (
+              <div className="hidden items-center gap-2 rounded-lg bg-slate-100 px-3 py-1.5 text-xs text-slate-500 sm:flex">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" /> Backend connected
+              </div>
+            )}
+          </div>
         </header>
 
         {error && (
@@ -178,7 +195,9 @@ export default function App() {
         )}
 
         <div className="flex-1 overflow-hidden">
-          {!activeDoc ? (
+          {view === "search" ? (
+            <SearchPanel />
+          ) : !activeDoc ? (
             <div className="flex h-full items-center justify-center p-6">
               <UploadPanel onUpload={handleUpload} />
             </div>
@@ -191,15 +210,32 @@ export default function App() {
               <div className="border-b border-slate-200 bg-white px-6 py-4">
                 <DocumentStats doc={activeDoc} />
               </div>
-              <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col overflow-hidden px-6">
-                <ChatPanel
-                  documentId={activeDoc.document_id}
-                  messages={messages}
-                  onSend={handleSend}
-                  busy={busy}
-                  onZoom={(url, caption) => setLightbox({ url, caption })}
-                />
+              <div className="flex gap-1 border-b border-slate-200 bg-white px-6 text-sm">
+                {(["chat", "insights"] as const).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setDocTab(t)}
+                    className={`px-3 py-2 ${docTab === t ? "border-b-2 border-brand-600 font-medium text-brand-700" : "text-slate-500"}`}
+                  >
+                    {t === "chat" ? "Ask questions" : "Insights"}
+                  </button>
+                ))}
               </div>
+              {docTab === "insights" ? (
+                <div className="mx-auto w-full max-w-4xl flex-1 overflow-hidden">
+                  <InsightsPanel documentId={activeDoc.document_id} />
+                </div>
+              ) : (
+                <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col overflow-hidden px-6">
+                  <ChatPanel
+                    documentId={activeDoc.document_id}
+                    messages={messages}
+                    onSend={handleSend}
+                    busy={busy}
+                    onZoom={(url, caption) => setLightbox({ url, caption })}
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
