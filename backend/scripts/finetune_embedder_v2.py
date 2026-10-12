@@ -33,6 +33,10 @@ def load(path: Path, split: str, limit: int, seed: int):
 def evaluator(rows):
     queries = {f"q{i}": QUERY_PREFIX + r["query"] for i, r in enumerate(rows)}
     corpus = {f"d{i}": r["pos"] for i, r in enumerate(rows)}
+    # distractors: every hard negative of the validation rows, so the pool is not just the answers
+    for i, r in enumerate(rows):
+        for j, n in enumerate(r.get("neg") or []):
+            corpus[f"n{i}_{j}"] = n
     rel = {f"q{i}": {f"d{i}"} for i in range(len(rows))}
     return InformationRetrievalEvaluator(queries, corpus, rel, name="val", mrr_at_k=[10], accuracy_at_k=[1, 5, 10], show_progress_bar=False)
 

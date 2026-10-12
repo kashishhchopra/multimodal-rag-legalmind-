@@ -9,7 +9,7 @@ Sources (all offline, no LLM calls):
   citation  citing passage               -> headnote/issue chunk of the cited case (when cited case is in corpus)
   ict       one sentence of a passage    -> the rest of that passage (inverse cloze; label-free, works for every year)
             Headnotes ("Issue for Consideration") exist only in the newest SC reporter format, so ICT is what gives the
-            2019-2022 judgments any training signal. Negatives: a same-year chunk of another judgment + the adjacent chunk.
+            2019-2022 judgments any training signal. Negatives: top BM25 chunks of OTHER judgments from the same year (hard) + the adjacent chunk.
 LLM-generated questions are a separate, opt-in step (see --llm-questions): they cost API quota and
 send judgment text to a provider, so they are never run implicitly.
 
@@ -78,6 +78,10 @@ def ict_pairs(by_doc, docs, args, rng):
         cap = args.max_ict // 6 if year <= args.train_max_year else args.max_ict_val
         rng.shuffle(dids)
         made = 0
+        # BM25 over this year's reasoning chunks gives topical hard negatives (same court, same year, similar vocabulary)
+        ypool = [c for d in dids for c in by_doc[d] if c["section"] in ("judgment", "analysis", "facts")]
+        ybm = BM25Index([c["chunk_id"] for c in ypool], [c["text"] for c in ypool])
+        ytext = {c["chunk_id"]: c for c in ypool}
         for d in dids:
             cs = [c for c in by_doc[d] if c["section"] in ("judgment", "analysis", "facts") and len(c["text"]) > 700]
             for c in rng.sample(cs, min(4, len(cs))):
@@ -86,11 +90,11 @@ def ict_pairs(by_doc, docs, args, rng):
                     continue
                 q = rng.choice(sents)
                 rest = c["text"].replace(q, " ", 1).strip()
-                other = rng.choice(by_doc[rng.choice(dids)])
-                if other["doc_id"] == d:
+                hard = [ytext[h]["text"] for h, _ in ybm.search(q, 12) if ytext[h]["doc_id"] != d][:3]
+                if len(hard) < 2:
                     continue
                 idx = by_doc[d].index(c)
-                neg = [other["text"]] + ([by_doc[d][idx + 1]["text"]] if idx + 1 < len(by_doc[d]) else [])
+                neg = hard + ([by_doc[d][idx + 1]["text"]] if idx + 1 < len(by_doc[d]) else [])
                 out.append({"query": q, "pos": rest, "neg": neg, "source": "ict", "year": year, "doc": d})
                 made += 1
             if made >= cap:
