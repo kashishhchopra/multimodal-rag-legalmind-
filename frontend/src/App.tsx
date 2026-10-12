@@ -112,8 +112,13 @@ export default function App() {
   );
 
   const handleSend = useCallback(
-    async (question: string) => {
+    async (question: string, opts: { plainEnglish: boolean; language: "en" | "hi" }) => {
       if (!activeId) return;
+      // last 6 finished turns give follow-up questions their context
+      const history = (messagesByDoc[activeId] || [])
+        .filter((m) => !m.pending && m.content)
+        .slice(-6)
+        .map((m) => ({ role: m.role, content: m.content.slice(0, 1500) }));
       const userMsg: ChatMessage = { id: crypto.randomUUID(), role: "user", content: question };
       const pendingId = crypto.randomUUID();
       const pendingMsg: ChatMessage = { id: pendingId, role: "assistant", content: "", pending: true };
@@ -123,7 +128,7 @@ export default function App() {
       }));
       setBusy(true);
       try {
-        const response = await api.query(activeId, question);
+        const response = await api.query(activeId, question, { history, ...opts });
         setMessagesByDoc((prev) => ({
           ...prev,
           [activeId]: (prev[activeId] || []).map((m) =>
@@ -143,7 +148,7 @@ export default function App() {
         setBusy(false);
       }
     },
-    [activeId]
+    [activeId, messagesByDoc]
   );
 
   const messages = activeId ? messagesByDoc[activeId] || [] : [];

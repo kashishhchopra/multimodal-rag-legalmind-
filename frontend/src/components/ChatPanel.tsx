@@ -21,11 +21,14 @@ export default function ChatPanel({
 }: {
   documentId: string;
   messages: ChatMessage[];
-  onSend: (question: string) => void;
+  onSend: (question: string, opts: { plainEnglish: boolean; language: "en" | "hi" }) => void;
   busy: boolean;
   onZoom: (url: string, caption: string) => void;
 }) {
   const [input, setInput] = useState("");
+  const [plain, setPlain] = useState(false);
+  const [hindi, setHindi] = useState(false);
+  const opts = { plainEnglish: plain, language: (hindi ? "hi" : "en") as "en" | "hi" };
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,7 +38,7 @@ export default function ChatPanel({
   const submit = () => {
     const q = input.trim();
     if (!q || busy) return;
-    onSend(q);
+    onSend(q, opts);
     setInput("");
   };
 
@@ -52,7 +55,7 @@ export default function ChatPanel({
               {EXAMPLES.map((ex) => (
                 <button
                   key={ex}
-                  onClick={() => onSend(ex)}
+                  onClick={() => onSend(ex, opts)}
                   disabled={busy}
                   className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-600 transition hover:border-brand-300 hover:bg-brand-50 disabled:opacity-50"
                 >
@@ -101,6 +104,15 @@ export default function ChatPanel({
       </div>
 
       <div className="border-t border-slate-200 bg-white px-1 py-3">
+        <div className="mb-2 flex gap-4 text-xs text-slate-500">
+          <label className="flex items-center gap-1.5">
+            <input type="checkbox" checked={plain} onChange={(e) => setPlain(e.target.checked)} /> Plain English
+          </label>
+          <label className="flex items-center gap-1.5">
+            <input type="checkbox" checked={hindi} onChange={(e) => setHindi(e.target.checked)} /> Answer in Hindi
+          </label>
+          <span className="ml-auto text-slate-400">Follow-up questions use the conversation so far</span>
+        </div>
         <div className="flex items-end gap-2">
           <textarea
             value={input}

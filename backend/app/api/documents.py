@@ -144,7 +144,8 @@ async def query_document(document_id: str, req: QueryRequest) -> QueryResponse:
             f"Document is not ready yet (current stage: {doc.stage.value})."
         )
     return query_service.answer_question(
-        document_id, req.question, req.top_k_text, req.top_k_visual
+        document_id, req.question, req.top_k_text, req.top_k_visual,
+        history=[t.model_dump() for t in req.history], plain_english=req.plain_english, language=req.language,
     )
 
 

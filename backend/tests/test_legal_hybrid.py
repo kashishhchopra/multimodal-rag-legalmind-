@@ -225,3 +225,21 @@ def test_compare_aligns_by_clause_category():
     out = compare.compare(a, b)
     cats = {r["category"]: r["status"] for r in out["rows"]}
     assert cats.get("Governing Law") in ("similar", "different") and cats.get("Anti-Assignment") == "only_in_b"
+
+
+# ---- conversation ----
+def test_followup_rewrite_with_and_without_llm():
+    from app.services.conversation import is_hindi, rewrite_followup, style_instruction, to_english
+
+    hist = [{"role": "user", "content": "What is the notice period for termination?"}, {"role": "assistant", "content": "Thirty days."}]
+
+    class Fake:
+        def generate(self, system, user, images, max_output_tokens=None):
+            return "What is the penalty for terminating the agreement early?\nextra line"
+
+    assert rewrite_followup("And what is the penalty for it?", hist, Fake()) == "What is the penalty for terminating the agreement early?"
+    assert rewrite_followup("And what is the penalty for it?", hist, None).startswith("What is the notice period")
+    assert rewrite_followup("Define indemnity clause obligations.", hist, Fake()) == "Define indemnity clause obligations."  # standalone: untouched
+    assert is_hindi("धारा 420 के तहत सजा क्या है") and not is_hindi("Section 420")
+    assert to_english("धारा 420 के तहत सजा क्या है", type("P", (), {"generate": lambda *a, **k: "What is the punishment under Section 420?"})()).startswith("What is the punishment")
+    assert "plain English" in style_instruction(True, "en") and "Hindi" in style_instruction(False, "hi")

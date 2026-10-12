@@ -17,6 +17,7 @@ from ..retrieval.retriever import MultimodalRetriever
 from ..legal.verify import retrieval_gate, verify_answer
 from ..schemas import ClaimVerification, QueryResponse, VerificationReport
 from ..utils.errors import LLMError, MissingAPIKeyError
+from . import conversation
 from . import llm as llm_module
 from .prompts import SYSTEM_PROMPT, build_user_prompt
 from .question_judge import DEFAULT_PROFILE, judge_question
@@ -48,10 +49,21 @@ def answer_question(
     top_k_text=None,
     top_k_visual=None,
     filters=None,
+    history=None,
+    plain_english: bool = False,
+    language: str = "en",
 ) -> QueryResponse:
     """document_id=None runs a cross-document search over the whole corpus."""
     settings = get_settings()
-    result = _retriever.retrieve(document_id, question, top_k_text, top_k_visual, filters)
+    try:  # an LLM is optional for rewriting/translation: heuristics apply without one
+        helper = llm_module.get_provider() if (history or conversation.is_hindi(question)) else None
+    except (MissingAPIKeyError, LLMError):
+        helper = None
+    retrieval_q = conversation.rewrite_followup(question, [h if isinstance(h, dict) else h.model_dump() for h in (history or [])], helper)
+    retrieval_q = conversation.to_english(retrieval_q, helper)
+    if conversation.is_hindi(question):
+        language = "hi"
+    result = _retriever.retrieve(document_id, retrieval_q, top_k_text, top_k_visual, filters)
 
     response = QueryResponse(
         question=question,
@@ -61,6 +73,7 @@ def answer_question(
         visual_evidence=result.visual_evidence,
         combined_confidence=result.combined_confidence,
         provider=settings.llm_provider,
+        retrieval_question=retrieval_q if retrieval_q != question else "",
     )
 
     # No evidence at all → be honest.
@@ -100,7 +113,8 @@ def answer_question(
             profile = DEFAULT_PROFILE
 
         user_prompt = build_user_prompt(
-            question, result.text_evidence, result.visual_evidence, profile.length_instruction
+            retrieval_q if language != "hi" else question, result.text_evidence, result.visual_evidence,
+            (profile.length_instruction + " " + conversation.style_instruction(plain_english, language)).strip(),
         )
         images = _load_visual_images([v.visual_id for v in result.visual_evidence])
         response.answer = provider.generate(

@@ -94,10 +94,18 @@ class Document(BaseModel):
 # --------------------------------------------------------------------------
 # Query / answer
 # --------------------------------------------------------------------------
+class ChatTurn(BaseModel):
+    role: str = Field(..., pattern="^(user|assistant)$")
+    content: str = Field(..., max_length=4000)
+
+
 class QueryRequest(BaseModel):
     question: str = Field(..., min_length=1, max_length=2000)
     top_k_text: Optional[int] = None
     top_k_visual: Optional[int] = None
+    history: List[ChatTurn] = Field(default_factory=list, max_length=20)   # earlier turns, oldest first
+    plain_english: bool = False
+    language: str = Field(default="en", pattern="^(en|hi)$")
 
 
 class Citation(BaseModel):
@@ -158,6 +166,7 @@ class QueryResponse(BaseModel):
     provider: str = ""
     warning: str = ""                    # e.g. "LLM key missing — evidence only"
     verification: Optional[VerificationReport] = None
+    retrieval_question: str = ""         # the standalone/translated question actually used for retrieval
 
 
 class SearchRequest(BaseModel):

@@ -42,12 +42,21 @@ export const api = {
     await handle(await fetch(`${BASE}/documents/${documentId}`, { method: "DELETE" }));
   },
 
-  async query(documentId: string, question: string): Promise<QueryResponse> {
+  async query(
+    documentId: string,
+    question: string,
+    opts: { history?: { role: "user" | "assistant"; content: string }[]; plainEnglish?: boolean; language?: "en" | "hi" } = {}
+  ): Promise<QueryResponse> {
     return handle(
       await fetch(`${BASE}/documents/${documentId}/query`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({
+          question,
+          history: opts.history ?? [],
+          plain_english: opts.plainEnglish ?? false,
+          language: opts.language ?? "en",
+        }),
       })
     );
   },
