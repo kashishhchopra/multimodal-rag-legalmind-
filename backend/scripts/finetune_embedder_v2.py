@@ -13,8 +13,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
+import sys
 from pathlib import Path
+
+if "--device" not in sys.argv or sys.argv[sys.argv.index("--device") + 1] == "cpu":
+    # HF Trainer/accelerate otherwise grabs Apple's MPS backend even with use_cpu=True, and training then crashes
+    # ("Placeholder storage has not been allocated on MPS device"). Must be set before torch is imported.
+    os.environ["ACCELERATE_USE_CPU"] = "true"
+    os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
+    os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 from datasets import Dataset
 from sentence_transformers import SentenceTransformer, SentenceTransformerTrainer, SentenceTransformerTrainingArguments, losses
@@ -71,6 +81,10 @@ def main() -> None:
         print("WARNING: no val-split pairs; using a document-held-out slice of train for validation")
     print(f"train {len(train)}  val {len(val)}")
 
+    if args.device == "cpu":
+        import torch
+
+        torch.backends.mps.is_available = lambda: False  # belt and braces: nothing may pick MPS
     model = SentenceTransformer(args.base, device=args.device)
     model.max_seq_length = args.max_seq
     ev = evaluator(val)
