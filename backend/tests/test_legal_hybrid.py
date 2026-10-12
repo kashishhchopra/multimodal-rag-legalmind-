@@ -243,3 +243,25 @@ def test_followup_rewrite_with_and_without_llm():
     assert is_hindi("धारा 420 के तहत सजा क्या है") and not is_hindi("Section 420")
     assert to_english("धारा 420 के तहत सजा क्या है", type("P", (), {"generate": lambda *a, **k: "What is the punishment under Section 420?"})()).startswith("What is the punishment")
     assert "plain English" in style_instruction(True, "en") and "Hindi" in style_instruction(False, "hi")
+
+
+# ---- scanned-PDF OCR ----
+def test_ocr_recovers_text_from_image_only_pdf():
+    import shutil
+
+    import pytest
+
+    if not shutil.which("tesseract"):
+        pytest.skip("tesseract not installed")
+    import fitz
+
+    from app.ingestion.scan_ocr import ocr_pdf
+
+    src = fitz.open()
+    src.new_page().insert_textbox(fitz.Rect(40, 60, 550, 700), "The appeal is allowed. The conviction under Section 302 of the Indian Penal Code is set aside.", fontsize=16)
+    pix = src[0].get_pixmap(dpi=200)
+    scan = fitz.open()
+    scan.new_page(width=pix.width, height=pix.height).insert_image(fitz.Rect(0, 0, pix.width, pix.height), pixmap=pix)  # image only, no text layer
+    assert not scan[0].get_text().strip()
+    pages = ocr_pdf(scan.tobytes())
+    assert "conviction" in pages[0].text.lower() and "302" in pages[0].text and pages[0].confidence > 60
