@@ -7,6 +7,9 @@ Sources (all offline, no LLM calls):
   ledgar    "<label> clause"             -> provision text                   (LEDGAR train split only)
   issue     "Issue for Consideration"    -> best-matching reasoning chunk    (SC judgments; round-trip filtered)
   citation  citing passage               -> headnote/issue chunk of the cited case (when cited case is in corpus)
+  ict       one sentence of a passage    -> the rest of that passage (inverse cloze; label-free, works for every year)
+            Headnotes ("Issue for Consideration") exist only in the newest SC reporter format, so ICT is what gives the
+            2019-2022 judgments any training signal. Negatives: a same-year chunk of another judgment + the adjacent chunk.
 LLM-generated questions are a separate, opt-in step (see --llm-questions): they cost API quota and
 send judgment text to a provider, so they are never run implicitly.
 
@@ -64,11 +67,43 @@ def ledgar_pairs(rng, max_pairs):
     return rows[:max_pairs]
 
 
+def ict_pairs(by_doc, docs, args, rng):
+    out = []
+    by_year = defaultdict(list)
+    for d, cs in by_doc.items():
+        by_year[docs[d]["year"]].append(d)
+    for year, dids in by_year.items():
+        if year > args.val_year or year < 2000:
+            continue  # test years are evaluated on issue pairs only; never train on them
+        cap = args.max_ict // 6 if year <= args.train_max_year else args.max_ict_val
+        rng.shuffle(dids)
+        made = 0
+        for d in dids:
+            cs = [c for c in by_doc[d] if c["section"] in ("judgment", "analysis", "facts") and len(c["text"]) > 700]
+            for c in rng.sample(cs, min(4, len(cs))):
+                sents = [x for x in re.split(r"(?<=[.!?])\s+", c["text"]) if 15 <= len(x.split()) <= 60]
+                if not sents:
+                    continue
+                q = rng.choice(sents)
+                rest = c["text"].replace(q, " ", 1).strip()
+                other = rng.choice(by_doc[rng.choice(dids)])
+                if other["doc_id"] == d:
+                    continue
+                idx = by_doc[d].index(c)
+                neg = [other["text"]] + ([by_doc[d][idx + 1]["text"]] if idx + 1 < len(by_doc[d]) else [])
+                out.append({"query": q, "pos": rest, "neg": neg, "source": "ict", "year": year, "doc": d})
+                made += 1
+            if made >= cap:
+                break
+    return out
+
+
 def judgment_pairs(args, rng):
     docs = {d["doc_id"]: d for d in map(json.loads, (LAKE / "corpus" / "docs.jsonl").open())}
     by_doc = defaultdict(list)
     for c in map(json.loads, (LAKE / "corpus" / "chunks.jsonl").open()):
-        by_doc[c["doc_id"]].append(c)
+        if c["doc_id"] in docs:  # chunks of a document killed mid-write have no docs.jsonl record: skip them
+            by_doc[c["doc_id"]].append(c)
     pool = [c for cs in by_doc.values() for c in cs if c["section"] in ("judgment", "analysis", "facts")]
     bm25 = BM25Index([c["chunk_id"] for c in pool], [c["text"] for c in pool])
     pos_text = {c["chunk_id"]: c for c in pool}
@@ -99,6 +134,7 @@ def judgment_pairs(args, rng):
                 if heads:
                     out.append({"query": c["text"][:900], "pos": heads[0]["text"], "neg": [], "source": "citation", "year": docs[c["doc_id"]]["year"], "doc": c["doc_id"]})
                     break
+    out += ict_pairs(by_doc, docs, args, rng)
     return out
 
 
@@ -116,6 +152,8 @@ def main() -> None:
     ap.add_argument("--max-cuad", type=int, default=10000)
     ap.add_argument("--max-ledgar", type=int, default=10000)
     ap.add_argument("--roundtrip-k", type=int, default=20)
+    ap.add_argument("--max-ict", type=int, default=9000, help="total ICT pairs across train years")
+    ap.add_argument("--max-ict-val", type=int, default=300, help="ICT pairs for the validation year")
     ap.add_argument("--seed", type=int, default=13)
     args = ap.parse_args()
     rng = random.Random(args.seed)
