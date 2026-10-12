@@ -8,7 +8,9 @@ import ArchitectureModal from "./components/ArchitectureModal";
 import Lightbox from "./components/Lightbox";
 import InsightsPanel from "./components/InsightsPanel";
 import SearchPanel from "./components/SearchPanel";
-import { api } from "./services/api";
+import AdminPanel from "./components/AdminPanel";
+import LoginPanel from "./components/LoginPanel";
+import { api, auth } from "./services/api";
 import type { ChatMessage, DocumentInfo } from "./types";
 
 type Health = { llm_provider: string; llm_key_configured: boolean; ocr_available: boolean };
@@ -23,13 +25,24 @@ export default function App() {
   const [lightbox, setLightbox] = useState<{ url: string; caption: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const pollRef = useRef<number | null>(null);
-  const [view, setView] = useState<"document" | "search">("document");
+  const [view, setView] = useState<"document" | "search" | "admin">("document");
+  const [needLogin, setNeedLogin] = useState(false);
   const [docTab, setDocTab] = useState<"chat" | "insights">("chat");
 
   const activeDoc = useMemo(
     () => documents.find((d) => d.document_id === activeId) || null,
     [documents, activeId]
   );
+
+  // A 401 from any API call (auth enabled, no/expired token) shows the login screen
+  useEffect(() => {
+    const on = () => {
+      auth.token = null;
+      setNeedLogin(true);
+    };
+    window.addEventListener("legalmind:unauthorized", on);
+    return () => window.removeEventListener("legalmind:unauthorized", on);
+  }, []);
 
   // Initial load
   useEffect(() => {
@@ -177,13 +190,13 @@ export default function App() {
           </div>
           <div className="flex items-center gap-2">
             <div className="flex rounded-lg bg-slate-100 p-0.5 text-xs">
-              {(["document", "search"] as const).map((v) => (
+              {(["document", "search", "admin"] as const).map((v) => (
                 <button
                   key={v}
                   onClick={() => setView(v)}
                   className={`rounded-md px-3 py-1.5 ${view === v ? "bg-white font-medium text-brand-700 shadow-sm" : "text-slate-500"}`}
                 >
-                  {v === "document" ? "Document" : "Search corpus"}
+                  {v === "document" ? "Document" : v === "search" ? "Search corpus" : "Admin"}
                 </button>
               ))}
             </div>
@@ -200,7 +213,11 @@ export default function App() {
         )}
 
         <div className="flex-1 overflow-hidden">
-          {view === "search" ? (
+          {needLogin ? (
+            <LoginPanel onDone={() => window.location.reload()} />
+          ) : view === "admin" ? (
+            <AdminPanel />
+          ) : view === "search" ? (
             <SearchPanel />
           ) : !activeDoc ? (
             <div className="flex h-full items-center justify-center p-6">

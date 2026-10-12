@@ -1,9 +1,41 @@
 // Thin API client for the FastAPI backend. Paths are same-origin and proxied
 // to the backend by Vite in dev (see vite.config.ts).
 
-import type { ClauseReport, DocumentInfo, DocumentSummary, QueryResponse, TimelineEvent } from "../types";
+import type { AdminStats, ClauseReport, DocumentInfo, DocumentSummary, QueryResponse, TimelineEvent } from "../types";
 
 const BASE = "/api";
+
+// Bearer token for deployments with AUTH_ENABLED=1; harmless when auth is off.
+const TOKEN_KEY = "legalmind.token";
+export const auth = {
+  get token(): string | null {
+    try {
+      return localStorage.getItem(TOKEN_KEY);
+    } catch {
+      return null;
+    }
+  },
+  set token(v: string | null) {
+    try {
+      v ? localStorage.setItem(TOKEN_KEY, v) : localStorage.removeItem(TOKEN_KEY);
+    } catch {
+      /* storage blocked */
+    }
+  },
+};
+
+// Every request goes through this so the token and 401 handling live in one place.
+const rawFetch = window.fetch.bind(window);
+window.fetch = (input: RequestInfo | URL, init: RequestInit = {}) => {
+  const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+  if (url.startsWith(BASE) && auth.token) {
+    init = { ...init, headers: { ...(init.headers as Record<string, string>), Authorization: `Bearer ${auth.token}` } };
+  }
+  return rawFetch(input, init).then((r) => {
+    if (r.status === 401 && url.startsWith(BASE) && !url.startsWith(`${BASE}/auth/`)) window.dispatchEvent(new Event("legalmind:unauthorized"));
+    return r;
+  });
+};
 
 async function handle<T>(resp: Response): Promise<T> {
   if (!resp.ok) {
@@ -59,6 +91,30 @@ export const api = {
         }),
       })
     );
+  },
+
+  async login(username: string, password: string): Promise<{ access_token: string; role: string }> {
+    return handle(
+      await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
+    );
+  },
+
+  async register(username: string, password: string): Promise<{ role: string }> {
+    return handle(
+      await fetch(`${BASE}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
+    );
+  },
+
+  async adminStats(): Promise<AdminStats> {
+    return handle(await fetch(`${BASE}/admin/stats`));
   },
 
   async search(question: string, filters: Record<string, string | number>, topK = 8): Promise<QueryResponse> {

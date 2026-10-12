@@ -154,3 +154,19 @@ export interface ChatMessage {
   response?: QueryResponse;
   pending?: boolean;
 }
+
+export interface AdminStats {
+  documents: number;
+  documents_by_stage: Record<string, number>;
+  indexed_text_chunks: number | null;
+  feedback: { up: number; down: number; down_by_answer_status: Record<string, number> };
+  queries: {
+    queries: number;
+    latency_p50_ms?: number;
+    latency_p95_ms?: number;
+    by_status?: Record<string, number>;
+    est_tokens_in?: number;
+    est_tokens_out?: number;
+  };
+  auth_enabled: boolean;
+}
