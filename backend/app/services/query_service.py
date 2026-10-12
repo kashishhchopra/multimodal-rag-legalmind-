@@ -7,6 +7,7 @@ the *retrieval* half of the demo works without any API key (spec §16).
 from __future__ import annotations
 
 import logging
+import time
 from typing import List
 
 from PIL import Image
@@ -14,6 +15,7 @@ from PIL import Image
 from ..config import get_settings
 from ..retrieval import vector_store
 from ..retrieval.retriever import MultimodalRetriever
+from ..legal import telemetry
 from ..legal.verify import retrieval_gate, verify_answer
 from ..schemas import ClaimVerification, QueryResponse, VerificationReport
 from ..utils.errors import LLMError, MissingAPIKeyError
@@ -53,7 +55,21 @@ def answer_question(
     plain_english: bool = False,
     language: str = "en",
 ) -> QueryResponse:
-    """document_id=None runs a cross-document search over the whole corpus."""
+    """document_id=None runs a cross-document search over the whole corpus. Latency/status are logged (no text stored)."""
+    t0 = time.perf_counter()
+    resp = _answer_question(document_id, question, top_k_text, top_k_visual, filters, history, plain_english, language)
+    try:
+        telemetry.record(get_settings().data_dir, "corpus" if document_id is None else "document", (time.perf_counter() - t0) * 1000,
+                         resp.warning or (resp.verification.status if resp.verification else "ok"), len(question) + sum(len(t.text) for t in resp.text_evidence),
+                         len(resp.answer), len(resp.text_evidence))
+    except Exception:  # noqa: BLE001 - telemetry must never break a query
+        logger.warning("telemetry write failed", exc_info=True)
+    return resp
+
+
+def _answer_question(
+    document_id, question, top_k_text, top_k_visual, filters, history, plain_english, language
+) -> QueryResponse:
     settings = get_settings()
     try:  # an LLM is optional for rewriting/translation: heuristics apply without one
         helper = llm_module.get_provider() if (history or conversation.is_hindi(question)) else None

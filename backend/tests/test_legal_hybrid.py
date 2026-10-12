@@ -265,3 +265,75 @@ def test_ocr_recovers_text_from_image_only_pdf():
     assert not scan[0].get_text().strip()
     pages = ocr_pdf(scan.tobytes())
     assert "conviction" in pages[0].text.lower() and "302" in pages[0].text and pages[0].confidence > 60
+
+
+# ---- auth / telemetry / health ----
+def test_token_roundtrip_and_tamper(monkeypatch):
+    import pytest
+    from fastapi import HTTPException
+
+    from app import auth
+
+    monkeypatch.setenv("AUTH_SECRET", "x" * 32)
+    tok = auth.make_token("alice", "user")
+    assert auth.read_token(tok)["sub"] == "alice"
+    with pytest.raises(HTTPException):
+        auth.read_token(tok[:-2] + "aa")
+    with pytest.raises(HTTPException):
+        auth.read_token(auth.make_token("a", "user", now=0))  # expired long ago
+
+
+def test_auth_flow_ownership_and_admin(monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from app.main import app
+
+    monkeypatch.setenv("AUTH_ENABLED", "1")
+    monkeypatch.setenv("AUTH_SECRET", "y" * 32)
+    c = TestClient(app)
+    assert c.get("/api/documents").status_code == 401
+    assert c.get("/api/health").status_code == 200
+    import uuid
+
+    admin, user = f"admin_{uuid.uuid4().hex[:6]}", f"user_{uuid.uuid4().hex[:6]}"
+    pw = "correct horse battery"
+    # the first user ever registered becomes admin; in a shared test DB that may already exist, so only assert roles are valid
+    r1 = c.post("/api/auth/register", json={"username": admin, "password": pw}).json()
+    r2 = c.post("/api/auth/register", json={"username": user, "password": pw}).json()
+    assert r1["role"] in ("admin", "user") and r2["role"] == "user"
+    assert c.post("/api/auth/login", json={"username": user, "password": "wrong password!!"}).status_code == 401
+    tok = c.post("/api/auth/login", json={"username": user, "password": pw}).json()["access_token"]
+    h = {"Authorization": f"Bearer {tok}"}
+    assert c.get("/api/documents", headers=h).status_code == 200
+    assert c.get("/api/admin/stats", headers=h).status_code == 403
+    assert c.post("/api/auth/register", json={"username": "ab", "password": "short"}).status_code == 422
+
+
+def test_health_never_echoes_malformed_provider(monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from app.config import get_settings
+    from app.main import app
+
+    monkeypatch.setenv("LLM_PROVIDER", "sk-this-looks-like-a-secret-1234567890")
+    get_settings.cache_clear()
+    try:
+        # main.py captured `settings` at import; the health route reads that object, so patch it directly too
+        import app.main as m
+
+        old = m.settings.llm_provider
+        m.settings.llm_provider = "sk-this-looks-like-a-secret-1234567890"
+        body = TestClient(app).get("/api/health").json()
+        m.settings.llm_provider = old
+    finally:
+        get_settings.cache_clear()
+    assert "sk-this" not in str(body) and body["llm_provider"].startswith("invalid")
+
+
+def test_telemetry_summary(tmp_path):
+    from app.legal import telemetry
+
+    for ms, st in ((100, "ok"), (300, "ok"), (900, "low_retrieval_confidence")):
+        telemetry.record(tmp_path, "document", ms, st, 400, 80, 3)
+    s = telemetry.summary(tmp_path)
+    assert s["queries"] == 3 and s["latency_p50_ms"] == 300 and s["by_status"]["low_retrieval_confidence"] == 1

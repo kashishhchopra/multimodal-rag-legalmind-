@@ -8,9 +8,10 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import List
 
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, Depends, File, Request, UploadFile
 from fastapi.responses import Response
 
+from .. import auth
 from ..config import get_settings
 from ..retrieval import vector_store
 from ..schemas import (
@@ -50,7 +51,7 @@ _executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="ingest")
 # Upload
 # --------------------------------------------------------------------------
 @router.post("/upload", response_model=Document)
-async def upload_document(file: UploadFile = File(...)) -> Document:
+async def upload_document(file: UploadFile = File(...), user: dict | None = Depends(auth.current_user)) -> Document:
     settings = get_settings()
 
     filename = file.filename or "document.pdf"
@@ -83,6 +84,9 @@ async def upload_document(file: UploadFile = File(...)) -> Document:
         stage_message="Queued",
     )
     registry.save(doc)
+    if user:
+        auth.set_owner(document_id, user["sub"])
+        auth.audit(user["sub"], "upload", f"{document_id} {filename}")
 
     # Kick off background processing (real stages update the registry).
     _executor.submit(process_document, document_id, str(pdf_path), filename)
@@ -93,8 +97,12 @@ async def upload_document(file: UploadFile = File(...)) -> Document:
 # List / get / status / delete
 # --------------------------------------------------------------------------
 @router.get("", response_model=List[Document])
-async def list_documents() -> List[Document]:
-    return registry.list_all()
+async def list_documents(user: dict | None = Depends(auth.current_user)) -> List[Document]:
+    docs = registry.list_all()
+    if user and user["role"] != "admin":  # users see only what they uploaded
+        mine = auth.owned_by(user["sub"])
+        docs = [d for d in docs if d.document_id in mine]
+    return docs
 
 
 @router.get("/{document_id}", response_model=Document)
@@ -114,7 +122,8 @@ async def get_status(document_id: str) -> Document:
 
 
 @router.delete("/{document_id}")
-async def delete_document(document_id: str) -> dict:
+async def delete_document(document_id: str, request: Request) -> dict:
+    auth.audit(getattr(request.state, "user", {}).get("sub", ""), "delete", document_id)
     doc = registry.get(document_id)
     if not doc:
         raise DocumentNotFoundError(f"No document with id '{document_id}'.")
@@ -135,7 +144,7 @@ async def delete_document(document_id: str) -> dict:
 # Query
 # --------------------------------------------------------------------------
 @router.post("/{document_id}/query", response_model=QueryResponse)
-async def query_document(document_id: str, req: QueryRequest) -> QueryResponse:
+async def query_document(document_id: str, req: QueryRequest, request: Request) -> QueryResponse:
     doc = registry.get(document_id)
     if not doc:
         raise DocumentNotFoundError(f"No document with id '{document_id}'.")
@@ -143,6 +152,7 @@ async def query_document(document_id: str, req: QueryRequest) -> QueryResponse:
         raise DocumentNotReadyError(
             f"Document is not ready yet (current stage: {doc.stage.value})."
         )
+    auth.audit(getattr(request.state, "user", {}).get("sub", ""), "query", document_id)
     return query_service.answer_question(
         document_id, req.question, req.top_k_text, req.top_k_visual,
         history=[t.model_dump() for t in req.history], plain_english=req.plain_english, language=req.language,

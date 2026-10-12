@@ -7,13 +7,14 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .api.documents import router as documents_router, search_router
 from .api.legal import router as legal_router
+from .auth import current_user, router as auth_router
 from .config import get_settings
 from .utils.errors import AppError
 
@@ -43,9 +44,9 @@ app.add_middleware(
 # Serve extracted images / page renders at /static/<document_id>/<file>.png
 app.mount("/static", StaticFiles(directory=str(settings.data_dir)), name="static")
 
-app.include_router(documents_router)
-app.include_router(search_router)
-app.include_router(legal_router)
+app.include_router(auth_router)
+for _r in (documents_router, search_router, legal_router):
+    app.include_router(_r, dependencies=[Depends(current_user)])  # no-op unless AUTH_ENABLED=1
 
 
 @app.exception_handler(AppError)
@@ -60,7 +61,8 @@ async def health() -> dict:
 
     return {
         "status": "ok",
-        "llm_provider": settings.llm_provider,
+        # never echo a malformed value: a secret pasted into the wrong .env line would be served to every client
+        "llm_provider": settings.llm_provider if settings.llm_provider in ("gemini", "openai") else "invalid (check backend/.env)",
         "llm_key_configured": bool(settings.llm_api_key),
         "text_model": settings.text_embedding_model,
         "image_model": settings.image_embedding_model,

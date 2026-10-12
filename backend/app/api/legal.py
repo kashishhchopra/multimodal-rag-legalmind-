@@ -3,14 +3,16 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
 
+from .. import auth
 from ..config import get_settings
 from ..legal import compare as compare_mod
 from ..legal import feedback as feedback_mod
 from ..legal import memo as memo_mod
+from ..legal import telemetry
 from ..legal.redact import redact
 from ..legal.summary import summarise
 from ..legal.timeline import extract_timeline
@@ -107,3 +109,22 @@ async def add_feedback(req: FeedbackRequest) -> dict:
 @router.get("/feedback/stats")
 async def feedback_stats() -> dict:
     return feedback_mod.stats(get_settings().data_dir)
+
+
+@router.get("/admin/stats")
+async def admin_stats(_: dict | None = Depends(auth.require_admin)) -> dict:
+    """Corpus, ingestion-state, feedback and latency overview for the admin dashboard."""
+    docs = registry.list_all()
+    stages: dict = {}
+    for d in docs:
+        stages[d.stage.value] = stages.get(d.stage.value, 0) + 1
+    try:
+        chunks = vector_store.text_count()
+    except Exception:  # noqa: BLE001
+        chunks = None
+    data_dir = get_settings().data_dir
+    return {
+        "documents": len(docs), "documents_by_stage": stages, "indexed_text_chunks": chunks,
+        "feedback": feedback_mod.stats(data_dir), "queries": telemetry.summary(data_dir),
+        "auth_enabled": auth.enabled(),
+    }
