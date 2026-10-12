@@ -4,7 +4,8 @@
     TEXT_EMBEDDING_MODEL=BAAI/bge-small-en-v1.5 VECTOR_DB_PATH=data_lake/corpus_store \
         backend/.venv/bin/python scripts/ingest_statutes.py --index
 
-Sources (MHA, government publications; cite the source): data_lake/statutes/{BNS_2023,BNSS_2023_bilingual,BSA_2023}.pdf
+Sources (government publications; cite the source): data_lake/statutes/{BNS_2023,BNSS_2023_bilingual,BSA_2023}.pdf from mha.gov.in and
+Constitution_of_India_2019_english.pdf (Ministry of Law and Justice edition as on 1 April 2019; amendments after that are not included).
 Add more Acts from India Code by dropping PDFs in data_lake/statutes/ and listing them in ACTS.
 """
 import argparse
@@ -15,9 +16,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "backend"))
-from app.ingestion.statutes import parse_sections  # noqa: E402
+from app.ingestion.statutes import parse_constitution, parse_sections  # noqa: E402
 
-ACTS = {"BNS": ("BNS_2023.pdf", 2023), "BNSS": ("BNSS_2023_bilingual.pdf", 2023), "BSA": ("BSA_2023.pdf", 2023)}
+ACTS = {"BNS": ("BNS_2023.pdf", 2023), "BNSS": ("BNSS_2023_bilingual.pdf", 2023), "BSA": ("BSA_2023.pdf", 2023),
+        "COI": ("Constitution_of_India_2019_english.pdf", 2019)}  # COI: articles; Art. 370 is not captured by the parser
 
 
 def main() -> None:
@@ -32,7 +34,7 @@ def main() -> None:
         if not pdf.exists():
             print("missing", pdf)
             continue
-        chunks = parse_sections(str(pdf), act)
+        chunks = parse_constitution(str(pdf), act) if act == "COI" else parse_sections(str(pdf), act)
         print(f"{act}: {len(chunks)} chunks, {len({c.section for c in chunks})} sections")
         allc += [(c, year) for c in chunks]
     with (out / "statutes.jsonl").open("w") as f:

@@ -56,3 +56,42 @@ def _split_subclauses(text: str, max_chars: int) -> List[str]:
             cur += seg
     pieces.append(cur.strip())
     return [p[: max_chars * 2] for p in pieces if p]
+
+
+def parse_constitution(pdf_path: str, act: str = "COI", max_chars: int = 1800) -> List[StatuteChunk]:
+    """Article-wise chunks for the English Constitution PDF (2019 edition layout).
+
+    The table of contents lists every article with its title; each article is then located in the body by number plus
+    the first words of its title, in order. Articles whose heading cannot be found (heavily footnoted ones) are skipped, so
+    check the returned count against the expected ~395 live articles."""
+    doc = fitz.open(pdf_path)
+    offsets, full = [], ""
+    for i, p in enumerate(doc, 1):
+        offsets.append((len(full), i))
+        full += p.get_text() + "\n"
+    bodies = [m.start() for m in re.finditer(r"Name and territory of the Union", full)]
+    if len(bodies) < 2:
+        return []
+    toc, body_start = full[bodies[0]:bodies[-1]], bodies[-1]
+    arts = []
+    for m in re.finditer(r"(?m)^(\d{1,3}[A-Z]{0,3})\.\s+([^\n]{4,160})", toc):
+        title = m.group(2).strip()
+        if "[Omitted" in title or "Repealed" in title:
+            continue
+        arts.append((m.group(1), title))
+    page_at = lambda pos: max((pg for off, pg in offsets if off <= pos), default=1)
+    anchors, cursor = [], body_start
+    for num, title in arts:
+        words = re.escape(" ".join(title.split()[:2]))
+        m = re.compile(rf"(?m)^\s*(?:\d+\s*\[)?\s*{re.escape(num)}\.\s*(?:\d+\s*\[)?\s*{words}", re.I).search(full, cursor)
+        if m:
+            anchors.append((m.start(), num, title))
+            cursor = m.start() + 1
+    out: List[StatuteChunk] = []
+    for i, (start, num, title) in enumerate(anchors):
+        end = anchors[i + 1][0] if i + 1 < len(anchors) else len(full)
+        body = re.sub(r"[ \t]+", " ", full[start:end]).strip()
+        parts = [body] if len(body) <= max_chars else _split_subclauses(body, max_chars)
+        for j, part in enumerate(parts):
+            out.append(StatuteChunk(f"{act}_a{num}_{j}", act, num, part, page_at(start)))
+    return out
