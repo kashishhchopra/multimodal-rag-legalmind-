@@ -1,6 +1,6 @@
 # LegalMind 2.0: roadmap status
 
-Last updated 2026-10-13. Maps to `LegalMind_BigData_Roadmap.pdf`. **Done** = implemented and run or tested here. **Written** = code exists, full run not done. 58 backend tests pass; the frontend typechecks.
+Last updated 2026-10-14. Maps to `LegalMind_BigData_Roadmap.pdf`. **Done** = implemented and run or tested here. **Written** = code exists, full run not done. 58 backend tests pass; the frontend typechecks.
 
 ## Measured results so far (real data, CPU)
 
@@ -42,6 +42,17 @@ How to read this honestly:
 - **The reranker hurts here (R@1 0.667 vs 0.807).** On its own validation task (adjacent-passage retrieval, held-out 2023 judgments) it improved MRR@10 from 0.598 to 0.809, but that task differs from issue-to-judgment retrieval. **Do not put it in the live query path.**
 - The training task is self-supervised (a sentence from one passage retrieves the neighbouring passage), because only 2024 judgments carry headnotes; this is a weak proxy for legal relevance. Real query-passage supervision (LLM-generated questions, IL-PCR) is still missing.
 - Two earlier training-data designs were discarded after they gave a validation MRR of exactly 1.0: random negatives, then inverse-cloze. The cause of the second 1.0 turned out to be a NaN bug (see README troubleshooting), now guarded against.
+
+## The app now runs on the large corpus (2026-10-14)
+
+- Index: 122,674 chunks = 2,596 Supreme Court judgments (119,759 chunks) + 10 Acts (2,692) + the 4 demo PDFs (514, re-embedded with the base embedder). Start it with `scripts/run_local.sh` (uses the corpus index and the base bge-small; `backend/.env` is not modified).
+- Lexical search is an on-disk SQLite FTS5 index (`backend/app/retrieval/lexical.py`), so the 120k-chunk corpus does not have to fit in RAM.
+- Documents page has a **Corpus library** tab: browse/search/filter all judgments and statutes and open any one for questions, summary, timeline and clause analysis (read-only). Overview shows corpus counts.
+- Known gaps: ranking quality on this corpus is not measured with real user queries; only judgments from 2019-2024 (about 350 per year, not every SC judgment); no High Court data; the demo uploads and corpus share one index.
+
+## Large-scale training, first run (CPU)
+
+Pair set: 32k pairs, but only 3.7k were Indian-law (adjacent-passage); the rest was US contract data (LEDGAR 20k, CUAD 8.4k). Result on the 2024 time-split: embedder dense MRR@10 0.858 vs base 0.870 (**worse**); hybrid + reranker R@1 0.527 vs 0.807 for hybrid alone (**worse**). The reranker's own validation MRR rose 0.634 -> 0.849, which shows it learned the self-supervised task, not retrieval relevance. A second run with an Indian-dominated pair set (about 24 passages per judgment) is in progress; its results will be added here. **No trained model is used by the app; the base model is.**
 
 ## By roadmap section
 
