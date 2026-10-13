@@ -169,6 +169,7 @@ export interface AdminStats {
     est_tokens_out?: number;
   };
   auth_enabled: boolean;
+  corpus?: Record<string, { documents: number; chunks: number }>;
 }
 
 export interface CompareRow {

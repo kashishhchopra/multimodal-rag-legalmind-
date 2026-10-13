@@ -82,3 +82,10 @@ def search(query: str, k: int, document_id: Optional[str] = None, filters: Optio
             return [(r[0], float(r[1])) for r in _conn().execute(sql, (*args, k)).fetchall()]
         except sqlite3.OperationalError:  # malformed MATCH expression etc.: behave like "no lexical hits"
             return []
+
+
+def breakdown() -> Dict[str, Dict[str, int]]:
+    """{doc_type: {"documents": n, "chunks": m}} straight from the index (cheap; used by the admin dashboard)."""
+    with _lock:
+        rows = _conn().execute("SELECT doc_type, COUNT(DISTINCT document_id), COUNT(*) FROM chunks GROUP BY doc_type").fetchall()
+    return {(r[0] or "document"): {"documents": r[1], "chunks": r[2]} for r in rows}

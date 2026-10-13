@@ -17,7 +17,7 @@ from ..legal import telemetry
 from ..legal.redact import redact
 from ..legal.summary import summarise
 from ..legal.timeline import extract_timeline
-from ..retrieval import vector_store
+from ..retrieval import lexical, vector_store
 from ..schemas import ProcessingStage
 from ..utils import registry
 from ..utils.errors import DocumentNotFoundError, DocumentNotReadyError
@@ -134,5 +134,5 @@ async def admin_stats(_: dict | None = Depends(auth.require_admin)) -> dict:
     return {
         "documents": len(docs), "documents_by_stage": stages, "indexed_text_chunks": chunks,
         "feedback": feedback_mod.stats(data_dir), "queries": telemetry.summary(data_dir),
-        "auth_enabled": auth.enabled(),
+        "auth_enabled": auth.enabled(), "corpus": lexical.breakdown(),
     }

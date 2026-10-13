@@ -39,6 +39,9 @@ export default function OverviewPage({
   onNavigate: (p: Page) => void;
   onUpload: () => void;
 }) {
+  const corpus = stats?.corpus ?? {};
+  const judgments = corpus["judgment"]?.documents ?? 0;
+  const statutes = corpus["statute"]?.chunks ?? 0;
   const ready = documents.filter((d) => d.stage === "ready").length;
   const llmOk = !!health && health.llm_key_configured && !health.llm_provider.startsWith("invalid");
   const q = stats?.queries.queries ?? 0;
@@ -51,7 +54,7 @@ export default function OverviewPage({
     { title: "Clause and risk analysis", desc: "CUAD clause types with a draft risk rubric and suggested edits.", status: "READY", page: "insights", dot: "bg-zinc-700 ring-zinc-200" },
     { title: "Grounded answers", desc: "Citations, claim-support check and refusal when evidence is weak.", status: llmOk ? "READY" : "NEEDS KEY", page: "documents", dot: "bg-zinc-500 ring-zinc-200" },
     { title: "Statute linking", desc: "IPC, CrPC and Evidence Act sections mapped to BNS, BNSS and BSA.", status: "READY", page: "search", dot: "bg-zinc-400 ring-zinc-200" },
-    { title: "Real judgment corpus", desc: "2,596 Supreme Court judgments are chunked; the vector index is still rebuilding.", status: "DEMO INDEX", page: "search", dot: "bg-zinc-300 ring-zinc-200" },
+    { title: "Real judgment corpus", desc: judgments ? `${judgments.toLocaleString()} Supreme Court judgments (2019-2024) and ${statutes.toLocaleString()} statute chunks are searchable.` : "Only the demo documents are indexed; the judgment corpus is not loaded in this index.", status: judgments ? "READY" : "DEMO INDEX", page: "search", dot: "bg-zinc-300 ring-zinc-200" },
   ];
   const chip = (s: Cap["status"]) =>
     s === "READY" ? "bg-emerald-50 text-emerald-700" : s === "NEEDS KEY" ? "bg-amber-50 text-amber-700" : "bg-brand-50 text-brand-700";
@@ -83,7 +86,7 @@ export default function OverviewPage({
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <Stat icon={<FileStack className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Documents" value={String(documents.length)} hint={`${ready} ready for questions`} />
-        <Stat icon={<Database className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Indexed chunks" value={stats?.indexed_text_chunks != null ? stats.indexed_text_chunks.toLocaleString() : "n/a"} hint="Demo vector index" />
+        <Stat icon={<Database className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Indexed chunks" value={stats?.indexed_text_chunks != null ? stats.indexed_text_chunks.toLocaleString() : "n/a"} hint={judgments ? `${judgments.toLocaleString()} judgments · ${statutes.toLocaleString()} statute chunks` : "Demo vector index"} />
         <Stat icon={<MessageSquareText className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Questions answered" value={String(q)} hint={stats?.queries.latency_p50_ms != null ? `median ${Math.round(stats.queries.latency_p50_ms)} ms` : "no queries yet"} />
         <Stat icon={<ThumbsUp className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Helpful answers" value={helpful != null ? `${helpful}%` : "n/a"} hint={rated ? `${rated} rated` : "no ratings yet"} />
       </div>
