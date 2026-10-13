@@ -5,7 +5,7 @@ import type { AdminStats } from "../types";
 
 function Tile({ label, value, hint }: { label: string; value: string | number; hint?: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4">
+    <div className="card p-5">
       <div className="text-xs uppercase tracking-wide text-slate-400">{label}</div>
       <div className="mt-1 text-2xl font-semibold text-slate-800">{value}</div>
       {hint && <div className="mt-0.5 text-xs text-slate-400">{hint}</div>}
@@ -46,7 +46,11 @@ export default function AdminPanel() {
   const q = s.queries;
   const fb = s.feedback;
   return (
-    <div className="mx-auto h-full max-w-4xl space-y-5 overflow-y-auto p-6">
+    <div className="mx-auto h-full max-w-[1000px] space-y-5 overflow-y-auto px-8 pb-10 pt-8">
+      <div>
+        <div className="label">Admin</div>
+        <h1 className="mt-1 text-[30px] font-semibold tracking-tight text-slate-900">System health and usage</h1>
+      </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Tile label="Documents" value={s.documents} />
         <Tile label="Indexed chunks" value={s.indexed_text_chunks ?? "n/a"} />

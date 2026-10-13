@@ -1,7 +1,7 @@
 // Thin API client for the FastAPI backend. Paths are same-origin and proxied
 // to the backend by Vite in dev (see vite.config.ts).
 
-import type { AdminStats, ClauseReport, DocumentInfo, DocumentSummary, QueryResponse, TimelineEvent } from "../types";
+import type { AdminStats, CompareResult, ClauseReport, DocumentInfo, DocumentSummary, QueryResponse, TimelineEvent } from "../types";
 
 const BASE = "/api";
 
@@ -109,6 +109,26 @@ export const api = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
+      })
+    );
+  },
+
+  async compare(a: string, b: string): Promise<CompareResult> {
+    return handle(
+      await fetch(`${BASE}/compare`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ document_a: a, document_b: b }),
+      })
+    );
+  },
+
+  async redact(text: string): Promise<{ text: string; redactions: Record<string, number>; note: string }> {
+    return handle(
+      await fetch(`${BASE}/redact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
       })
     );
   },

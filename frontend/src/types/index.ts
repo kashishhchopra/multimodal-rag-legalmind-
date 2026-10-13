@@ -170,3 +170,18 @@ export interface AdminStats {
   };
   auth_enabled: boolean;
 }
+
+export interface CompareRow {
+  category: string;
+  status: "identical" | "similar" | "different" | "only_in_a" | "only_in_b";
+  similarity: number;
+  a: { text: string; page: number; risk: string } | null;
+  b: { text: string; page: number; risk: string } | null;
+  diff: string[];
+  risk_shift: "a_riskier" | "b_riskier" | "same";
+}
+
+export interface CompareResult {
+  rows: CompareRow[];
+  summary: Record<string, number>;
+}

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2, Search } from "lucide-react";
 import { api } from "../services/api";
 import type { QueryResponse } from "../types";
 
-export default function SearchPanel() {
-  const [q, setQ] = useState("");
+export default function SearchPanel({ initialQuery = "" }: { initialQuery?: string }) {
+  const [q, setQ] = useState(initialQuery);
   const [year, setYear] = useState("");
   const [docType, setDocType] = useState("");
   const [section, setSection] = useState("");
@@ -13,8 +13,17 @@ export default function SearchPanel() {
   const [mappings, setMappings] = useState<string[]>([]);
   const [err, setErr] = useState<string | null>(null);
 
-  async function run() {
-    if (!q.trim()) return;
+  useEffect(() => {
+    if (initialQuery) {
+      setQ(initialQuery);
+      void run(initialQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQuery]);
+
+  async function run(override?: string) {
+    const query = (override ?? q).trim();
+    if (!query) return;
     setBusy(true);
     setErr(null);
     try {
@@ -22,7 +31,7 @@ export default function SearchPanel() {
       if (year) filters.year = Number(year);
       if (docType) filters.doc_type = docType;
       if (section) filters.section = section;
-      const [r, m] = await Promise.all([api.search(q, filters), api.sections(q).catch(() => null)]);
+      const [r, m] = await Promise.all([api.search(query, filters), api.sections(query).catch(() => null)]);
       setRes(r);
       setMappings(m?.mappings ?? []);
     } catch (e) {
@@ -33,8 +42,13 @@ export default function SearchPanel() {
   }
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-4xl flex-col gap-4 overflow-y-auto p-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="mx-auto flex h-full w-full max-w-[1000px] flex-col gap-4 overflow-y-auto px-8 pb-10 pt-8">
+      <div>
+        <div className="label">Corpus search</div>
+        <h1 className="mt-1 text-[30px] font-semibold tracking-tight text-slate-900">Search across every indexed document</h1>
+        <p className="text-sm text-slate-500">Hybrid BM25 + dense retrieval. Section references such as "Section 420 IPC" are mapped to BNS automatically.</p>
+      </div>
+      <div className="card p-5">
         <div className="flex gap-2">
           <input
             value={q}
@@ -44,7 +58,7 @@ export default function SearchPanel() {
             className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-brand-500"
           />
           <button
-            onClick={run}
+            onClick={() => run()}
             disabled={busy}
             className="flex items-center gap-1.5 rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
           >
