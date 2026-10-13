@@ -22,6 +22,7 @@ import numpy as np
 
 from ..config import get_settings
 from ..utils.errors import VectorStoreError
+from . import lexical
 
 logger = logging.getLogger("mmrag.vectorstore")
 
@@ -82,6 +83,10 @@ def add_text_chunks(
         )
     except Exception as exc:
         raise VectorStoreError(f"Failed to index text chunks: {exc}") from exc
+    try:  # keep the on-disk lexical index in step (see lexical.py)
+        lexical.add(ids, documents, metadatas)
+    except Exception as exc:  # pragma: no cover - lexical is an accelerator; the in-memory path still works
+        logger.warning("lexical index write failed: %s", exc)
 
 
 def add_visuals(
@@ -246,3 +251,7 @@ def delete_document(document_id: str) -> None:
             _collection(name).delete(where={"document_id": document_id})
         except Exception as exc:  # pragma: no cover
             logger.warning("Delete from %s failed: %s", name, exc)
+    try:
+        lexical.delete_document(document_id)
+    except Exception as exc:  # pragma: no cover
+        logger.warning("lexical delete failed: %s", exc)

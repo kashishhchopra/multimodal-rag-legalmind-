@@ -37,6 +37,7 @@ from ..schemas import (
     VisualType,
 )
 from . import vector_store
+from . import lexical
 from .hybrid import BM25Index, rrf_fuse
 
 
@@ -107,12 +108,15 @@ class MultimodalRetriever:
 
         pool = max(k, s.hybrid_candidates)
         dense = vector_store.query_text(qvec, pool, document_id, filters)
-        lexical = _bm25_for(document_id, filters).search(query, pool)
-        fused = rrf_fuse([[h["id"] for h in dense], [i for i, _ in lexical]], s.rrf_k)[:k]
+        if lexical.count() > 0 and lexical.can_filter(filters):
+            lex_hits = lexical.search(query, pool, document_id, filters)  # on-disk FTS5: scales to the full corpus
+        else:
+            lex_hits = _bm25_for(document_id, filters).search(query, pool)  # small/legacy stores: in memory
+        fused = rrf_fuse([[h["id"] for h in dense], [i for i, _ in lex_hits]], s.rrf_k)[:k]
 
         by_id = {h["id"]: h for h in dense}
         dense_rank = {h["id"]: r for r, h in enumerate(dense, 1)}
-        lex_rank = {i: r for r, (i, _) in enumerate(lexical, 1)}
+        lex_rank = {i: r for r, (i, _) in enumerate(lex_hits, 1)}
         missing = [i for i, _ in fused if i not in by_id]
         if missing:  # BM25-only hits: fetch text/metadata and score them densely so scores stay comparable
             got = vector_store.text_corpus_by_ids(missing)

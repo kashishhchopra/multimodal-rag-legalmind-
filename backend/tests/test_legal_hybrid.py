@@ -364,3 +364,24 @@ def test_assert_finite_rejects_nan_and_de_mmap_keeps_values():
     before = m.weight.detach().clone()
     de_mmap(m)
     assert np.allclose(before.numpy(), m.weight.detach().numpy())
+
+
+# ---- FTS5 lexical index ----
+def test_fts_lexical_index_ranks_filters_and_deletes():
+    from app.retrieval import lexical
+
+    pre = lexical.count()
+    ids = ["lx1", "lx2", "lx3"]
+    texts = ["Section 318 BNS defines cheating and dishonest inducement", "The weather in Delhi is warm", "Punishment for murder under section 103 BNS"]
+    metas = [{"document_id": "lexdoc", "doc_type": "statute", "year": 2023, "section": "318"}] + [{"document_id": "lexdoc2", "doc_type": "judgment", "year": 2019}] * 2
+    lexical.add(ids, texts, metas)
+    try:
+        assert lexical.count() == pre + 3
+        assert lexical.search("cheating dishonest", 5)[0][0] == "lx1"
+        assert lexical.search("murder", 5, filters={"year": 2019})[0][0] == "lx3"
+        assert lexical.search("cheating", 5, document_id="lexdoc2") == []
+        assert lexical.search('") OR (', 5) == [] or isinstance(lexical.search('") OR (', 5), list)  # hostile input never raises
+        assert lexical.can_filter({"year": 1}) and not lexical.can_filter({"bogus": 1})
+    finally:
+        lexical.delete_document("lexdoc"); lexical.delete_document("lexdoc2")
+    assert lexical.count() == pre
