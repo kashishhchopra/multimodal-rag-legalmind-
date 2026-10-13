@@ -47,11 +47,11 @@ export default function OverviewPage({
   const helpful = rated > 0 && fb ? Math.round((fb.up / rated) * 100) : null;
 
   const caps: Cap[] = [
-    { title: "Hybrid retrieval", desc: "BM25 + dense search with reciprocal rank fusion and metadata filters.", status: "READY", page: "search", dot: "bg-peach-500 ring-peach-100" },
-    { title: "Clause and risk analysis", desc: "CUAD clause types with a draft risk rubric and suggested edits.", status: "READY", page: "insights", dot: "bg-brand-500 ring-brand-100" },
-    { title: "Grounded answers", desc: "Citations, claim-support check and refusal when evidence is weak.", status: llmOk ? "READY" : "NEEDS KEY", page: "documents", dot: "bg-emerald-500 ring-emerald-100" },
-    { title: "Statute linking", desc: "IPC, CrPC and Evidence Act sections mapped to BNS, BNSS and BSA.", status: "READY", page: "search", dot: "bg-amber-500 ring-amber-100" },
-    { title: "Real judgment corpus", desc: "2,596 Supreme Court judgments are chunked; the vector index is still rebuilding.", status: "DEMO INDEX", page: "search", dot: "bg-sky-500 ring-sky-100" },
+    { title: "Hybrid retrieval", desc: "BM25 + dense search with reciprocal rank fusion and metadata filters.", status: "READY", page: "search", dot: "bg-zinc-900 ring-zinc-200" },
+    { title: "Clause and risk analysis", desc: "CUAD clause types with a draft risk rubric and suggested edits.", status: "READY", page: "insights", dot: "bg-zinc-700 ring-zinc-200" },
+    { title: "Grounded answers", desc: "Citations, claim-support check and refusal when evidence is weak.", status: llmOk ? "READY" : "NEEDS KEY", page: "documents", dot: "bg-zinc-500 ring-zinc-200" },
+    { title: "Statute linking", desc: "IPC, CrPC and Evidence Act sections mapped to BNS, BNSS and BSA.", status: "READY", page: "search", dot: "bg-zinc-400 ring-zinc-200" },
+    { title: "Real judgment corpus", desc: "2,596 Supreme Court judgments are chunked; the vector index is still rebuilding.", status: "DEMO INDEX", page: "search", dot: "bg-zinc-300 ring-zinc-200" },
   ];
   const chip = (s: Cap["status"]) =>
     s === "READY" ? "bg-emerald-50 text-emerald-700" : s === "NEEDS KEY" ? "bg-amber-50 text-amber-700" : "bg-brand-50 text-brand-700";
@@ -82,10 +82,10 @@ export default function OverviewPage({
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat icon={<FileStack className="h-6 w-6 text-peach-500" />} tint="bg-peach-100" label="Documents" value={String(documents.length)} hint={`${ready} ready for questions`} />
-        <Stat icon={<Database className="h-6 w-6 text-emerald-600" />} tint="bg-emerald-50" label="Indexed chunks" value={stats?.indexed_text_chunks != null ? stats.indexed_text_chunks.toLocaleString() : "n/a"} hint="Demo vector index" />
-        <Stat icon={<MessageSquareText className="h-6 w-6 text-brand-600" />} tint="bg-brand-50" label="Questions answered" value={String(q)} hint={stats?.queries.latency_p50_ms != null ? `median ${Math.round(stats.queries.latency_p50_ms)} ms` : "no queries yet"} />
-        <Stat icon={<ThumbsUp className="h-6 w-6 text-amber-600" />} tint="bg-amber-50" label="Helpful answers" value={helpful != null ? `${helpful}%` : "n/a"} hint={rated ? `${rated} rated` : "no ratings yet"} />
+        <Stat icon={<FileStack className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Documents" value={String(documents.length)} hint={`${ready} ready for questions`} />
+        <Stat icon={<Database className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Indexed chunks" value={stats?.indexed_text_chunks != null ? stats.indexed_text_chunks.toLocaleString() : "n/a"} hint="Demo vector index" />
+        <Stat icon={<MessageSquareText className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Questions answered" value={String(q)} hint={stats?.queries.latency_p50_ms != null ? `median ${Math.round(stats.queries.latency_p50_ms)} ms` : "no queries yet"} />
+        <Stat icon={<ThumbsUp className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Helpful answers" value={helpful != null ? `${helpful}%` : "n/a"} hint={rated ? `${rated} rated` : "no ratings yet"} />
       </div>
 
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1fr_380px]">
@@ -124,13 +124,13 @@ export default function OverviewPage({
               <div className="label">Active document</div>
               <h2 className="mt-1 max-w-[230px] truncate text-[22px] font-semibold tracking-tight text-slate-900">{activeDoc ? activeDoc.filename : "Nothing selected"}</h2>
             </div>
-            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-peach-100 bg-peach-100/60 font-mono text-xs font-medium text-peach-500">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 font-mono text-xs font-medium text-zinc-700">
               {activeDoc ? `${activeDoc.page_count}p` : "—"}
             </div>
           </div>
           {activeDoc ? (
             <>
-              <div className="mt-5 rounded-2xl bg-slate-50 p-4">
+              <div className="mt-5 rounded-2xl bg-zinc-50 p-4">
                 <div className="flex items-center justify-between text-sm text-slate-500">
                   <span>Processing</span>
                   <span className="font-semibold text-slate-800">{activeDoc.stage === "ready" ? "Ready" : `${Math.round(activeDoc.progress * 100)}%`}</span>
@@ -199,7 +199,7 @@ export default function OverviewPage({
                   </td>
                   <td className="py-4 text-slate-500">{t.stream}</td>
                   <td className="py-4">
-                    <span className={`rounded-md px-2 py-0.5 font-mono text-[11px] font-medium ${t.pri === "P0" ? "bg-peach-100 text-peach-500" : "bg-brand-50 text-brand-600"}`}>{t.pri}</span>
+                    <span className={`rounded-md px-2 py-0.5 font-mono text-[11px] font-medium ${t.pri === "P0" ? "bg-peach-100 text-zinc-700" : "bg-zinc-100 text-zinc-700"}`}>{t.pri}</span>
                   </td>
                   <td className="py-4 text-slate-500">{t.done ? "Done" : "Open"}</td>
                 </tr>

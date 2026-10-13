@@ -41,7 +41,7 @@ export default function VisualEvidenceCard({
         </span>
       </div>
 
-      <div className="relative bg-slate-50">
+      <div className="relative bg-zinc-50">
         <img
           src={src}
           alt={label}

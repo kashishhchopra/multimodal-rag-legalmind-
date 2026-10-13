@@ -305,7 +305,7 @@ export default function App() {
                 ["OCR (Tesseract)", health?.ocr_available ? "available" : "unavailable"],
                 ["Signed in as", username],
               ].map(([k, v]) => (
-                <div key={k} className="flex justify-between rounded-xl bg-slate-50 px-3 py-2"><dt className="text-slate-500">{k}</dt><dd className="font-medium text-slate-800">{v}</dd></div>
+                <div key={k} className="flex justify-between rounded-xl bg-zinc-50 px-3 py-2"><dt className="text-slate-500">{k}</dt><dd className="font-medium text-slate-800">{v}</dd></div>
               ))}
             </dl>
             <p className="mt-4 text-xs text-slate-400">Configuration lives in backend/.env (LLM_PROVIDER, LLM_API_KEY, AUTH_ENABLED). Restart the backend after changing it.</p>

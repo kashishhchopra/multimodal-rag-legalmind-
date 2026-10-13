@@ -5,7 +5,7 @@ import type { CompareResult, DocumentInfo } from "../types";
 
 const STATUS: Record<string, string> = {
   identical: "bg-emerald-50 text-emerald-700",
-  similar: "bg-sky-50 text-sky-700",
+  similar: "bg-zinc-50 text-zinc-700",
   different: "bg-amber-50 text-amber-700",
   only_in_a: "bg-peach-100 text-peach-500",
   only_in_b: "bg-brand-50 text-brand-700",
@@ -75,7 +75,7 @@ export default function ComparePage({ documents }: { documents: DocumentInfo[] }
               </div>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 {[r.a, r.b].map((side, i) => (
-                  <div key={i} className="rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
+                  <div key={i} className="rounded-xl bg-zinc-50 p-3 text-sm text-slate-600">
                     <div className="label !text-[10px] mb-1">{i === 0 ? "A" : "B"}{side ? ` · page ${side.page} · ${side.risk} risk` : ""}</div>
                     {side ? <p className="line-clamp-5">{side.text}</p> : <p className="text-slate-400">Not present</p>}
                   </div>

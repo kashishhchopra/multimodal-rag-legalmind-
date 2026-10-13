@@ -67,7 +67,7 @@ export default function Sidebar({
   return (
     <aside className="flex h-full w-[272px] shrink-0 flex-col bg-gradient-to-b from-navy-900 via-navy-900 to-navy-950 text-slate-200">
       <div className="flex items-center gap-3 px-6 pb-4 pt-6">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-violet-500 text-white shadow-lg shadow-brand-500/30">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-zinc-600 to-zinc-800 text-white shadow-lg shadow-black/30">
           <Command className="h-6 w-6" />
         </div>
         <div className="min-w-0 flex-1">
@@ -85,7 +85,7 @@ export default function Sidebar({
           onClick={() => setOpen((o) => !o)}
           className="flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3.5 py-3 text-left transition hover:bg-white/10"
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-peach-500/20 text-xs font-semibold text-peach-400">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-xs font-semibold text-zinc-300">
             {activeDoc ? "DOC" : "NEW"}
           </div>
           <div className="min-w-0 flex-1">
@@ -107,7 +107,7 @@ export default function Sidebar({
                 className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm hover:bg-white/10 ${activeDoc?.document_id === d.document_id ? "bg-white/10 text-white" : "text-slate-300"}`}
               >
                 <span className="min-w-0 flex-1 truncate">{d.filename}</span>
-                {d.stage === "ready" ? <CheckCircle2 className="h-4 w-4 text-emerald-400" /> : d.stage === "failed" ? <AlertTriangle className="h-4 w-4 text-red-400" /> : <Loader2 className="h-4 w-4 animate-spin text-brand-300" />}
+                {d.stage === "ready" ? <CheckCircle2 className="h-4 w-4 text-emerald-400" /> : d.stage === "failed" ? <AlertTriangle className="h-4 w-4 text-red-400" /> : <Loader2 className="h-4 w-4 animate-spin text-zinc-300" />}
               </button>
             ))}
             <button
@@ -135,10 +135,10 @@ export default function Sidebar({
                     key={n.id}
                     onClick={() => onNavigate(n.id)}
                     className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] transition ${
-                      active ? "bg-brand-500/20 font-medium text-white ring-1 ring-brand-500/40" : "text-slate-300 hover:bg-white/5 hover:text-white"
+                      active ? "bg-white/10 font-medium text-white ring-1 ring-white/20" : "text-slate-300 hover:bg-white/5 hover:text-white"
                     }`}
                   >
-                    <span className={active ? "text-brand-300" : "text-slate-400"}>{n.icon}</span>
+                    <span className={active ? "text-zinc-300" : "text-slate-400"}>{n.icon}</span>
                     {n.label}
                     {n.id === "documents" && (
                       <span className="ml-auto rounded-md bg-white/10 px-1.5 py-0.5 text-[11px] text-slate-300">{documents.length}</span>
@@ -152,7 +152,7 @@ export default function Sidebar({
 
         <div className="relative mt-2 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4">
           <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full border border-white/10" />
-          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500/20 text-brand-300">
+          <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-zinc-300">
             <Sparkles className="h-4 w-4" />
           </div>
           <div className="text-sm font-semibold text-white">Index status</div>
@@ -174,7 +174,7 @@ export default function Sidebar({
       </div>
 
       <div className="flex items-center gap-3 border-t border-white/10 px-6 py-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-500/30 text-sm font-semibold text-white">{initials}</div>
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-sm font-semibold text-white">{initials}</div>
         <div className="min-w-0">
           <div className="truncate text-sm font-medium text-white">{username}</div>
           <div className="text-xs text-slate-400">Researcher</div>

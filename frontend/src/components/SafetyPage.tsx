@@ -48,7 +48,7 @@ export default function SafetyPage() {
           {busy && <Loader2 className="h-4 w-4 animate-spin" />} Redact
         </button>
         {out && (
-          <div className="mt-4 rounded-xl bg-slate-50 p-4 text-sm">
+          <div className="mt-4 rounded-xl bg-zinc-50 p-4 text-sm">
             <p className="whitespace-pre-wrap text-slate-800">{out.text}</p>
             <p className="mt-2 text-xs text-slate-500">{Object.entries(out.redactions).map(([k, v]) => `${v} ${k}`).join(" · ") || "Nothing found"} — {out.note}</p>
           </div>

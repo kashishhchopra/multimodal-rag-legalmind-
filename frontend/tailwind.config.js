@@ -4,16 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: { 950: "#080c26", 900: "#0e1440", 800: "#161d52", 700: "#212a6b" },
-        peach: { 100: "#fde9df", 400: "#f4a27b", 500: "#ef8a5c" },
-        brand: {
-          50: "#eef2ff",
-          100: "#e0e7ff",
-          300: "#a5b4fc",
-          500: "#6366f1",
-          600: "#4f46e5",
-          700: "#4338ca",
-        },
+        navy: { 950: "#121214", 900: "#1b1b1f", 800: "#27272c", 700: "#34343a" },
+        peach: { 100: "#f1f1f3", 400: "#71717a", 500: "#3f3f46" },
+        brand: { 50: "#f4f4f5", 100: "#e8e8ea", 300: "#a1a1aa", 400: "#8b8b94", 500: "#52525b", 600: "#3f3f46", 700: "#27272a" },
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],

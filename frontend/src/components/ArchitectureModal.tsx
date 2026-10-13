@@ -20,7 +20,7 @@ export default function ArchitectureModal({ onClose }: { onClose: () => void }) 
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="rounded-xl border border-slate-200 bg-zinc-50 p-4">
             <h3 className="mb-2 text-sm font-semibold text-slate-600">Traditional RAG</h3>
             <pre className="whitespace-pre text-xs leading-relaxed text-slate-500">{`Question
    ↓
