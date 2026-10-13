@@ -76,7 +76,8 @@ def ctx_pairs(by_doc, docs, args, rng):
     for year, dids in by_year.items():
         if year > args.val_year or year < 2000:
             continue  # test years are evaluated on issue pairs only; never train on them
-        cap = args.max_ict // 6 if year <= args.train_max_year else args.max_ict_val
+        n_train_years = max(1, len([y for y in by_year if 2000 <= y <= args.train_max_year]))
+        cap = args.max_ict // n_train_years if year <= args.train_max_year else args.max_ict_val
         rng.shuffle(dids)
         made = 0
         # BM25 over this year's reasoning chunks gives topical hard negatives (same court, same year, similar vocabulary)
@@ -85,7 +86,7 @@ def ctx_pairs(by_doc, docs, args, rng):
         ytext = {c["chunk_id"]: c for c in ypool}
         for d in dids:
             cs = [c for c in by_doc[d] if c["section"] in ("judgment", "analysis", "facts") and len(c["text"]) > 700]
-            for c in rng.sample(cs, min(4, len(cs))):
+            for c in rng.sample(cs, min(args.ctx_per_doc, len(cs))):
                 sents = [x for x in re.split(r"(?<=[.!?])\s+", c["text"]) if 15 <= len(x.split()) <= 60]
                 if not sents:
                     continue
@@ -162,6 +163,7 @@ def main() -> None:
     ap.add_argument("--max-ledgar", type=int, default=10000)
     ap.add_argument("--roundtrip-k", type=int, default=20)
     ap.add_argument("--max-ict", type=int, default=9000, help="total ICT pairs across train years")
+    ap.add_argument("--ctx-per-doc", type=int, default=4, help="passages sampled per judgment for adjacent-passage pairs")
     ap.add_argument("--max-ict-val", type=int, default=300, help="ICT pairs for the validation year")
     ap.add_argument("--seed", type=int, default=13)
     args = ap.parse_args()
