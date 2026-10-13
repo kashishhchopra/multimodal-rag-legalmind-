@@ -68,6 +68,7 @@ def main() -> None:
     ap.add_argument("--max-val", type=int, default=1000)
     ap.add_argument("--max-seq", type=int, default=256)
     ap.add_argument("--device", default="cpu")
+    ap.add_argument("--grad-ckpt", action="store_true", help="gradient checkpointing: slower, much less RAM (needed on 8 GB)")
     ap.add_argument("--seed", type=int, default=13)
     args = ap.parse_args()
 
@@ -103,7 +104,7 @@ def main() -> None:
     targs = SentenceTransformerTrainingArguments(
         output_dir=str(args.out / "checkpoints"), num_train_epochs=args.epochs, per_device_train_batch_size=args.batch,
         learning_rate=args.lr, warmup_ratio=0.1, batch_sampler=BatchSamplers.NO_DUPLICATES, logging_steps=50,
-        save_strategy="epoch", save_total_limit=1, report_to=["mlflow"] if _has_mlflow() else "none", seed=args.seed,
+        save_strategy="steps", save_steps=500, save_total_limit=2, gradient_checkpointing=args.grad_ckpt, report_to=["mlflow"] if _has_mlflow() else "none", seed=args.seed,
         use_cpu=args.device == "cpu",
     )
     SentenceTransformerTrainer(model=model, args=targs, train_dataset=ds, loss=loss).train()
