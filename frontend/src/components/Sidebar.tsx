@@ -141,7 +141,7 @@ export default function Sidebar({
                     <span className={active ? "text-zinc-300" : "text-slate-400"}>{n.icon}</span>
                     {n.label}
                     {n.id === "documents" && (
-                      <span className="ml-auto rounded-md bg-white/10 px-1.5 py-0.5 text-[11px] text-slate-300">{documents.length}</span>
+                      <span className="ml-auto rounded-md bg-white/10 px-1.5 py-0.5 text-[11px] text-slate-300" title="documents open in this session; the corpus library holds many more">{documents.length} open</span>
                     )}
                   </button>
                 );

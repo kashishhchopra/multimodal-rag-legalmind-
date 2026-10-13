@@ -79,7 +79,7 @@ export default function OverviewPage({
           {username && username !== "Local user" ? `, ${username}.` : "."}
         </h1>
         <p className="mt-3 text-[15px] text-slate-500">
-          {ready} of {documents.length} documents ready.{" "}
+          {judgments ? `${judgments.toLocaleString()} judgments and ${(corpus["statute"]?.documents ?? 0)} statutes are searchable; ${documents.length} open in this session.` : `${ready} of ${documents.length} documents ready.`}{" "}
           {llmOk ? "Grounded answers are on." : <span>Answers are <b className="text-slate-700">evidence-only</b> until an LLM key is configured.</span>}
         </p>
       </div>
