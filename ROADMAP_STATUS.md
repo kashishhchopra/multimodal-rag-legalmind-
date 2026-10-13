@@ -22,6 +22,27 @@ Retrieval, `backend/eval/results/ablation.json` (BEIR-format mirrors, documents 
 4. Cross-check of my hand-curated IPC/CrPC/Evidence Act mapping against the government correspondence tables found **two wrong rows** (IPC 191 and 325), now fixed. 45 of 49 curated IPC rows agreed outright.
 5. LegalBench-RAG harness smoke test (privacy_qa, 40 queries, small corpus): dense P@4/R@4 0.083/0.204 vs BM25 0.016/0.059. The full run is queued in the pipeline.
 
+## Trained-model results (CPU, small runs; 2026-10-13)
+
+Time-split retrieval (`backend/eval/results/timesplit.json`): query = the "Issue for Consideration" text of 150 judgments from 2024 (never seen in training, which used judgments up to 2022); pool = 300 judgments, 9,612 chunks; correct = a top-k chunk comes from the query's own judgment.
+
+| Config | R@1 | R@5 | R@10 | MRR@10 |
+|---|---|---|---|---|
+| BM25 | 0.960 | 1.000 | 1.000 | 0.977 |
+| dense, base bge-small (A0) | 0.827 | 0.927 | 0.947 | 0.870 |
+| hybrid RRF, base (A3) | 0.807 | 0.960 | 0.980 | 0.874 |
+| dense, embedder v2 (A2) | 0.827 | 0.953 | 0.960 | 0.882 |
+| hybrid RRF, v2 | 0.813 | 0.967 | 0.987 | 0.879 |
+| hybrid + fine-tuned reranker, base | 0.667 | 0.940 | 0.980 | 0.784 |
+| hybrid + fine-tuned reranker, v2 (A5) | 0.727 | 0.947 | 0.980 | 0.824 |
+
+How to read this honestly:
+- **Issue statements share vocabulary with their own judgments, so BM25 is near-perfect.** This test favours lexical search and is not a measure of real user queries. Do not quote these absolute numbers as general performance.
+- **Embedder v2 is not a real improvement.** Validation MRR@10 was 0.330 before and 0.329 after training; on the time-split it is +0.012 MRR over base with 150 queries, which is within noise.
+- **The reranker hurts here (R@1 0.667 vs 0.807).** On its own validation task (adjacent-passage retrieval, held-out 2023 judgments) it improved MRR@10 from 0.598 to 0.809, but that task differs from issue-to-judgment retrieval. **Do not put it in the live query path.**
+- The training task is self-supervised (a sentence from one passage retrieves the neighbouring passage), because only 2024 judgments carry headnotes; this is a weak proxy for legal relevance. Real query-passage supervision (LLM-generated questions, IL-PCR) is still missing.
+- Two earlier training-data designs were discarded after they gave a validation MRR of exactly 1.0: random negatives, then inverse-cloze. The cause of the second 1.0 turned out to be a NaN bug (see README troubleshooting), now guarded against.
+
 ## By roadmap section
 
 | Item | Status | Where |
@@ -38,9 +59,9 @@ Retrieval, `backend/eval/results/ablation.json` (BEIR-format mirrors, documents 
 | Summariser (extractive), timeline, PII redaction (identifiers only), memo export PDF/DOCX/MD, contract comparison, feedback store | Done | `backend/app/legal/`, `backend/app/api/legal.py` |
 | Follow-ups, plain-English mode, Hindi mode | Done via the configured LLM (translate-then-retrieve). **IndicTrans2 not used or compared** | `backend/app/services/conversation.py` |
 | Frontend: search view, insights tabs, verification, feedback, memo buttons, mode toggles | Done | `frontend/src/components/` |
-| 6.1/6.2 Training pairs, embedder v2, reranker | Scripts written; **run queued** (CPU, small sizes) | `backend/scripts/`, `scripts/post_ingest_pipeline.sh` |
+| 6.1/6.2 Training pairs, embedder v2, reranker | **Done at CPU scale** (results above; no real gain from the embedder, reranker not usable as-is) | `backend/scripts/`, `scripts/post_ingest_pipeline.sh`, `scripts/pipeline_part2.sh` |
 | 6.5 Synthetic stamps, detector | 1,500 images generated; **training not run** | `scripts/vision/` |
-| 8.x Retrieval ablation, time-split eval, LegalBench-RAG harness, answer eval | Written; ablation run (above); time-split and LegalBench-RAG runs queued; answer eval needs a working LLM key | `backend/eval/` |
+| 8.x Retrieval ablation, time-split eval, LegalBench-RAG harness, answer eval | Ablation and time-split run (above); LegalBench-RAG run in progress; answer eval needs a working LLM key | `backend/eval/` |
 | 3.x IL-TUR (includes IL-PCR, ILDC, NER, rhetorical roles, statute ID) | **Gated on Hugging Face: you must request access** | |
 | 3.x Aalap | Gated on Hugging Face (401) | |
 | 3.x India Code Acts: Companies, RERA, Consumer Protection, Arbitration, Transfer of Property | Official URLs found but downloads failed (504 or blocked); retry later or download manually | |
@@ -55,8 +76,8 @@ Retrieval, `backend/eval/results/ablation.json` (BEIR-format mirrors, documents 
 
 ## Running in the background (resumable)
 
-- `scripts/ingest_judgments.py ... --index` into `data_lake/corpus_store` (log `data_lake/ingest2.log`). Re-run the same command to resume.
-- `scripts/post_ingest_pipeline.sh` waits for ingestion, then runs: statute indexing, training pairs, reranker, embedder v2, time-split eval, LegalBench-RAG (log `data_lake/pipeline.log`). Sequential because the machine has 8 GB of RAM.
+- `scripts/pipeline_part2.sh` (log `data_lake/pipeline2.log`) continues with LegalBench-RAG and then `scripts/reindex_corpus.py`, which rebuilds the corpus vector index (the first one, `data_lake/corpus_store.corrupt`, was corrupted by an abrupt kill). The reindex is resumable. Until it finishes, `/api/search` over the real corpus is not available. Never kill it with `kill -9`.
+- Ingestion is finished: 2,596 judgments (2019-2024) in `data_lake/corpus/`, with scanned-PDF OCR worker ready but no scans found (English SC PDFs carry text layers).
 
 ## Needs you
 
