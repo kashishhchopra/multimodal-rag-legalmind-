@@ -52,7 +52,15 @@ How to read this honestly:
 
 ## Large-scale training, first run (CPU)
 
-Pair set: 32k pairs, but only 3.7k were Indian-law (adjacent-passage); the rest was US contract data (LEDGAR 20k, CUAD 8.4k). Result on the 2024 time-split: embedder dense MRR@10 0.858 vs base 0.870 (**worse**); hybrid + reranker R@1 0.527 vs 0.807 for hybrid alone (**worse**). The reranker's own validation MRR rose 0.634 -> 0.849, which shows it learned the self-supervised task, not retrieval relevance. A second run with an Indian-dominated pair set (about 24 passages per judgment) is in progress; its results will be added here. **No trained model is used by the app; the base model is.**
+Pair set: 32k pairs, but only 3.7k were Indian-law (adjacent-passage); the rest was US contract data (LEDGAR 20k, CUAD 8.4k). Result on the 2024 time-split: embedder dense MRR@10 0.858 vs base 0.870 (**worse**); hybrid + reranker R@1 0.527 vs 0.807 for hybrid alone (**worse**). The reranker's own validation MRR rose 0.634 -> 0.849, which shows it learned the self-supervised task, not retrieval relevance. A second run with an Indian-dominated pair set (about 24 passages per judgment) is in progress; its results will be added here. Held-out public benchmarks (`backend/eval/results/ablation_large.json`), base vs the large-run embedder `legal-bge-v2`:
+
+| Dataset | Base dense nDCG@10 | Large-run dense | Small-run dense |
+|---|---|---|---|
+| AILA case docs | 0.235 | 0.168 | 0.165 |
+| AILA statutes | 0.230 | 0.246 | 0.234 |
+| LegalBench consumer-contracts QA | 0.734 | 0.446 | 0.575 |
+
+The fine-tuned reranker is **far worse than no reranker on every benchmark** (AILA case docs R@5 0.207 hybrid -> 0.045 with the reranker; consumer-contracts R@5 0.856 -> 0.437). The cause is a training objective (adjacent-passage matching) that does not teach relevance to a question. Conclusion: neither trained model is adopted. **The app uses the base bge-small with hybrid BM25 search and no reranker.** LegalBench-RAG (privacy_qa/contractnli) was only run for the base model.
 
 ## By roadmap section
 
