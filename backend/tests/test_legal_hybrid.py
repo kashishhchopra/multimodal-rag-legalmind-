@@ -385,3 +385,36 @@ def test_fts_lexical_index_ranks_filters_and_deletes():
     finally:
         lexical.delete_document("lexdoc"); lexical.delete_document("lexdoc2")
     assert lexical.count() == pre
+
+
+# ---- corpus catalogue ----
+def test_corpus_catalog_search_get_and_readonly(tmp_path, monkeypatch):
+    import json
+
+    from app.legal import corpus_catalog
+
+    (tmp_path / "docs.jsonl").write_text("\n".join(json.dumps(d) for d in [
+        {"doc_id": "2024_1_1_9_EN", "title": "Asha v. State of Delhi", "citation": "2024 INSC 5", "year": 2024, "court": "Supreme Court of India", "pages": 9},
+        {"doc_id": "2019_2_3_8_EN", "title": "Ravi v. Union of India", "citation": "2019 INSC 77", "year": 2019, "court": "Supreme Court of India", "pages": 4}]))
+    (tmp_path / "chunks.jsonl").write_text('{"chunk_id": "a", "doc_id": "2024_1_1_9_EN"}\n{"chunk_id": "b", "doc_id": "2024_1_1_9_EN"}\n')
+    (tmp_path / "statutes.jsonl").write_text(json.dumps({"chunk_id": "BNS_s1_0", "act": "BNS", "page_number": 3, "year": 2023}) + "\n")
+    monkeypatch.setenv("CORPUS_DIR", str(tmp_path))
+    corpus_catalog._load.cache_clear()
+    try:
+        assert corpus_catalog.search()["totals"] == {"judgment": 2, "statute": 1}
+        assert corpus_catalog.search("asha")["items"][0]["chunks"] == 2
+        assert corpus_catalog.search(year=2019)["total"] == 1
+        d = corpus_catalog.get("statute_BNS")
+        assert d and d.stage.value == "ready" and "Nyaya" in d.filename
+        assert corpus_catalog.is_corpus("2019_2_3_8_EN") and corpus_catalog.get("nope") is None
+        from fastapi.testclient import TestClient
+
+        from app.main import app
+
+        c = TestClient(app)
+        assert c.delete("/api/documents/2019_2_3_8_EN").status_code >= 400  # read-only
+        assert c.get("/api/corpus/documents", params={"q": "ravi"}).json()["total"] == 1
+        assert c.get("/api/documents/2019_2_3_8_EN").json()["stage"] == "ready"
+    finally:
+        monkeypatch.delenv("CORPUS_DIR")
+        corpus_catalog._load.cache_clear()

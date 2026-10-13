@@ -51,7 +51,11 @@ def get(document_id: str) -> Optional[Document]:
     with _lock:
         data = _load_raw()
         raw = data.get(document_id)
-        return Document(**raw) if raw else None
+    if raw:
+        return Document(**raw)
+    from ..legal import corpus_catalog  # corpus documents (judgments/statutes) are served read-only from the catalogue
+
+    return corpus_catalog.get(document_id)
 
 
 def list_all() -> List[Document]:

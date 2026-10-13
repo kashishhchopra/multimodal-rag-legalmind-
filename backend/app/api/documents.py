@@ -123,6 +123,10 @@ async def get_status(document_id: str) -> Document:
 
 @router.delete("/{document_id}")
 async def delete_document(document_id: str, request: Request) -> dict:
+    from ..legal import corpus_catalog
+
+    if corpus_catalog.is_corpus(document_id):
+        raise InvalidFileError("Corpus documents are read-only and cannot be deleted.")
     auth.audit(getattr(request.state, "user", {}).get("sub", ""), "delete", document_id)
     doc = registry.get(document_id)
     if not doc:

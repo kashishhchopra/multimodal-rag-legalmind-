@@ -1,7 +1,7 @@
 // Thin API client for the FastAPI backend. Paths are same-origin and proxied
 // to the backend by Vite in dev (see vite.config.ts).
 
-import type { AdminStats, CompareResult, ClauseReport, DocumentInfo, DocumentSummary, QueryResponse, TimelineEvent } from "../types";
+import type { AdminStats, CorpusPage, CompareResult, ClauseReport, DocumentInfo, DocumentSummary, QueryResponse, TimelineEvent } from "../types";
 
 const BASE = "/api";
 
@@ -91,6 +91,16 @@ export const api = {
         }),
       })
     );
+  },
+
+  async corpusDocuments(params: { q?: string; year?: string; kind?: string; offset?: number; limit?: number }): Promise<CorpusPage> {
+    const u = new URLSearchParams();
+    if (params.q) u.set("q", params.q);
+    if (params.year) u.set("year", params.year);
+    if (params.kind) u.set("kind", params.kind);
+    u.set("offset", String(params.offset ?? 0));
+    u.set("limit", String(params.limit ?? 25));
+    return handle(await fetch(`${BASE}/corpus/documents?${u}`));
   },
 
   async login(username: string, password: string): Promise<{ access_token: string; role: string }> {

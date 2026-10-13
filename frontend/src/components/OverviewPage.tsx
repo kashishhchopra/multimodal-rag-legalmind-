@@ -85,7 +85,7 @@ export default function OverviewPage({
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat icon={<FileStack className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Documents" value={String(documents.length)} hint={`${ready} ready for questions`} />
+        <Stat icon={<FileStack className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Documents available" value={(Object.values(corpus).reduce((a, c) => a + c.documents, 0) || documents.length).toLocaleString()} hint={judgments ? `${judgments.toLocaleString()} judgments · ${(corpus["statute"]?.documents ?? 0)} statutes · ${(corpus["document"]?.documents ?? documents.length)} uploaded` : `${ready} ready for questions`} />
         <Stat icon={<Database className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Indexed chunks" value={stats?.indexed_text_chunks != null ? stats.indexed_text_chunks.toLocaleString() : "n/a"} hint={judgments ? `${judgments.toLocaleString()} judgments · ${statutes.toLocaleString()} statute chunks` : "Demo vector index"} />
         <Stat icon={<MessageSquareText className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Questions answered" value={String(q)} hint={stats?.queries.latency_p50_ms != null ? `median ${Math.round(stats.queries.latency_p50_ms)} ms` : "no queries yet"} />
         <Stat icon={<ThumbsUp className="h-6 w-6 text-zinc-700" />} tint="bg-zinc-100" label="Helpful answers" value={helpful != null ? `${helpful}%` : "n/a"} hint={rated ? `${rated} rated` : "no ratings yet"} />

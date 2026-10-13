@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from .. import auth
 from ..config import get_settings
 from ..legal import compare as compare_mod
+from ..legal import corpus_catalog
 from ..legal import doctype as doctype_mod
 from ..legal import feedback as feedback_mod
 from ..legal import memo as memo_mod
@@ -136,3 +137,9 @@ async def admin_stats(_: dict | None = Depends(auth.require_admin)) -> dict:
         "feedback": feedback_mod.stats(data_dir), "queries": telemetry.summary(data_dir),
         "auth_enabled": auth.enabled(), "corpus": lexical.breakdown(),
     }
+
+
+@router.get("/corpus/documents")
+async def corpus_documents(q: str = "", year: Optional[int] = None, kind: Optional[str] = None, offset: int = 0, limit: int = 25) -> dict:
+    """Browse the indexed judgments and statutes (title/citation search, year and type filters, paging)."""
+    return corpus_catalog.search(q, year, kind if kind in ("judgment", "statute") else None, max(0, offset), min(max(1, limit), 100))

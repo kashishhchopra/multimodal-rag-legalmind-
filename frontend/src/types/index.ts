@@ -186,3 +186,22 @@ export interface CompareResult {
   rows: CompareRow[];
   summary: Record<string, number>;
 }
+
+export interface CorpusEntry {
+  document_id: string;
+  kind: "judgment" | "statute";
+  title: string;
+  citation: string;
+  year: number;
+  court: string;
+  date: string;
+  pages: number;
+  chunks: number;
+}
+
+export interface CorpusPage {
+  total: number;
+  items: CorpusEntry[];
+  years: Record<string, number>;
+  totals: Record<string, number>;
+}

@@ -15,6 +15,7 @@ import AdminPanel from "./components/AdminPanel";
 import ComparePage from "./components/ComparePage";
 import SafetyPage from "./components/SafetyPage";
 import LoginPanel from "./components/LoginPanel";
+import CorpusLibrary from "./components/CorpusLibrary";
 import { api, auth } from "./services/api";
 import type { AdminStats, ChatMessage, DocumentInfo } from "./types";
 
@@ -61,6 +62,7 @@ export default function App() {
   const [sidebarHidden, setSidebarHidden] = useState(false);
   const [searchSeed, setSearchSeed] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [docView, setDocView] = useState<"mine" | "corpus">("mine");
   const pollRef = useRef<number | null>(null);
   const username = useMemo(usernameFromToken, [needLogin]);
 
@@ -140,7 +142,22 @@ export default function App() {
     }
   }, []);
 
+  const openCorpusDoc = useCallback(async (id: string) => {
+    setError(null);
+    try {
+      const doc = await api.getStatus(id);
+      setDocuments((prev) => (prev.some((d) => d.document_id === id) ? prev : [doc, ...prev]));
+      setActiveId(id);
+      setUploading(false);
+      setDocView("mine");
+      setPage("documents");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not open the document");
+    }
+  }, [setPage]);
+
   const goUpload = useCallback(() => {
+    setDocView("mine");
     setUploading(true);
     setPage("documents");
   }, []);
@@ -218,6 +235,16 @@ export default function App() {
     <OverviewPage documents={documents} activeDoc={activeDoc} stats={stats} health={health} username={username} onNavigate={setPage} onUpload={goUpload} />
   ) : page === "documents" ? (
     <div className="flex h-full flex-col">
+      <div className="flex gap-1 border-b border-slate-200/70 bg-white/60 px-8 pt-2 text-sm">
+        {(["mine", "corpus"] as const).map((v) => (
+          <button key={v} onClick={() => setDocView(v)} className={`px-3 py-2 ${docView === v ? "border-b-2 border-zinc-800 font-medium text-slate-900" : "text-slate-500"}`}>
+            {v === "mine" ? `Open documents (${documents.length})` : `Corpus library (${(stats?.corpus?.judgment?.documents ?? 0).toLocaleString()} judgments)`}
+          </button>
+        ))}
+      </div>
+      {docView === "corpus" ? (
+        <div className="min-h-0 flex-1"><CorpusLibrary onOpen={openCorpusDoc} /></div>
+      ) : (<>
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-200/70 bg-white/60 px-8 py-3">
         {documents.map((d) => (
           <span key={d.document_id} className={`group flex items-center gap-1 rounded-xl border px-3 py-1.5 text-sm ${d.document_id === activeId && !uploading ? "border-brand-500 bg-brand-50 text-brand-700" : "border-slate-200 bg-white text-slate-600 hover:border-brand-300"}`}>
@@ -241,6 +268,7 @@ export default function App() {
           </div>
         )}
       </div>
+      </>)}
     </div>
   ) : page === "insights" ? (
     activeDoc && activeDoc.stage === "ready" ? (
