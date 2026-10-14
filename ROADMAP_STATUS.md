@@ -62,6 +62,21 @@ Pair set: 32k pairs, but only 3.7k were Indian-law (adjacent-passage); the rest 
 
 The fine-tuned reranker is **far worse than no reranker on every benchmark** (AILA case docs R@5 0.207 hybrid -> 0.045 with the reranker; consumer-contracts R@5 0.856 -> 0.437). The cause is a training objective (adjacent-passage matching) that does not teach relevance to a question. Conclusion: neither trained model is adopted. **The app uses the base bge-small with hybrid BM25 search and no reranker.** LegalBench-RAG (privacy_qa/contractnli) was only run for the base model.
 
+## Large-scale training, second run (Indian-dominated pairs) - final verdict
+
+Training data: about 24 adjacent-passage pairs per judgment (about 35k Indian-law pairs) plus a few thousand CUAD/LEDGAR pairs. CPU time: embedder about 1 h, reranker about 6 h. Results (`backend/eval/results/timesplit_large2.json`, `ablation_large2.json`), new embedder `legal-bge-v2` vs base bge-small:
+
+| Test | Base | New embedder |
+|---|---|---|
+| Time-split 2024, dense MRR@10 | 0.870 | 0.890 |
+| AILA case docs, dense nDCG@10 | 0.235 | 0.199 |
+| AILA case docs, hybrid nDCG@10 | 0.271 | 0.251 |
+| AILA statutes, dense nDCG@10 | 0.230 | 0.272 |
+| LegalBench consumer-contracts QA, dense nDCG@10 | 0.734 | 0.569 |
+| LegalBench consumer-contracts QA, hybrid nDCG@10 | 0.748 | 0.667 |
+
+The new embedder wins on statutes and the (word-overlap-friendly) time-split, but loses clearly on case documents and on contracts. The new reranker (validation MRR 0.598 -> 0.870) lowers retrieval on every real test (time-split R@1 0.81 -> 0.39-0.45). **Decision: neither trained model is adopted. The app uses the base bge-small + BM25 hybrid, no reranker.** Honest conclusion for the report: self-supervised passage-adjacency training on Indian judgments does not transfer to question-style legal retrieval; the missing ingredient is real query-passage supervision (LLM-generated questions with a verified filter, IL-PCR/IL-TUR once access is granted).
+
 ## By roadmap section
 
 | Item | Status | Where |

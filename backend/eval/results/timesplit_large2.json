@@ -1,0 +1,98 @@
+{
+  "test_year": 2024,
+  "n_queries": 150,
+  "n_chunks": 9612,
+  "results": [
+    {
+      "config": "BM25",
+      "R@1": 0.96,
+      "R@5": 1.0,
+      "R@10": 1.0,
+      "MRR@10": 0.9769
+    },
+    {
+      "config": "dense BAAI/bge-small-en-v1.5",
+      "R@1": 0.8267,
+      "R@5": 0.9267,
+      "R@10": 0.9467,
+      "MRR@10": 0.8696
+    },
+    {
+      "config": "hybrid BAAI/bge-small-en-v1.5",
+      "R@1": 0.8067,
+      "R@5": 0.96,
+      "R@10": 0.98,
+      "MRR@10": 0.8737
+    },
+    {
+      "config": "hybrid+rerank(legal-reranker) BAAI/bge-small-en-v1.5",
+      "R@1": 0.3867,
+      "R@5": 0.84,
+      "R@10": 0.9867,
+      "MRR@10": 0.5837
+    },
+    {
+      "config": "dense app/models/legal-bge-v2-small",
+      "R@1": 0.8267,
+      "R@5": 0.9533,
+      "R@10": 0.96,
+      "MRR@10": 0.8825
+    },
+    {
+      "config": "hybrid app/models/legal-bge-v2-small",
+      "R@1": 0.8133,
+      "R@5": 0.9667,
+      "R@10": 0.9867,
+      "MRR@10": 0.8793
+    },
+    {
+      "config": "hybrid+rerank(legal-reranker) app/models/legal-bge-v2-small",
+      "R@1": 0.42,
+      "R@5": 0.86,
+      "R@10": 0.9867,
+      "MRR@10": 0.6079
+    },
+    {
+      "config": "dense app/models/legal-bge-v2-large1",
+      "R@1": 0.8067,
+      "R@5": 0.9267,
+      "R@10": 0.9467,
+      "MRR@10": 0.8576
+    },
+    {
+      "config": "hybrid app/models/legal-bge-v2-large1",
+      "R@1": 0.78,
+      "R@5": 0.96,
+      "R@10": 0.9867,
+      "MRR@10": 0.8652
+    },
+    {
+      "config": "hybrid+rerank(legal-reranker) app/models/legal-bge-v2-large1",
+      "R@1": 0.38,
+      "R@5": 0.82,
+      "R@10": 0.98,
+      "MRR@10": 0.5721
+    },
+    {
+      "config": "dense app/models/legal-bge-v2",
+      "R@1": 0.84,
+      "R@5": 0.9467,
+      "R@10": 0.9733,
+      "MRR@10": 0.8902
+    },
+    {
+      "config": "hybrid app/models/legal-bge-v2",
+      "R@1": 0.8067,
+      "R@5": 0.9733,
+      "R@10": 0.9867,
+      "MRR@10": 0.8866
+    },
+    {
+      "config": "hybrid+rerank(legal-reranker) app/models/legal-bge-v2",
+      "R@1": 0.4467,
+      "R@5": 0.8733,
+      "R@10": 0.9867,
+      "MRR@10": 0.6134
+    }
+  ]
+}
