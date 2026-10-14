@@ -13,8 +13,11 @@ Cards for models whose training has not run yet say so and carry no numbers.
 ## Provision classifier (LEDGAR): `.../ledgar.joblib`
 - Same architecture, 100 provision types from LexGLUE/LEDGAR (SEC filings). Test split 10,000: micro-F1 0.875, macro-F1 0.824. Not used in the app yet.
 
-## Risk rubric: `backend/app/legal/risk.py`
-- Rule layer (category base risk + regex red flags), not a trained model. **Draft: needs review by a qualified lawyer.** References Indian Contract Act ss. 27 and 74 in two rules.
+## Risk rubric ("issues to check"): `backend/app/legal/risk.py`
+- Rule layer (category priority + regex flags + document-level checks), not a trained model. It is a screening aid: each clause shows why it matters under Indian law, a *common negotiating position*, and, where it depends on whose side you are on, a perspective note.
+- **Provenance and status:** rewritten on 2026-10-15 from review comments supplied by the project owner (author not stated). The statute and case citations in them (for example Percept D'Mark, Fateh Chand, Kailash Nath, TRF v Energo) were **not independently verified** by the developer. **A qualified lawyer's sign-off is still required** before anyone relies on it; the app states "rules last reviewed 2026-10-15" and "not legal advice" on screen.
+- **Taxonomy limit:** the clause categories come from CUAD (US commercial contracts). Indian-specific checks (s.28 restraints, stamp duty/registration, unilateral arbitrator appointment, force majeure, s.12A mediation, forfeiture, DPDP) have no classifier behind them and run on keyword rules only, so they miss paraphrases and can fire on unrelated text.
+- Priority is not party-aware: the same clause can favour either side; read the perspective note.
 
 ## Embedder v1 `backend/app/models/legal-bge-finetuned` (pre-existing)
 - bge-small-en-v1.5 fine-tuned on synthetic legal documents. Reported 0.967 Recall@5 on the same synthetic distribution.

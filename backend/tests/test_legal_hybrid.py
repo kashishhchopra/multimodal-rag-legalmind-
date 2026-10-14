@@ -480,3 +480,19 @@ def test_answer_cleaning_and_cross_passage_support():
     # a sentence that combines two passages is supported; a numeric invention is still caught
     assert verify_answer("The appellant North Eastern Chemicals and the respondent Ashok Paper Mill appeal was allowed.", ev).status == "ok"
     assert verify_answer("The court awarded costs of 50,000 rupees to the respondent Ashok Paper Mill.", ev).status == "flagged"
+
+
+# ---- risk rubric after legal review comments ----
+def test_rubric_follows_review_comments():
+    from app.legal.risk import RUBRIC, assess, document_checks
+
+    assert "Dunlop" not in RUBRIC["Liquidated Damages"][1] and "ceiling" in RUBRIC["Liquidated Damages"][1]
+    assert "sale of goodwill" in RUBRIC["Non-Compete"][1] and RUBRIC["Non-Compete"][3]  # exception + perspective note present
+    assert assess("Governing Law", "The parties agree on an event venue for the annual meeting.").flags == []  # 'venue' alone no longer fires
+    r = assess("Governing Law", "The seat of arbitration shall be Delhi and the sole arbitrator shall be appointed by the Company.")
+    assert r.level == "high" and "unilateral arbitrator appointment" in r.flags and "arbitration seat/venue" in r.flags
+    assert assess("Covenant Not To Sue", "The Licensee waives its right to sue.").level == "high"
+    assert any("s.35" in n for n in assess("x", "Stamp duty shall be borne by the Buyer.").notes)
+    notes = document_checks("This Agreement is governed by Indian law. Courts at Delhi have exclusive jurisdiction.")
+    assert len(notes) == 3 and any("force majeure" in n for n in notes) and any("s.12A" in n for n in notes)
+    assert document_checks("Stamp duty paid. Force majeure applies. Disputes go to mediation first.") == []

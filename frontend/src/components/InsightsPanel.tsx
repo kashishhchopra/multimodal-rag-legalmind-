@@ -52,11 +52,21 @@ function Clauses({ documentId }: { documentId: string }) {
       <div className="flex gap-2 text-xs">
         {(["high", "medium", "low"] as const).map((l) => (
           <span key={l} className={`rounded-full border px-2.5 py-1 ${RISK_STYLE[l]}`}>
-            {data.summary[l]} {l}
+            {data.summary[l]} {l} priority
           </span>
         ))}
         <span className="ml-auto text-slate-400">{data.clauses.length} clauses detected</span>
       </div>
+      {data.document_notes && data.document_notes.length > 0 && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-800">
+          <div className="mb-1 font-semibold">Document-level points to check</div>
+          <ul className="list-disc space-y-1 pl-5">
+            {data.document_notes.map((n, i) => (
+              <li key={i}>{n}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       {data.clauses.length === 0 && (
         <p className="text-sm text-slate-500">No tracked clause types were detected in this document.</p>
       )}
@@ -65,20 +75,35 @@ function Clauses({ documentId }: { documentId: string }) {
           <div className="mb-1 flex items-center gap-2">
             <span className="font-semibold text-slate-800">{c.category}</span>
             <span className={`rounded-full border px-2 py-0.5 text-xs ${RISK_STYLE[c.risk_level]}`}>
-              {c.risk_level} risk
+              {c.risk_level} priority
             </span>
             <span className="ml-auto text-xs text-slate-400">page {c.page_number}</span>
           </div>
           <p className="line-clamp-3 text-slate-600">{c.text}</p>
           <p className="mt-2 text-xs text-slate-500">{c.risk_reason}</p>
+          {c.perspective && (
+            <p className="mt-1 text-xs text-slate-500">
+              <span className="font-medium">Depends on your side:</span> {c.perspective}
+            </p>
+          )}
           {c.suggested_edit && (
             <p className="mt-1 text-xs text-slate-500">
-              <span className="font-medium">Suggested edit:</span> {c.suggested_edit}
+              <span className="font-medium">Common negotiating position:</span> {c.suggested_edit}
             </p>
+          )}
+          {c.notes && c.notes.length > 0 && (
+            <ul className="mt-1.5 list-disc space-y-0.5 pl-5 text-xs text-amber-700">
+              {c.notes.map((n, i) => (
+                <li key={i}>{n}</li>
+              ))}
+            </ul>
           )}
         </div>
       ))}
-      <p className="text-xs text-slate-400">{data.disclaimer} The risk rubric is a draft pending legal review.</p>
+      <p className="text-xs text-slate-500">
+        {data.disclaimer} {data.rules_note} Rules last reviewed {data.rules_reviewed || "n/a"}. Categories come from a classifier trained on US contracts;
+        Indian-specific checks (s.28, stamp duty, arbitrator appointment, force majeure, s.12A) are keyword rules only.
+      </p>
     </div>
   );
 }
@@ -160,7 +185,7 @@ function Timeline({ documentId }: { documentId: string }) {
 export default function InsightsPanel({ documentId }: { documentId: string }) {
   const [tab, setTab] = useState<Tab>("clauses");
   const tabs: { id: Tab; label: string; icon: JSX.Element }[] = [
-    { id: "clauses", label: "Clauses & risk", icon: <ShieldAlert className="h-4 w-4" /> },
+    { id: "clauses", label: "Clauses & issues", icon: <ShieldAlert className="h-4 w-4" /> },
     { id: "summary", label: "Summary", icon: <Gavel className="h-4 w-4" /> },
     { id: "timeline", label: "Timeline", icon: <CalendarClock className="h-4 w-4" /> },
   ];

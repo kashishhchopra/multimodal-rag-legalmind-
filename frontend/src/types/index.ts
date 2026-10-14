@@ -91,6 +91,8 @@ export interface ClauseOut {
   risk_reason: string;
   suggested_edit: string;
   red_flags: string[];
+  perspective?: string;
+  notes?: string[];
 }
 
 export interface ClauseReport {
@@ -99,6 +101,9 @@ export interface ClauseReport {
   summary: { high: number; medium: number; low: number };
   disclaimer: string;
   warning?: string | null;
+  document_notes?: string[];
+  rules_reviewed?: string;
+  rules_note?: string;
 }
 
 export interface SummarySentence {

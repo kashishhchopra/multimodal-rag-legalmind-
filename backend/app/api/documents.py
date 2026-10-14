@@ -191,13 +191,17 @@ async def document_clauses(document_id: str, min_margin: float = 0.0) -> ClauseR
         ClauseOut(
             category=c.category, text=c.text, page_number=c.page_number, chunk_id=c.chunk_id,
             confidence_margin=c.margin, risk_level=c.risk.level, risk_reason=c.risk.reason,
-            suggested_edit=c.risk.suggestion, red_flags=c.risk.flags,
+            suggested_edit=c.risk.suggestion, red_flags=c.risk.flags, perspective=c.risk.perspective, notes=c.risk.notes,
         )
         for c in found
     ]
     summary = {lvl: sum(1 for c in out if c.risk_level == lvl) for lvl in ("high", "medium", "low")}
+    from ..legal import risk as risk_mod
+
     return ClauseReport(
         document_id=document_id, clauses=out, summary=summary,
+        document_notes=risk_mod.document_checks(" ".join(chunk["text"] for chunk in chunks)),
+        rules_reviewed=risk_mod.RULES_REVIEWED, rules_note=risk_mod.RULES_NOTE,
         warning=None if clause_mod.model_available() else "clause_model_missing: run scripts/train_clause_classifier.py",
     )
 

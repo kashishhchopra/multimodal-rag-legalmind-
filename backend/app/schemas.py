@@ -186,13 +186,18 @@ class ClauseOut(BaseModel):
     confidence_margin: float
     risk_level: str
     risk_reason: str
-    suggested_edit: str
+    suggested_edit: str            # shown in the UI as "common negotiating position"
     red_flags: list = Field(default_factory=list)
+    perspective: str = ""          # who benefits / is exposed, where it depends on the side you are on
+    notes: list = Field(default_factory=list)  # regex-triggered points to check
 
 
 class ClauseReport(BaseModel):
     document_id: str
     clauses: list  # list[ClauseOut]
     summary: dict
-    disclaimer: str = "Automated analysis for research support only; not legal advice. Review with a qualified lawyer."
+    disclaimer: str = "Informational screening, not legal advice. Review with a qualified lawyer."
     warning: Optional[str] = None
+    document_notes: list = Field(default_factory=list)  # points that arise from something being ABSENT from the document
+    rules_reviewed: str = ""
+    rules_note: str = ""
