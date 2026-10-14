@@ -418,3 +418,65 @@ def test_corpus_catalog_search_get_and_readonly(tmp_path, monkeypatch):
     finally:
         monkeypatch.delenv("CORPUS_DIR")
         corpus_catalog._load.cache_clear()
+
+
+# ---- answer context: full document, multi-query, no refusal for single-document questions ----
+class _RecordingLLM:
+    def __init__(self, plan='{"type": "overview", "queries": ["circuit resistor role", "transistor switching"]}'):
+        self.prompts, self.plan = [], plan
+
+    def generate(self, system, user, images, max_output_tokens=None):
+        if "prepare a question" in system:  # the planner call
+            return self.plan
+        self.prompts.append(user)
+        return "The document describes a circuit (Page 1)."
+
+
+def test_single_document_question_gets_whole_document_and_never_refuses(ingested_document, monkeypatch):
+    from app.services import llm as llm_module
+    from app.services import query_service
+    from app.config import get_settings
+    from app.retrieval import vector_store
+
+    fake = _RecordingLLM()
+    monkeypatch.setattr(llm_module, "get_provider", lambda: fake)
+    monkeypatch.setattr(get_settings(), "guard_min_top_score", 0.99)  # would refuse everything under the old gate
+    r = query_service.answer_question(ingested_document, "completely unrelated zebra question")
+    assert r.warning != "low_retrieval_confidence" and r.answer
+    n = len(vector_store.text_corpus(ingested_document)["ids"])
+    assert r.context_mode == "full_document" and r.context_chunks == n
+    prompt = fake.prompts[-1]
+    import re as _re
+    assert len(_re.findall(r"\[T\d+\]", prompt)) == n and "complete document" in prompt  # every passage reached the model
+
+
+def test_cross_document_search_still_gated(ingested_document, monkeypatch):
+    from app.config import get_settings
+    from app.services import llm as llm_module
+    from app.services import query_service
+
+    monkeypatch.setattr(llm_module, "get_provider", lambda: _RecordingLLM())
+    monkeypatch.setattr(get_settings(), "guard_min_top_score", 0.99)
+    r = query_service.answer_question(None, "zebra", top_k_text=5)
+    assert r.warning == "low_retrieval_confidence"
+
+
+def test_planner_parses_json_and_survives_garbage():
+    from app.services.question_judge import DEFAULT_PROFILE, plan_question
+
+    p, q = plan_question("list all the obligations", _RecordingLLM('Sure! {"type": "list", "queries": ["obligations of the parties", "shall"]} done'))
+    assert p.question_type.value == "list" and q == ["obligations of the parties", "shall"]
+    p, q = plan_question("x", _RecordingLLM("not json at all"))
+    assert p is DEFAULT_PROFILE and q == []
+
+
+def test_answer_cleaning_and_cross_passage_support():
+    from app.legal.verify import verify_answer
+    from app.services.query_service import _clean_answer
+
+    assert _clean_answer("Based on the retrieved evidence, the court allowed the appeal ([T1], Page 3; [T10], Page 5).") == "The court allowed the appeal (Page 3; Page 5)."
+    ev = [{"id": "a", "page": 1, "text": "The appellant is North Eastern Chemicals Industries Private Limited."},
+          {"id": "b", "page": 2, "text": "The respondent is Ashok Paper Mill Assam Limited and the appeal was allowed."}]
+    # a sentence that combines two passages is supported; a numeric invention is still caught
+    assert verify_answer("The appellant North Eastern Chemicals and the respondent Ashok Paper Mill appeal was allowed.", ev).status == "ok"
+    assert verify_answer("The court awarded costs of 50,000 rupees to the respondent Ashok Paper Mill.", ev).status == "flagged"

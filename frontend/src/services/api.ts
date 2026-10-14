@@ -93,6 +93,10 @@ export const api = {
     );
   },
 
+  async docType(documentId: string): Promise<{ prediction: { type: string } | null }> {
+    return handle(await fetch(`${BASE}/documents/${documentId}/type`));
+  },
+
   async corpusDocuments(params: { q?: string; year?: string; kind?: string; offset?: number; limit?: number }): Promise<CorpusPage> {
     const u = new URLSearchParams();
     if (params.q) u.set("q", params.q);

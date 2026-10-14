@@ -145,6 +145,9 @@ export interface QueryResponse {
   provider: string;
   warning: string;
   verification?: VerificationReport | null;
+  retrieval_question?: string;
+  context_mode?: "full_document" | "retrieved" | "";
+  context_chunks?: number;
 }
 
 export interface ChatMessage {

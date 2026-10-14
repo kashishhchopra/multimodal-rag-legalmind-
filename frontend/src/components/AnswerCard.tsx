@@ -8,6 +8,8 @@ const WARNINGS: Record<string, string> = {
   missing_api_key:
     "No LLM API key is configured, so this shows the retrieved evidence only. Set LLM_API_KEY in backend/.env for a full grounded answer.",
   llm_failed: "The LLM provider failed, so this shows the retrieved evidence only.",
+  llm_quota:
+    "The LLM's quota or rate limit is used up (free tiers allow only a few requests per day or minute). This shows the retrieved evidence only. Wait and retry, add credits, or switch LLM_MODEL / LLM_PROVIDER in backend/.env.",
   no_evidence: "No relevant evidence was found in this document for that question.",
   low_retrieval_confidence:
     "The best match in the document was too weak to answer reliably, so no answer was generated. Try rephrasing or naming a clause, section or party.",
@@ -131,6 +133,13 @@ export default function AnswerCard({
         <div className="whitespace-pre-wrap text-[15px] leading-relaxed text-slate-800">
           {response.answer}
         </div>
+        {response.context_mode && response.context_chunks ? (
+          <div className="mt-2 font-mono text-[11px] uppercase tracking-wider text-slate-400">
+            {response.context_mode === "full_document"
+              ? `Answered from the whole document · ${response.context_chunks} passages read`
+              : `Answered from the ${response.context_chunks} most relevant passages`}
+          </div>
+        ) : null}
         {response.warning && WARNINGS[response.warning] && (
           <div className="mt-3 flex items-start gap-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-700">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />

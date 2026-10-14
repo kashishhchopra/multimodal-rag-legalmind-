@@ -47,7 +47,7 @@ def split_claims(answer: str) -> List[str]:
     out = []
     for s in _SENT.split(answer):
         s = s.strip(" -•*\t")
-        if len(s.split()) < 5 or _DISCLAIMER.search(s) or _HEDGE.search(s):
+        if len(s.split()) < 5 or _DISCLAIMER.search(s) or _HEDGE.search(s) or re.fullmatch(r"[#*\s]*[A-Za-z ]{1,40}:?[*\s]*", s):
             continue
         out.append(s)
     return out
@@ -66,6 +66,7 @@ def verify_answer(
     if not claims or not evidence:
         return Verification(1.0, [], [], "no_claims")
     ev_tokens = [(e["id"], set(tokenize(e["text"])), e["text"].lower(), e.get("page")) for e in evidence]
+    all_tokens = set().union(*(ts for _, ts, _, _ in ev_tokens))
     all_text = " ".join(t for _, _, t, _ in ev_tokens)
     pages = {p for *_, p in ev_tokens if p is not None}
     checks: List[ClaimCheck] = []
@@ -77,6 +78,10 @@ def verify_answer(
             frac = len(words & ts) / len(words) if words else 1.0
             if frac > best:
                 best, best_id = frac, cid
+        # Good answers combine passages, so also measure against all the evidence together (slightly discounted). A claim
+        # that introduces words found nowhere in the document still scores low; numbers/sections/pages are checked strictly.
+        union = len(words & all_tokens) / len(words) if words else 1.0
+        best = max(best, 0.9 * union)
         missing = [n for n in _numbers(re.sub(r"\(?\bPages?\s+[\d,\s&-]+\)?", "", c, flags=re.I)) if n not in all_text]
         bad_pages = sorted({int(p) for m in _PAGE_REF.findall(c) for p in re.findall(r"\d+", m) if pages and int(p) not in pages})
         ok = best >= min_support and not missing and not bad_pages

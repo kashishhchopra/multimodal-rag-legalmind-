@@ -7,6 +7,7 @@ the *retrieval* half of the demo works without any API key (spec §16).
 from __future__ import annotations
 
 import logging
+import re
 import time
 from typing import List
 
@@ -17,12 +18,13 @@ from ..retrieval import vector_store
 from ..retrieval.retriever import MultimodalRetriever
 from ..legal import telemetry
 from ..legal.verify import retrieval_gate, verify_answer
-from ..schemas import ClaimVerification, QueryResponse, VerificationReport
+from ..schemas import Citation, ClaimVerification, QueryResponse, SourceKind, VerificationReport
 from ..utils.errors import LLMError, MissingAPIKeyError
 from . import conversation
 from . import llm as llm_module
 from .prompts import SYSTEM_PROMPT, build_user_prompt
-from .question_judge import DEFAULT_PROFILE, judge_question
+from .context import build_context, document_rows, fits_whole, fuse_hits, top_evidence
+from .question_judge import heuristic_profile, plan_question
 
 logger = logging.getLogger("mmrag.query")
 
@@ -71,104 +73,125 @@ def _answer_question(
     document_id, question, top_k_text, top_k_visual, filters, history, plain_english, language
 ) -> QueryResponse:
     settings = get_settings()
-    try:  # an LLM is optional for rewriting/translation: heuristics apply without one
-        helper = llm_module.get_provider() if (history or conversation.is_hindi(question)) else None
+    try:  # one provider for planning, rewriting, translation and the answer; none -> heuristics + evidence-only
+        provider = llm_module.get_provider()
     except (MissingAPIKeyError, LLMError):
-        helper = None
-    retrieval_q = conversation.rewrite_followup(question, [h if isinstance(h, dict) else h.model_dump() for h in (history or [])], helper)
-    retrieval_q = conversation.to_english(retrieval_q, helper)
+        provider = None
+    hist = [h if isinstance(h, dict) else h.model_dump() for h in (history or [])]
+    retrieval_q = conversation.rewrite_followup(question, hist, provider)
+    retrieval_q = conversation.to_english(retrieval_q, provider)
     if conversation.is_hindi(question):
         language = "hi"
-    result = _retriever.retrieve(document_id, retrieval_q, top_k_text, top_k_visual, filters)
 
+    # LLM quota is scarce on free tiers (Gemini's is ~20 requests/day for some models), so spend ONE call per question when
+    # possible. A document that fits the context budget is sent whole: no multi-query search is needed and the answer style
+    # comes from the wording. Only large documents / corpus-wide search pay for a planning call (type + alternative queries).
+    rows = document_rows(document_id) if document_id else None
+    if rows is not None and fits_whole(rows):
+        profile, extra = heuristic_profile(retrieval_q), []
+    elif provider is not None:
+        profile, extra = plan_question(retrieval_q, provider)
+    else:
+        profile, extra = heuristic_profile(retrieval_q), []
+    queries = list(dict.fromkeys([retrieval_q, *extra]))[:4]
+
+    result = _retriever.retrieve(document_id, retrieval_q, top_k_text, top_k_visual, filters)  # visuals, grounding, base text
+    hits = fuse_hits(_retriever, queries, settings.context_top_k, document_id, filters)
+    context, mode = build_context(document_id, hits, profile.question_type.value, rows)
+
+    # The evidence list/citations shown to the user = the most relevant passages across all queries.
+    shown = top_evidence(hits, 8) or result.text_evidence
+    citations = [c for c in result.citations if c.kind != SourceKind.TEXT] + [
+        Citation(kind=SourceKind.TEXT, source_id=t.chunk_id, page_number=t.page_number, label=f"Page {t.page_number}", score=t.score, snippet=t.text[:180])
+        for t in shown
+    ]
     response = QueryResponse(
-        question=question,
-        answer="",
-        citations=result.citations,
-        text_evidence=result.text_evidence,
-        visual_evidence=result.visual_evidence,
-        combined_confidence=result.combined_confidence,
-        provider=settings.llm_provider,
-        retrieval_question=retrieval_q if retrieval_q != question else "",
+        question=question, answer="", citations=citations, text_evidence=shown, visual_evidence=result.visual_evidence,
+        combined_confidence=result.combined_confidence, provider=settings.llm_provider,
+        retrieval_question=retrieval_q if retrieval_q != question else "", context_mode=mode, context_chunks=len(context),
     )
 
-    # No evidence at all → be honest.
-    if not result.text_evidence and not result.visual_evidence:
+    if not context and not result.visual_evidence:
         response.answer = (
-            "I couldn't find any relevant text or visual evidence in this document "
-            "for that question. Try rephrasing, or ask about content you know is in the file."
+            "I couldn't find any text in the index for that question. Try rephrasing, or check that the document finished processing."
         )
         response.warning = "no_evidence"
         return response
 
-    if settings.guard_enabled and result.text_evidence and not retrieval_gate(
-        [t.score for t in result.text_evidence], settings.guard_min_top_score
-    ):
-        # Weak retrieval: say so instead of letting the LLM improvise from irrelevant text.
-        logger.info("guard refused: top score %.3f < %.2f", max(t.score for t in result.text_evidence), settings.guard_min_top_score)
+    # The retrieval gate only protects cross-document search; for a question about ONE document the LLM is shown that
+    # document's text (whole, or the best parts) and decides for itself whether it answers the question.
+    if settings.guard_enabled and document_id is None and shown and not retrieval_gate([t.score for t in shown], settings.guard_min_top_score):
+        logger.info("guard refused cross-document query: top score %.3f < %.2f", max(t.score for t in shown), settings.guard_min_top_score)
         response.answer = (
-            "I could not find sufficiently relevant evidence in the indexed text to answer this reliably. "
-            "Try rephrasing, naming the section/clause or party, or narrowing the filters."
+            "I could not find sufficiently relevant passages in the corpus to answer this reliably. "
+            "Try rephrasing, naming the section, clause or party, or narrowing the filters."
         )
         response.warning = "low_retrieval_confidence"
         response.verification = VerificationReport(status="refused", support_ratio=0.0)
         return response
 
+    if provider is None:
+        response.answer = _evidence_only_answer(result, shown)
+        response.warning = "missing_api_key"
+        return response
     try:
-        provider = llm_module.get_provider()
-
-        # Judge the question's shape (overview/factual/list/analytical/yes-no)
-        # so the real answer is calibrated to what was actually asked instead
-        # of every question getting the same generic treatment. A failure
-        # here must never break answer generation, so it's isolated from the
-        # main try/except below and always yields a usable profile.
-        try:
-            profile = judge_question(question, provider)
-        except Exception as exc:  # pragma: no cover - defensive, judge_question already catches internally
-            logger.warning("Unexpected error judging question, using default profile: %s", exc)
-            profile = DEFAULT_PROFILE
-
+        note = ("the complete document, in reading order" if mode == "full_document"
+                else f"the {len(context)} passages most relevant to the question, with their neighbouring passages, in reading order")
         user_prompt = build_user_prompt(
-            retrieval_q if language != "hi" else question, result.text_evidence, result.visual_evidence,
-            (profile.length_instruction + " " + conversation.style_instruction(plain_english, language)).strip(),
+            retrieval_q if language != "hi" else question, context, result.visual_evidence,
+            (profile.length_instruction + " " + conversation.style_instruction(plain_english, language)).strip(), note,
         )
         images = _load_visual_images([v.visual_id for v in result.visual_evidence])
-        response.answer = provider.generate(
-            SYSTEM_PROMPT, user_prompt, images, max_output_tokens=profile.max_output_tokens
-        )
+        response.answer = _clean_answer(provider.generate(SYSTEM_PROMPT, user_prompt, images, max_output_tokens=profile.max_output_tokens))
         if settings.guard_enabled:
             v = verify_answer(
                 response.answer,
-                [{"id": t.chunk_id, "text": t.text, "page": t.page_number} for t in result.text_evidence],
+                [{"id": t.chunk_id, "text": t.text, "page": t.page_number} for t in context],
                 settings.guard_min_claim_support,
             )
             response.verification = VerificationReport(
                 status=v.status, support_ratio=v.support_ratio, unsupported=v.unsupported,
                 claims=[ClaimVerification(**c.__dict__) for c in v.claims],
             )
-            if v.status == "flagged" and not response.warning:
+            if v.status == "flagged" and v.support_ratio < 0.6 and not response.warning:  # a few paraphrase flags are normal
                 response.warning = "unsupported_claims"
     except MissingAPIKeyError:
-        response.answer = _evidence_only_answer(result)
+        response.answer = _evidence_only_answer(result, shown)
         response.warning = "missing_api_key"
     except LLMError as exc:
         logger.error("LLM failed: %s", exc)
-        response.answer = _evidence_only_answer(result)
-        response.warning = "llm_failed"
+        response.answer = _evidence_only_answer(result, shown)
+        quota = any(t in str(exc).lower() for t in ("429", "quota", "resource_exhausted", "rate limit", "insufficient"))
+        response.warning = "llm_quota" if quota else "llm_failed"
 
     return response
 
 
-def _evidence_only_answer(result) -> str:
+_LABEL = re.compile(r"\[(?:T|V)\d+\]\s*[;,]?\s*")
+_PREFACE = re.compile(r"^(?:based on|according to) the (?:retrieved |supplied |provided )?(?:text )?evidence\s*[:,]\s*", re.I)
+
+
+def _clean_answer(text: str) -> str:
+    """Remove internal evidence labels ([T3]) the model sometimes echoes, and a filler first clause."""
+    text = _LABEL.sub("", text)
+    text = re.sub(r"\(\s*[;,]\s*", "(", text)      # "(, Page 3" left after a leading label
+    text = re.sub(r"\s*[;,]\s*\)", ")", text)      # "Page 3; )" left after a trailing label
+    text = re.sub(r"\(\s*\)", "", text)            # citations that only held a label
+    text = _PREFACE.sub("", text.strip())
+    return text[:1].upper() + text[1:] if text else text
+
+
+def _evidence_only_answer(result, shown=None) -> str:
     """Fallback shown when no LLM is available: summarise the retrieved evidence."""
     lines = [
         "⚠️ No LLM answer was generated (the API key is missing or the provider "
         "failed), but here is the multimodal evidence the retriever found:",
         "",
     ]
-    if result.text_evidence:
+    texts = shown or result.text_evidence
+    if texts:
         lines.append("Relevant text:")
-        for t in result.text_evidence[:3]:
+        for t in texts[:3]:
             lines.append(f"  • (Page {t.page_number}) {t.text[:200]}")
     if result.visual_evidence:
         lines.append("")

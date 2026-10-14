@@ -58,6 +58,11 @@ class Settings(BaseSettings):
     hybrid_candidates: int = Field(default=30)  # per-ranker pool fed into the fusion
     expand_legal_sections: bool = Field(default=True)  # Section 420 IPC -> also BNS 318(4)
 
+    # ---- Answer context (how much of the document the LLM sees) ----
+    context_full_doc_chars: int = Field(default=150_000)   # a document up to this size is given to the LLM whole for broad/weak questions
+    context_retrieved_chars: int = Field(default=60_000)   # budget when only the relevant parts are sent
+    context_top_k: int = Field(default=16)                 # passages kept from the fused multi-query search (plus their neighbours)
+
     # ---- Hallucination guard ----
     guard_enabled: bool = Field(default=True)
     guard_min_top_score: float = Field(default=0.30)   # best chunk cosine below this -> refuse before calling the LLM

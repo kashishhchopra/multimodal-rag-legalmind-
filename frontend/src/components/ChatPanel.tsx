@@ -2,15 +2,43 @@ import { useEffect, useRef, useState } from "react";
 import { Send, Loader2, User, Bot } from "lucide-react";
 import type { ChatMessage } from "../types";
 import AnswerCard from "./AnswerCard";
+import { api } from "../services/api";
 
-const EXAMPLES = [
-  "Who are the parties to this agreement and what is the effective date?",
-  "What does the Termination clause say?",
-  "What was the court's holding and what relief was granted?",
-  "What is the monthly rent and security deposit in the key-terms table?",
-  "Explain the Indemnification clause in plain language.",
-  "What does Section 73 of the General Contract Code say about damages?",
-];
+// Starter questions are only prompts to click: every answer is generated from the document's own text.
+const EXAMPLES: Record<string, string[]> = {
+  judgment: [
+    "Summarise this judgment.",
+    "What were the facts of the case?",
+    "What legal issues did the court decide?",
+    "What was the court's final order and relief?",
+    "Which statutes and precedents did the court rely on?",
+    "What reasoning did the court give for its decision?",
+  ],
+  contract: [
+    "Summarise this agreement.",
+    "Who are the parties and what is the effective date?",
+    "What are the termination provisions?",
+    "What are the liability and indemnity terms?",
+    "Which clauses carry the most risk?",
+    "What are the payment terms?",
+  ],
+  statute: [
+    "Summarise this Act or chapter.",
+    "What offences or obligations does it create?",
+    "What definitions does it set out?",
+    "What penalties are provided?",
+    "Which authorities does it empower, and how?",
+    "What exceptions or provisos does it contain?",
+  ],
+  default: [
+    "Summarise this document.",
+    "What are the key points?",
+    "Who is involved (parties, court, authorities)?",
+    "What are the important dates and deadlines?",
+    "What are the main obligations or findings?",
+    "What conclusions or outcomes does it state?",
+  ],
+};
 
 export default function ChatPanel({
   documentId,
@@ -30,6 +58,19 @@ export default function ChatPanel({
   const [hindi, setHindi] = useState(false);
   const opts = { plainEnglish: plain, language: (hindi ? "hi" : "en") as "en" | "hi" };
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [docKind, setDocKind] = useState("default");
+
+  useEffect(() => {
+    let live = true;
+    setDocKind("default");
+    api
+      .docType(documentId)
+      .then((r) => live && r.prediction && setDocKind(EXAMPLES[r.prediction.type] ? r.prediction.type : "default"))
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, [documentId]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,10 +90,10 @@ export default function ChatPanel({
           <div className="mx-auto max-w-xl pt-6 text-center">
             <h3 className="text-base font-semibold text-slate-700">Ask about this document</h3>
             <p className="mt-1 text-sm text-slate-500">
-              Questions can reference clauses, parties, tables, seals or signatures.
+              Ask anything: answers are written from the document's own text, with page citations.
             </p>
             <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {EXAMPLES.map((ex) => (
+              {EXAMPLES[docKind].map((ex) => (
                 <button
                   key={ex}
                   onClick={() => onSend(ex, opts)}

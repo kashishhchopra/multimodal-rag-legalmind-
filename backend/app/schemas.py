@@ -167,6 +167,8 @@ class QueryResponse(BaseModel):
     warning: str = ""                    # e.g. "LLM key missing — evidence only"
     verification: Optional[VerificationReport] = None
     retrieval_question: str = ""         # the standalone/translated question actually used for retrieval
+    context_mode: str = ""               # "full_document" | "retrieved": how much of the document the LLM was shown
+    context_chunks: int = 0              # number of passages given to the LLM
 
 
 class SearchRequest(BaseModel):
