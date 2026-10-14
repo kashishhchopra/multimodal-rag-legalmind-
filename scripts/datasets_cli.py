@@ -144,7 +144,8 @@ def fetch_hf(ds: dict, max_gb: float, sample_rows: int) -> None:
         print(f"sample ok {out}")
         return
     # Prefer the auto-converted parquet branch: script-only datasets (e.g. CUAD) have no data files on main.
-    for rev in ("refs/convert/parquet", None):
+    # filtered downloads name real repo paths, which only exist on main (the auto-converted parquet branch has other paths)
+    for rev in ((None,) if a.get("allow_patterns") else ("refs/convert/parquet", None)):
         try:
             size = hf_size(repo, rev)
         except requests.HTTPError:

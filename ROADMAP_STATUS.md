@@ -112,8 +112,8 @@ Limits: 16 questions is a smoke test, not a benchmark; the checks are reference-
 | 6.1/6.2 Training pairs, embedder v2, reranker | **Done at CPU scale** (results above; no real gain from the embedder, reranker not usable as-is) | `backend/scripts/`, `scripts/post_ingest_pipeline.sh`, `scripts/pipeline_part2.sh` |
 | 6.5 Synthetic stamps, detector | **Trained** (YOLO11n, CPU, 35 min): mAP@0.5 0.989 on held-out *synthetic* pages (optimistic); 4 of 120 real unstamped SC pages triggered a detection. Needs real annotated scans for an honest score; not yet used in the live visual-grounding path | `scripts/vision/`, `docs/MODEL_CARDS.md` |
 | 8.x Retrieval ablation, time-split eval, LegalBench-RAG harness, answer eval | Ablation and time-split run (above); LegalBench-RAG run in progress; answer eval needs a working LLM key | `backend/eval/` |
-| 3.x IL-TUR (includes IL-PCR, ILDC, NER, rhetorical roles, statute ID) | **Gated on Hugging Face: you must request access** | |
-| 3.x Aalap | Gated on Hugging Face (401) | |
+| 3.x IL-TUR (includes IL-PCR, ILDC, NER, rhetorical roles, statute ID) | **Access requested; approval still pending** (manual gating: data files return 403 until the lab approves; the public README download is misleading). Re-run `python scripts/datasets_cli.py fetch il_tur` once approved | |
+| 3.x Aalap | **Downloaded** (22,272 instruction examples; licence "other", check before redistributing). It is a generation-tuning set (clause generation, issue/summary/argument generation, MCQ), useful for fine-tuning a generator (needs a GPU), not directly for retrieval training. About 1.3k issue/summary examples could be turned into query-passage pairs | `data_lake/hf/opennyaiorg__aalap_instruction_dataset` |
 | 3.x India Code Acts: Companies, RERA, Consumer Protection, Arbitration, Transfer of Property | Official URLs found but downloads failed (504 or blocked); retry later or download manually | |
 | Docs | Model cards, dataset card, architecture diagram | `docs/`, README |
 
