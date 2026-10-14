@@ -140,6 +140,27 @@ def build_where(document_id: Optional[str] = None, filters: Optional[Dict] = Non
     return conds[0] if len(conds) == 1 else {"$and": conds}
 
 
+def _hits(ids, distances_or_sims, metadatas, documents, is_distance: bool) -> List[Dict]:
+    out: List[Dict] = []
+    for i, _id in enumerate(ids):
+        sim = 1.0 - float(distances_or_sims[i]) if is_distance else float(distances_or_sims[i])
+        out.append({"id": _id, "score": max(0.0, min(1.0, sim)), "metadata": metadatas[i] or {}, "document": documents[i] or ""})
+    return out
+
+
+def _exact_query(collection_name: str, embedding: np.ndarray, k: int, where: Optional[Dict]) -> List[Dict]:
+    """Exact cosine search among the vectors matching `where` (used for a single document: a few hundred vectors at most).
+    The approximate HNSW search with a very selective filter on a large index can fail ('ef or M is too small') or miss
+    results, and an exact scan of one document is cheap and always complete."""
+    got = _collection(collection_name).get(where=where, include=["embeddings", "documents", "metadatas"])
+    embs = got["embeddings"]
+    if got["ids"] is None or len(got["ids"]) == 0 or embs is None:
+        return []
+    sims = np.asarray(embs, dtype=np.float32) @ np.asarray(embedding, dtype=np.float32)
+    top = np.argsort(-sims)[: max(1, k)]
+    return _hits([got["ids"][i] for i in top], [sims[i] for i in top], [got["metadatas"][i] for i in top], [got["documents"][i] for i in top], False)
+
+
 def _query(
     collection_name: str,
     embedding: np.ndarray,
@@ -147,36 +168,26 @@ def _query(
     document_id: Optional[str],
     filters: Optional[Dict] = None,
 ) -> List[Dict]:
+    where = build_where(document_id, filters)
     try:
-        kwargs = {"where": w} if (w := build_where(document_id, filters)) else {}
-        res = _collection(collection_name).query(
-            query_embeddings=[embedding.tolist()],
-            n_results=max(1, k),
-            **kwargs,
-        )
+        if document_id:
+            return _exact_query(collection_name, embedding, k, where)
+        n = max(1, k)
+        while True:
+            try:
+                kwargs = {"where": where} if where else {}
+                res = _collection(collection_name).query(query_embeddings=[embedding.tolist()], n_results=n, **kwargs)
+                break
+            except Exception as exc:  # noqa: BLE001
+                if n > 1 and ("contigious" in str(exc) or "ef or M" in str(exc)):
+                    n = max(1, n // 2)  # a selective filter on a big index: ask for fewer results rather than fail
+                    continue
+                raise
     except Exception as exc:
         raise VectorStoreError(f"Query on '{collection_name}' failed: {exc}") from exc
-
-    hits: List[Dict] = []
     if not res or not res.get("ids") or not res["ids"][0]:
-        return hits
-    ids = res["ids"][0]
-    distances = res["distances"][0]
-    metadatas = res["metadatas"][0]
-    documents = res["documents"][0]
-    for i, _id in enumerate(ids):
-        # cosine distance -> similarity in [0,1] (clamped)
-        sim = 1.0 - float(distances[i])
-        sim = max(0.0, min(1.0, sim))
-        hits.append(
-            {
-                "id": _id,
-                "score": sim,
-                "metadata": metadatas[i] or {},
-                "document": documents[i] or "",
-            }
-        )
-    return hits
+        return []
+    return _hits(res["ids"][0], res["distances"][0], res["metadatas"][0], res["documents"][0], True)
 
 
 def query_text(

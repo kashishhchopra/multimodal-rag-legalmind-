@@ -496,3 +496,17 @@ def test_rubric_follows_review_comments():
     notes = document_checks("This Agreement is governed by Indian law. Courts at Delhi have exclusive jurisdiction.")
     assert len(notes) == 3 and any("force majeure" in n for n in notes) and any("s.12A" in n for n in notes)
     assert document_checks("Stamp duty paid. Force majeure applies. Disputes go to mediation first.") == []
+
+
+def test_single_document_search_is_exact_and_matches_ann(ingested_document):
+    import numpy as np
+
+    from app.models import embeddings
+    from app.retrieval import vector_store
+
+    q = embeddings.embed_text_query("current limiting resistor R1")
+    exact = vector_store.query_text(q, 3, ingested_document)            # exact path (document scope)
+    assert exact and all(0.0 <= h["score"] <= 1.0 for h in exact)
+    assert [h["score"] for h in exact] == sorted((h["score"] for h in exact), reverse=True)
+    corpus_wide = vector_store.query_text(q, 3, None)                   # approximate path (no document scope)
+    assert exact[0]["id"] in {h["id"] for h in corpus_wide}
