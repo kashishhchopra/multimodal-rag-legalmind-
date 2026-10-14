@@ -30,7 +30,7 @@ def main() -> None:
 
     model = YOLO(args.base)
     model.train(data=str(args.data), epochs=args.epochs, imgsz=args.imgsz, batch=args.batch, device=args.device,
-                project=str(args.out.resolve().parent), name=args.out.name, exist_ok=True, workers=2, verbose=False)
+                project=str(args.out.resolve().parent), name=args.out.name, exist_ok=True, workers=0, verbose=False)
     best = args.out / "weights" / "best.pt"
     report = {}
     for tag, data in (("synthetic_val", args.data), ("real", args.real_data)):

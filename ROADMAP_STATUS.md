@@ -94,7 +94,7 @@ The new embedder wins on statutes and the (word-overlap-friendly) time-split, bu
 | Follow-ups, plain-English mode, Hindi mode | Done via the configured LLM (translate-then-retrieve). **IndicTrans2 not used or compared** | `backend/app/services/conversation.py` |
 | Frontend: search view, insights tabs, verification, feedback, memo buttons, mode toggles | Done | `frontend/src/components/` |
 | 6.1/6.2 Training pairs, embedder v2, reranker | **Done at CPU scale** (results above; no real gain from the embedder, reranker not usable as-is) | `backend/scripts/`, `scripts/post_ingest_pipeline.sh`, `scripts/pipeline_part2.sh` |
-| 6.5 Synthetic stamps, detector | 1,500 images generated; **training not run** | `scripts/vision/` |
+| 6.5 Synthetic stamps, detector | **Trained** (YOLO11n, CPU, 35 min): mAP@0.5 0.989 on held-out *synthetic* pages (optimistic); 4 of 120 real unstamped SC pages triggered a detection. Needs real annotated scans for an honest score; not yet used in the live visual-grounding path | `scripts/vision/`, `docs/MODEL_CARDS.md` |
 | 8.x Retrieval ablation, time-split eval, LegalBench-RAG harness, answer eval | Ablation and time-split run (above); LegalBench-RAG run in progress; answer eval needs a working LLM key | `backend/eval/` |
 | 3.x IL-TUR (includes IL-PCR, ILDC, NER, rhetorical roles, statute ID) | **Gated on Hugging Face: you must request access** | |
 | 3.x Aalap | Gated on Hugging Face (401) | |

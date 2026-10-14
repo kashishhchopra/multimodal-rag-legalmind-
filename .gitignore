@@ -52,3 +52,4 @@ legalmind/data/scanned/*
 
 backend/app/models/clause_classifier/*.joblib
 backend/app/models/doctype_router/*.joblib
+backend/app/models/stamp_detector/

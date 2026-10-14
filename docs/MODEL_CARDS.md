@@ -23,5 +23,9 @@ Cards for models whose training has not run yet say so and carry no numbers.
 ## Embedder v2, reranker (`legal-bge-v2`, `legal-reranker`)
 - Training scripts written (`finetune_embedder_v2.py`, `finetune_reranker.py`); results are written to `training_report.json` in each model folder and to `eval/results/timesplit.json` once `scripts/post_ingest_pipeline.sh` has run. **No numbers yet.**
 
-## Stamp / signature detector
-- Training script and 1,500-image synthetic set exist (`scripts/vision/`); **not trained yet**. Synthetic validation will be optimistic; a real annotated scan set is required for an honest number.
+## Stamp / signature detector: `backend/app/models/stamp_detector/weights/best.pt`
+- **What:** YOLO11n fine-tuned for 10 epochs on CPU (35 min) on 1,348 synthetic pages: procedurally generated stamps/seals and signatures (random shape, text, ink, rotation, blur, noise) composited on real Supreme Court page renders and blank pages (`scripts/vision/make_synthetic_stamps.py`). Classes: stamp, signature.
+- **Result on 152 held-out synthetic pages (227 objects):** mAP@0.5 0.989 (stamp 0.994, signature 0.984), mAP@0.5-0.95 0.813. **Optimistic**: the test pages come from the same generator as the training pages.
+- **Real-page check (the only one so far):** on 120 real Supreme Court pages from judgments it never saw (digital PDFs, no stamps expected), it fired on 4 pages (1 stamp, 3 signature boxes; at confidence 0.25). I did not verify whether those are false positives, since judgments can carry real signature blocks. This says nothing about recall on real scanned stamps.
+- **Missing for an honest score:** real annotated scans (Tobacco-800, Roboflow/Kaggle stamp sets, or about 100 hand-annotated pages). Not wired into the live grounding path yet.
+- **Reproduce:** `scripts/vision/make_synthetic_stamps.py -n 1500` then `scripts/vision/train_detector.py --epochs 10 --imgsz 512 --batch 8 --device cpu` (needs `ultralytics`).
