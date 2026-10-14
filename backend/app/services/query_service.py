@@ -137,9 +137,10 @@ def _answer_question(
     try:
         note = ("the complete document, in reading order" if mode == "full_document"
                 else f"the {len(context)} passages most relevant to the question, with their neighbouring passages, in reading order")
+        labels = _source_labels(context) if document_id is None else None  # corpus-wide: say which document each passage is from
         user_prompt = build_user_prompt(
             retrieval_q if language != "hi" else question, context, result.visual_evidence,
-            (profile.length_instruction + " " + conversation.style_instruction(plain_english, language)).strip(), note,
+            (profile.length_instruction + " " + conversation.style_instruction(plain_english, language)).strip(), note, labels,
         )
         images = _load_visual_images([v.visual_id for v in result.visual_evidence])
         response.answer = _clean_answer(provider.generate(SYSTEM_PROMPT, user_prompt, images, max_output_tokens=profile.max_output_tokens))
@@ -165,6 +166,19 @@ def _answer_question(
         response.warning = "llm_quota" if quota else "llm_failed"
 
     return response
+
+
+def _source_labels(context) -> dict:
+    """document_id -> short human label (case citation / title / act name) for cross-document answers."""
+    from ..legal import corpus_catalog
+
+    out = {}
+    for t in context:
+        d = t.document_id
+        if d and d not in out:
+            e = corpus_catalog._load().get(d)
+            out[d] = (e["citation"] if e and e["kind"] == "judgment" and e["citation"] else e["title"] if e else d)[:60]
+    return out
 
 
 _LABEL = re.compile(r"\[(?:T|V)\d+\]\s*[;,]?\s*")

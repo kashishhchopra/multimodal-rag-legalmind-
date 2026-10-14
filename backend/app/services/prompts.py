@@ -32,7 +32,9 @@ Follow these rules strictly:
    document only partly answers it, give the part it does answer and state precisely what is missing. Say the
    document does not address something only after checking all the supplied evidence.
 5. Cite the relevant page, clause, section, or figure when you use a piece of evidence, in the form
-   "(Page 3)" or "(Page 3, para 12)". Never print the internal evidence labels such as [T1] or [V2], and do not
+   "(Page 3)" or "(Page 3, para 12)". When an evidence line names its source before the page, for example
+   "[T4] (2023 INSC 1059, Page 5)", cite the source too: "(2023 INSC 1059, Page 5)", so the reader knows which
+   document each point comes from. Never print the internal evidence labels such as [T1] or [V2], and do not
    begin with filler such as "Based on the retrieved evidence": start directly with the answer.
 6. Explain visual information clearly and, when both text and image are relevant,
    combine them into one coherent explanation.
@@ -54,6 +56,7 @@ def build_user_prompt(
     visual_evidence: List[RetrievedVisual],
     length_instruction: str,
     context_note: str = "",
+    source_labels: dict | None = None,
 ) -> str:
     """Assemble the textual portion of the prompt. Images are attached separately."""
     lines: List[str] = []
@@ -61,7 +64,8 @@ def build_user_prompt(
     lines.append("TEXT EVIDENCE:" + (f" ({context_note})" if context_note else ""))
     if text_evidence:
         for i, t in enumerate(text_evidence, 1):
-            lines.append(f"[T{i}] (Page {t.page_number}) {t.text}")
+            src = (source_labels or {}).get(t.document_id)
+            lines.append(f"[T{i}] ({src + ', ' if src else ''}Page {t.page_number}) {t.text}")
     else:
         lines.append("(no text evidence retrieved)")
 

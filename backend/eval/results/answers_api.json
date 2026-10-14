@@ -1,0 +1,200 @@
+{
+  "summary": {
+    "questions": 16,
+    "llm_answered": 16,
+    "cited_rate": 1.0,
+    "facts_correct": "4/4",
+    "honest_non_answers": "2/2",
+    "mean_claim_support": 0.777,
+    "latency_p50_s": 5.0,
+    "latency_p95_s": 8.3,
+    "context_modes": {
+      "retrieved": 4,
+      "full_document": 12
+    }
+  },
+  "results": [
+    {
+      "question": "Who are the parties to this agreement and what is the effective date?",
+      "document_id": "sample_sample_nda_agreement",
+      "latency_s": 7.9,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.75,
+      "answer": "The parties to this agreement are Nova Fintech Pvt. Ltd. (\"Party A\") and Aditya Rao (\"Party B\"), and the effective date of the agreement is 01-01-2021 (Page 1, para 1; Page 1 Table; Page 4). \n\nAdditional supporting details from the retrieved evidence include:\n- **Execution and Signatures:** The agreement was executed by both parties as of the Effective Date, as shown by the text and signatures for \"Nova Fintech Pvt. Ltd. (Party A)\" and \"Aditya Rao (Party B)\" on the final page (Page 4). Additionally, visual evidence displays signature blocks labeled with the name \"Aditya Rao\" (Image 2) and \"Nova Fintech Pvt. Ltd.\" (Image 3).\n- **Term and Termination:** The agreement commences on the Effective Date (01-01-2021) and continues in force until terminated in accordance with Clause 4, which permits either party to terminate for convenience upon thirty (30) days' prior written notice or immediately upon a material breach left uncured for fifteen (15) days (Page 2, para 4 & 7).\n- **Key Terms:** The agreement's governing law is the laws of India with courts at Delhi, the arbitration seat is Delhi, and the term of confidentiality is 3 years from disclosure (Page 1, para 1 & Table p1).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "What happens if either party wants to end this agreement early?",
+      "document_id": "sample_sample_nda_agreement",
+      "latency_s": 7.7,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.8,
+      "answer": "Either party may terminate the agreement early under Clause 4 (\"Term and Termination\"), which allows for early termination either for convenience or for a material breach (Page 2, Clause 4). \n\nThe specific conditions and procedures for early termination are as follows:\n- **Termination for Convenience:** Either Party may terminate the agreement for convenience upon providing thirty (30) days' prior written notice to the other Party (Page 2, Clause 4).\n- **Termination for Material Breach:** Either Party may terminate the agreement immediately upon written notice if the other Party commits a material breach of the agreement that remains uncured for fifteen (15) days after receiving written notice of such breach (Page 2, Clause 4).\n- **Survival of Obligations:** The agreement notes under Clause 5 (\"Confidentiality\") that confidentiality obligations survive the termination of the agreement for a period of three (3) years (Page 2, Clause 5).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice.",
+      "facts_present": true
+    },
+    {
+      "question": "Is there a limit on liability, and what is it?",
+      "document_id": "sample_sample_nda_agreement",
+      "latency_s": 5.9,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 1.0,
+      "answer": "Yes. According to Clause 7, \"Limitation of Liability,\" except for breaches of confidentiality or indemnification obligations, neither party's aggregate liability arising out of or related to the agreement shall exceed the total fees paid or payable under the agreement in the twelve (12) months preceding the event giving rise to the claim (Page 2, Clause 7). Furthermore, neither party shall be liable for any indirect, incidental, special, or consequential damages (Page 2, Clause 7).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice.",
+      "facts_present": true
+    },
+    {
+      "question": "What was the court's holding and what relief was granted?",
+      "document_id": "sample_sample_case_judgment",
+      "latency_s": 3.7,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.667,
+      "answer": "The court held that a time-of-the-essence clause makes timely delivery a condition rather than a warranty, and its breach entitles the innocent party to treat the contract as repudiated (Page 1, para 2). However, the court also held that a validly incorporated limitation-of-liability clause—being a freely negotiated allocation of commercial risk between parties of equal bargaining power—must be enforced to cap damages, thereby excluding purely consequential losses that were not within the reasonable contemplation of the parties at the time of contracting (Page 1, para 2). \n\nRegarding the relief and final order, the court ordered that the appeal be allowed with no order as to costs save as stated above (Page 1, para 2). This outcome is also reflected in the case summary table and the attached visual case summary diagram, which both state the outcome as \"Appeal allowed\" (Page 1). The judgment concludes with the signature of Hon'ble Justice R. Sharma, accompanied by a visual judicial signature graphic and a High Court seal bearing the text \"HIGH COURT\" (Page 1).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "What does the statute say about damages for breach?",
+      "document_id": "sample_sample_statute_chapter",
+      "latency_s": 3.7,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.667,
+      "answer": "When a contract has been broken, the party who suffers by such breach is entitled to receive, from the party who has broken the contract, compensation for any loss or damage caused to them thereby which naturally arose in the usual course of things from such breach, or which the parties knew, when they made the contract, to be likely to result from the breach of it (Page 1, Section 73).\n\nAdditional supporting details provided in the document include:\n* **Exclusion of remote or indirect losses:** Compensation is not to be given for any remote and indirect loss or damage sustained by reason of the breach (Page 1, Section 73).\n* **Compensation for non-performance due to impossibility or unlawfulness:** Where a person has promised to do something which they knew, or with reasonable diligence might have known, to be impossible or unlawful, but which the promisee did not know to be impossible or unlawful, such promisor must compensate the promisee for any loss which the promisee sustains through the non-performance of the promise (Page 1, Section 56).\n* **Table of contents reference:** Section 73 is also listed in the document's chapter outline under the title \"Compensation for loss or damage caused by breach of contract\" (Page 1, Table p1 and Section 6). Additionally, an image of a balance scale graphic with the text \"STATUTE BOOK\" appears on the page (Page 1, Image 1).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "Summarise this judgment.",
+      "document_id": "2019_15_1_15_EN",
+      "latency_s": 4.5,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.913,
+      "answer": "This document is the Supreme Court of India judgment in the case *ABCD v. Union of India & Ors.* (Writ Petition (Criminal) No. 191 of 2018), decided on December 10, 2019, by a bench comprising Justices Uday Umesh Lalit and Indu Malhotra (Pages 1, 6). \n\n**Parties and Overview:**\n* **Petitioner:** A female petitioner whose identity is protected under Section 228A of the Indian Penal Code (Page 4).\n* **Respondents:** The Union of India and others, including Respondent No. 7 (an IPS Officer) and State authorities (Pages 1, 4).\n* **Key Issues:** The petitioner filed a Writ of Mandamus under Article 32 seeking to transfer the investigation of FIR No. 58 of 2018 (alleging rape and other offences against Respondent No. 7) and FIR No. 256 of 2018 (filed by Respondent No. 7's mother against the petitioner and her family for extortion/threats) from the Delhi Police to an independent Central Agency. Additional prayers included securing CCTV footage, mobile data retrieval, and police protection (Pages 4, 7). A subsequent incident on October 17, 2019, led to FIR No. 314 where the petitioner alleged she was hit by a car in an attack orchestrated by Respondent No. 7, which later CCTV footage revealed to be a *thela* (tricycle) scraping her (Pages 6, 13-14).\n\n**Court's Findings and Outcome:**\n* **Investigation Status:** The Supreme Court noted that FIR No. 58 of 2018 was investigated by a Special Investigation Team (SIT) and a charge-sheet had already been filed (Pages 1, 11). Mobile phone data and iCloud extractions were handled, and the court found no substantial deficiency indicating the investigation was poorly directed (Pages 11-12). The petitioner was directed to hand over any retained video or audio recordings to the SIT within two days for consideration in a contemplated supplementary charge-sheet (Pages 3, 12).\n* **Transfer Requests Denied:** The court declined to transfer the investigation of either FIR to a Central Agency, noting that adequate protection and legal processes (such as proceedings under Sections 438 and 482 of the Code of Criminal Procedure) had already been afforded to the petitioner regarding the second FIR (Pages 5, 12-13).\n* **Suo Motu Contempt Proceedings:** Because CCTV footage and status reports demonstrated that the petitioner was struck by a *thela* rather than a car—contrary to her sworn statements and claims attempting to implicate Respondent No. 7—the court found *prima facie* that her allegations were not truthful (Pages 5, 13-14). Invoking its *suo motu* powers, the court directed the Registry to register separate proceedings to issue a notice to the petitioner showing cause why contempt action should not be initiated against her and why directions under Section 195(1)(a)(i) of the Code should not be passed, ordering her to appear in-person on January 14, 2020 (Pages 5, 15).\n* **Disposal:** The writ petition was accordingly disposed of (Page 15).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "What was the final order of the court?",
+      "document_id": "2021_4_257_273_EN",
+      "latency_s": 3.7,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.917,
+      "answer": "The final conclusions and directions of the court are set out in paragraph 24 of the judgment (Pages 16–17):\n\n1. High Courts are requested to issue practice directions to Magistrates to record reasons before converting the trial of complaints under Section 138 of the Negotiable Instruments Act from summary trial to summons trial (Page 16, para 24, item 1).\n2. An inquiry shall be conducted on receipt of complaints under Section 138 to arrive at sufficient grounds to proceed against the accused when the accused resides beyond the territorial jurisdiction of the court (Page 16, para 24, item 2).\n3. For the conduct of an inquiry under Section 202 of the Code of Criminal Procedure, evidence of witnesses on behalf of the complainant shall be permitted to be taken on affidavit, and in suitable cases, the Magistrate can restrict the inquiry to the examination of documents without insisting on the examination of witnesses (Page 16, para 24, item 3).\n4. The Court recommended that suitable amendments be made to the Act to provide for one trial against a person for multiple offences under Section 138 committed within a 12-month period, notwithstanding the restriction in Section 219 of the Code (Page 16, para 24, item 4).\n5. High Courts are requested to issue practice directions to Trial Courts to treat service of summons in one complaint under Section 138 forming part of a transaction as deemed service in respect of all complaints filed before the same court relating to the dishonour of cheques issued as part of that transaction (Pages 16–17, para 24, item 5).\n6. The judgments in *Adalat Prasad* and *Subramanium Sethuraman* interpreted the law correctly, and the Court reiterated that Trial Courts have no inherent power to review or recall the issue of summons; however, this does not affect the power of the Trial Court under Section 322 of the Code to revisit the order of process if it is brought to the court's notice that it lacks jurisdiction (Page 17, para 24, item 6).\n7. Section 258 of the Code is not applicable to Section 138 complaints, and contrary findings in *Meters and Instruments* do not lay down correct law. To deal conclusively with this aspect, an amendment empowering Trial Courts to reconsider or recall summons shall be considered by the Committee constituted by the Court's order dated March 10, 2021 (Page 17, para 24, item 7).\n8. All other points raised by the Amici Curiae not considered in the order, as well as any other issues relating to the expeditious disposal of Section 138 complaints, shall be deliberated by the aforementioned Committee chaired by Justice R.C. Chavan (Page 13, para 7; Page 17, para 24, item 8).\n\nAdditionally, the Court directed that the matter be listed after eight weeks and noted that further hearings would be before a 3-Judge Bench (Page 17, para 25).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "Which statutes and precedents did the court rely on?",
+      "document_id": "2023_16_917_932_EN",
+      "latency_s": 4.3,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.714,
+      "answer": "* **Insolvency and Bankruptcy Code, 2016** (specifically sections 29A, 240A, and 240A(1)–(6)) – Relied upon by the court to examine resolution applicant disqualifications, application of the Code to micro, small, and medium enterprises, and the interpretation of relevant clauses and cutoff dates (Pages 1, 3, 4, 6, 7, 8, 9, 11, 12, 14, 15).\n* **Micro, Small and Medium Enterprises Development Act, 2006** (specifically section 7, section 7(1)) – Cited for classifying enterprises as micro, small, or medium based on investments in plant and machinery or equipment (Pages 9, 10, 11, 13).\n* **Banking Regulation Act, 1949** (specifically section 10) – Mentioned in the context of RBI guidelines for classifying non-performing assets under Section 29A(c) (Page 4).\n* **Industries (Development and Regulation) Act, 1951** (specifically section 11-B and the First Schedule) – Referred to in the judgment excerpt from *Swiss Ribbons* regarding enterprise classification (Pages 10, 20).\n* **Companies Act** – Mentioned in the former Finance Minister's statement regarding statutory disqualifications for acting as a director (Page 14).\n* **SEBI Act** – Mentioned in the former Finance Minister's statement regarding statutory prohibitions (Page 14).\n* ***Digamber Anand Rao Pingle v. Shrikant Madanlal Zawar & Ors.* (Comp. App. (AT) (Ins.) No.43-43A/2021)** – The National Company Law Appellate Tribunal decision relied upon in the impugned orders, which the Supreme Court held was not the correct position in law (Pages 1, 3, 4, 7, 13, 15).\n* ***Arcelormittal India Private Limited v. Satish Kumar Gupta & Ors.* ((2019) 2 SCC 1 : [2018] 12 SCR 362)** – Referred to for the interpretation of Section 29A(c) and the timing of ineligibility attachment when submitting a resolution plan (Pages 4, 6, 7).\n* ***Swiss Ribbons Private Limited and Anr. v. Union of India & Ors.* ((2019) 4 SCC 17 : [2019] 3 SCR 535)** – Referred to regarding the exemption of micro, small, and medium enterprises from Section 29A and the rationale of the Insolvency Law Committee Report (Pages 4, 10, 14).\n* **Insolvency Law Committee Report 2018** (specifically March 2018 Report and paragraph 27.4) – Referred to by the court for the legislative intent, background, and rationale behind Section 29A(c) and Section 240A exemptions for MSMEs (Pages 4, 7, 10, 11, 13).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "What reasoning did the court give for its decision?",
+      "document_id": "2024_11_954_969_EN",
+      "latency_s": 4.3,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.833,
+      "answer": "The Supreme Court affirmed the judgment of the Division Bench of the High Court, holding that the first respondent was eligible to be awarded half a mark (0.5) for experience, based on the following reasoning:\n\n1. **Interpretation of the Advertisement and the Term \"Post\":** \n   The Court conducted a literal reading of clause (d) of the Advertisement, which awarded experience marks for working \"on the same or a higher post\" in enumerated government departments of Haryana (Pages 13-14, paras 21-22). The Court observed that the prefix \"sanctioned\" was \"conspicuous by its absence\" in the Advertisement, and neither the Outsourcing Policy nor the Advertisement defined the word \"post\" (Page 14, para 22). It noted that neither the Recruitment Rules nor the Advertisement specifically barred aspirants from securing experience marks gained through contractual or outsourced employment (Page 14, para 22).\n\n2. **Nature of Work Over Mode of Employment:** \n   The primary concern of the selection process is the nature of work performed and whether it has a nexus with the work undertaken during regular service, rather than the mode of employment (Page 14, para 22). Because the first respondent rendered service as a clerk-cum-typist for a statutory body in excess of six months, she fell within the coverage of clause (d) (Page 14, para 22).\n\n3. **Validity of the Experience Certificate:** \n   Although the experience certificate was issued by the service provider (M/s Lavnya Enterprises) rather than directly by the University—which the University argued was a procedural deviation under the Circular dated 25.06.2014—the certificate was countersigned by the Professor and Head of the Department of Soil Science (Page 14, para 23). Furthermore, a memo brought on record by the Head of the Department specifically designated her as a clerk-cum-typist and confirmed her work was quite satisfactory, which validated her claim (Pages 14-15, para 24).\n\n4. **Constitutional Mandate and Principles of Justice:** \n   The Court reasoned that denying experience marks merely because an individual was not appointed on a sanctioned post at the time of outsourced employment would occasion a failure of justice, especially when an individual performs up to the mark without security of service and receives commendation from the Head of the Department (Page 15, para 26). If a sanctioned post requirement existed, it had to be made explicitly clear in the Advertisement without ambiguity (Page 15, para 26). Excluding candidates on such technical grounds would violate the principles of equality, non-arbitrariness (Articles 14 and 16 of the Constitution), and natural justice (Page 15, para 26). \n\n5. **Social Justice:** \n   The Court emphasized that under the constitutional duty of ensuring equality and securing social justice (Preamble and Article 38), whenever a conflict arises between the powerful and the powerless, courts must lean in favour of weaker and poorer sections (Page 15, paras 27-28). Refusing experience marks to the first respondent would run contrary to this constitutional grain (Page 15, para 28).\n\nBased on these reasons, though differing somewhat from the High Court's reasoning, the Supreme Court concurred with the ultimate conclusion and dismissed the University's appeal (Page 16, paras 30-31).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "Who were the parties and which bench decided this?",
+      "document_id": "2024_11_954_969_EN",
+      "latency_s": 3.3,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.857,
+      "answer": "The appellants in this case were Chaudhary Charan Singh Haryana Agricultural University, Hisar & Another, and the respondents were Monika & Others (Page 1, para 3). The appeal was decided by a Bench consisting of Justices Dipankar Datta and R. Mahadevan, with the judgment delivered by Justice Dipankar Datta (Page 1, Page 3, para 9).\n\nIn the underlying litigation, the dispute arose when the first respondent, Monika, filed a writ petition (WPC No. 4402/2020) in the High Court of Punjab & Haryana impleading the University as the first respondent, the State of Haryana as the second respondent, and two selected candidates (who secured 75 marks) as the third and fourth respondents (Page 3, para 3, Items VIII & IX). The Single Judge ruled in favour of the first respondent, and that decision was subsequently affirmed by the Division Bench of the High Court in LPA No. 562 of 2022 before the matter reached the Supreme Court (Page 3, paras 1, 3-4).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "What is the punishment for murder?",
+      "document_id": "statute_BNS",
+      "latency_s": 5.0,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "retrieved",
+      "support_ratio": 0.75,
+      "answer": "Whoever commits murder shall be punished with death or imprisonment for life, and shall also be liable to fine (Page 34, section 103(1)). \n\nAdditional supporting details and related provisions regarding the punishment for murder from the retrieved evidence include:\n- When a group of five or more persons acting in concert commits murder on the ground of race, caste or community, sex, place of birth, language, personal belief, or any other similar ground, each member of such group shall be punished with death or with imprisonment for life, and shall also be liable to fine (Page 34, section 103(2)).\n- Whoever, being under sentence of imprisonment for life, commits murder, shall be punished with death or with imprisonment for life, which shall mean the remainder of that person's natural life (Page 34, section 104).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice.",
+      "facts_present": true
+    },
+    {
+      "question": "What does the Sanhita say about abetment of suicide?",
+      "document_id": "statute_BNS",
+      "latency_s": 8.3,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "retrieved",
+      "support_ratio": 1.0,
+      "answer": "The Sanhita provides specific punishments for the abetment of suicide depending on the vulnerability of the person who commits suicide:\n\n1. **Abetment of suicide of a child, person of unsound mind, delirious person, or intoxicated person:** If any child, person of unsound mind, delirious person, or person in a state of intoxication commits suicide, whoever abets the commission of that suicide shall be punished with death or imprisonment for life, or imprisonment for a term not exceeding ten years, and shall also be liable to fine (Page 34, Section 107).\n2. **Abetment of suicide of any other person:** If any person commits suicide, whoever abets the commission of such suicide shall be punished with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine (Page 34, Section 108).\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice.",
+      "facts_present": true
+    },
+    {
+      "question": "On what grounds can anticipatory bail be refused?",
+      "document_id": null,
+      "latency_s": 9.3,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "retrieved",
+      "support_ratio": 0.875,
+      "answer": "Based on the retrieved text and visual evidence, anticipatory bail may be refused or considered under the following grounds and principles:\n\n* **Absence of a prima facie case:** The first and foremost thing a court should consider is the prima facie case put up against the accused, and an anticipatory bail application can be denied if the gravity of the crime, character of evidence, or initial case warrants it (Page 8, Page 1, Page 23).\n* **Nature of the offence and severity of the punishment:** The court must look into the nature of the offence and the severity of the punishment when evaluating whether to grant or decline anticipatory bail (Page 8, Page 9).\n* **Need for custodial interrogation:** Custodial interrogation can be one of the relevant aspects and grounds considered alongside other factors to decline anticipatory bail, though the lack of a need for custodial interrogation by itself does not mandate granting bail (Page 8, Page 9, Page 1).\n* **Defying lawful court orders and delaying proceedings:** Appellants who act to defy lawful court orders and attempt to delay proceedings are not entitled to seek the benefit of pre-arrest bail (Page 17).\n* **Issuance of proclamation under Section 82/83 Cr.P.C.:** An application for pre-arrest bail can be deemed non-maintainable or dismissed when taking note of proceedings under Sections 82/83 of the Cr.P.C. (Page 10).\n* **Likelihood of fleeing from justice, tampering with witnesses, or repeating the offence:** Guided by considerations such as the likelihood of the accused fleeing from justice, repeating the offence, tampering with witnesses, obstructing justice, or the larger interests of the public/state, courts may refuse or set aside bail (Page 23, Page 97).\n\n*(Note: The visual evidence elements on Page 26, on Page 10, and on Page 6 depict contract summary tables containing governing law, arbitration seats, effective dates, and confidentiality terms, which do not address the grounds for anticipatory bail.)*\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "What is the limitation period for filing a suit for specific performance?",
+      "document_id": null,
+      "latency_s": 7.2,
+      "warning": "",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "retrieved",
+      "support_ratio": 0.857,
+      "answer": "Under the Limitation Act 1963, the period of limitation for filing a suit for specific performance is three years (Page 1, para 7.2). \n\n**Supporting Details:**\n* **Calculation of Period:** According to Item No. 54 in Part II of the Schedule to the Limitation Act 1963, the three-year period is counted from the date fixed for the performance of the contract, or if no date is fixed, from the date on which the vendee is put to notice of refusal to perform the agreement (Page 1, para 7.2).\n* **Application and General Principles:** While the prescribed period of limitation is three years, the courts have emphasized that filing a suit within this three-year window does not mean a purchaser can wait for one or two years without explanation, nor does it mean every such suit must be decreed (Page 3, para 43; Page 21, para 43). The courts apply greater scrutiny regarding whether the purchaser was \"ready and willing\" to perform their part of the contract, and frown upon suits not filed immediately after a breach or refusal (Page 3, para 43; Page 21, para 43). The three-year period is intended to assist purchasers in special cases—such as where the major part of the consideration has been paid and possession delivered in part-performance, shifting equity in favor of the purchaser (Page 3, para 43; Page 21, para 43). Additionally, the text notes instances where a plaintiff alternatively contended that Article 113 of the Limitation Act applied to the suit (Page 3, paras 3.8, 3.9). \n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice."
+    },
+    {
+      "question": "What is the capital of France?",
+      "document_id": "sample_sample_nda_agreement",
+      "latency_s": 5.0,
+      "warning": "unsupported_claims",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.333,
+      "answer": "The retrieved evidence does not contain information about the capital of France (Pages 1–4). The document is a Non-Disclosure Agreement between Nova Fintech Pvt. Ltd. and Aditya Rao, which references jurisdictions such as India and Delhi for governing law and arbitration (Page 1, Table p1), but it does not address general geographical facts.\n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice.",
+      "honest_non_answer": true
+    },
+    {
+      "question": "What is the monthly rent payable by the tenant?",
+      "document_id": "2023_16_917_932_EN",
+      "latency_s": 2.4,
+      "warning": "unsupported_claims",
+      "llm_answered": true,
+      "cited": true,
+      "context_mode": "full_document",
+      "support_ratio": 0.5,
+      "answer": "The retrieved evidence does not contain information about any monthly rent payable by a tenant, as the document is a Supreme Court judgment regarding an insolvency and bankruptcy matter (Civil Appeal No. 4422 of 2023) concerning resolution applicants, MSME status, and Section 29A and Section 240A of the Insolvency and Bankruptcy Code, 2016 (Pages 1–16). \n\nDisclaimer: This is an AI-generated summary of the retrieved document for informational purposes only and does not constitute legal advice.",
+      "honest_non_answer": true
+    }
+  ]
+}

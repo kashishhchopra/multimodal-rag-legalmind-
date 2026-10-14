@@ -1,6 +1,16 @@
-{"question": "Who are the parties to the agreement and what is the effective date?", "document_id": "sample_sample_nda_agreement"}
-{"question": "What does the termination clause say?", "document_id": "sample_sample_nda_agreement"}
-{"question": "Is there a limit on liability?", "document_id": "sample_sample_nda_agreement"}
-{"question": "What was the court's holding and what relief was granted?", "document_id": "sample_sample_case_judgment"}
-{"question": "What does the statute say about damages for breach?", "document_id": "sample_sample_statute_chapter"}
-{"question": "Which clause deals with confidentiality obligations?", "document_id": null}
+{"document_id": "sample_sample_nda_agreement", "question": "Who are the parties to this agreement and what is the effective date?"}
+{"document_id": "sample_sample_nda_agreement", "question": "What happens if either party wants to end this agreement early?", "must_contain": ["30", "thirty"]}
+{"document_id": "sample_sample_nda_agreement", "question": "Is there a limit on liability, and what is it?", "must_contain": ["12", "twelve"]}
+{"document_id": "sample_sample_case_judgment", "question": "What was the court's holding and what relief was granted?"}
+{"document_id": "sample_sample_statute_chapter", "question": "What does the statute say about damages for breach?"}
+{"document_id": "2019_15_1_15_EN", "question": "Summarise this judgment."}
+{"document_id": "2021_4_257_273_EN", "question": "What was the final order of the court?"}
+{"document_id": "2023_16_917_932_EN", "question": "Which statutes and precedents did the court rely on?"}
+{"document_id": "2024_11_954_969_EN", "question": "What reasoning did the court give for its decision?"}
+{"document_id": "2024_11_954_969_EN", "question": "Who were the parties and which bench decided this?"}
+{"document_id": "statute_BNS", "question": "What is the punishment for murder?", "must_contain": ["death", "life"]}
+{"document_id": "statute_BNS", "question": "What does the Sanhita say about abetment of suicide?", "must_contain": ["suicide"]}
+{"document_id": null, "question": "On what grounds can anticipatory bail be refused?"}
+{"document_id": null, "question": "What is the limitation period for filing a suit for specific performance?"}
+{"document_id": "sample_sample_nda_agreement", "question": "What is the capital of France?", "expect_not_found": true}
+{"document_id": "2023_16_917_932_EN", "question": "What is the monthly rent payable by the tenant?", "expect_not_found": true}

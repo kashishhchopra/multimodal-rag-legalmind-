@@ -77,6 +77,22 @@ Training data: about 24 adjacent-passage pairs per judgment (about 35k Indian-la
 
 The new embedder wins on statutes and the (word-overlap-friendly) time-split, but loses clearly on case documents and on contracts. The new reranker (validation MRR 0.598 -> 0.870) lowers retrieval on every real test (time-split R@1 0.81 -> 0.39-0.45). **Decision: neither trained model is adopted. The app uses the base bge-small + BM25 hybrid, no reranker.** Honest conclusion for the report: self-supervised passage-adjacency training on Indian judgments does not transfer to question-style legal retrieval; the missing ingredient is real query-passage supervision (LLM-generated questions with a verified filter, IL-PCR/IL-TUR once access is granted).
 
+## Answer-quality evaluation (2026-10-15, `gemini-3.5-flash-lite`, 16 questions)
+
+`backend/eval/answer_eval_api.py`, results in `backend/eval/results/answers_api.json`. Questions: 3 uploaded contract, 1 sample judgment, 1 sample statute, 5 corpus judgments, 2 BNS, 2 corpus-wide, 2 off-topic.
+
+| Check | Result |
+|---|---|
+| Real LLM answer (not evidence-only fallback) | 16 / 16 |
+| Page citations present | 100% (of the 14 answerable questions) |
+| Known facts present (30-day notice, 12-month liability cap, BNS murder = death or life) | 4 / 4 |
+| Honest "the document does not say" on off-topic questions | 2 / 2 |
+| Mean claim-support score (lexical verifier) | 0.78 |
+| Latency p50 / p95 | 5.0 s / 8.3 s |
+| Context mode | 12 whole-document, 4 retrieved-passages |
+
+Limits: 16 questions is a smoke test, not a benchmark; the checks are reference-free (grounding behaviour and a few known facts, not overall correctness); I read 6 answers by hand and found them correct, but no second reader or lawyer has reviewed them; RAGAS and human rating are still not done. Free-tier quotas (about 20 requests/day per model) cap how large a test can be run without paid credits. Corpus-wide answers now cite the source (case citation or title) with each page.
+
 ## By roadmap section
 
 | Item | Status | Where |
