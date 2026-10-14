@@ -132,6 +132,12 @@ def cmd_answers(a):
     quota = {"Fact": 14, "Holding": 12, "Reasoning": 8, "Procedure": 3, "Number": 3}
     chosen = [r for t, k in quota.items() for r in by_type[t][:k]][: a.n]
     cache = jload("answers.json", {})
+    if a.spread:  # 2 not-yet-answered questions per judgment, covering all 20 documents
+        per_doc = defaultdict(list)
+        for r in rows:
+            if r["id"] not in cache:
+                per_doc[r["doc"]].append(r)
+        chosen = [r for d in per_doc for r in per_doc[d][3:5]][: a.n]
     for r in chosen:
         if r["id"] in cache and cache[r["id"]].get("ok"):
             continue
@@ -189,6 +195,7 @@ if __name__ == "__main__":
     ap.add_argument("cmd", choices=["translate", "retrieval", "answers", "judge"])
     ap.add_argument("--n", type=int, default=40)
     ap.add_argument("--pause", type=float, default=5)
+    ap.add_argument("--spread", action="store_true", help="sample 2 new questions from every judgment")
     ap.add_argument("--base", default="http://127.0.0.1:8000")
     a = ap.parse_args()
     {"translate": cmd_translate, "retrieval": cmd_retrieval, "answers": cmd_answers, "judge": cmd_judge}[a.cmd](a)

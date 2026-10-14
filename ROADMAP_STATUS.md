@@ -93,6 +93,22 @@ The new embedder wins on statutes and the (word-overlap-friendly) time-split, bu
 
 Limits: 16 questions is a smoke test, not a benchmark; the checks are reference-free (grounding behaviour and a few known facts, not overall correctness); I read 6 answers by hand and found them correct, but no second reader or lawyer has reviewed them; RAGAS and human rating are still not done. Free-tier quotas (about 20 requests/day per model) cap how large a test can be run without paid credits. Corpus-wide answers now cite the source (case citation or title) with each page.
 
+## Hindi mode evaluation (2026-10-15, `docs/hindi_question_set.xlsx`, 200 questions on 20 SC judgments)
+
+Caveats first: the Hindi text was drafted by Claude and **no native speaker has confirmed it** (column H is empty); expected answers come from headnotes; the judge is the same model family as the generator. Code: `backend/eval/hindi_eval.py`; cached results in `data_lake/hindi_eval/`.
+
+**Retrieval (200 questions, pool of the 20 judgments = 398 passages; chance for "right judgment ranked first" is 5%):**
+
+| Query form | Right judgment ranked #1 | In top 5 | Answer's key words in top-5 passages of the right judgment |
+|---|---|---|---|
+| English bge-small, Hindi as typed | 15.5% | 37.5% | 64.5% |
+| multilingual-e5-small, Hindi as typed | 55.5% | 74.5% | 85.5% |
+| **LLM-translated query + English bge-small (what the app does)** | **66.0%** | **83.0%** | **87.0%** |
+
+So on this set translate-then-retrieve beat a multilingual embedder (roadmap 6.6 comparison). IndicTrans2 was not tried (the LLM does the translation).
+
+**End-to-end Hindi answers through the running app (73 questions, all 20 judgments, all five question types):** judge verdict 73/73 correct (Fact 20/20, Holding 28/28, Reasoning 13/13, Procedure 8/8, Number 4/4). **Treat as an upper bound:** the judge never returned partial or incorrect, which suggests leniency; an independent number check found every expected number in the Hindi answer for 31 of 34 questions (misses were extra details such as a writ-petition number). I read 8 answers by hand and found them matching. Known flaws: occasional garbled citation fragments in Hindi (for example "पैरा )"), and one answer had a stray Arabic letter inside a Hindi word. Median latency 8.8 s (two LLM calls: translation + answer). **Not yet done:** native-speaker check of the questions and answers, the 127 questions not run, human rating.
+
 ## By roadmap section
 
 | Item | Status | Where |
