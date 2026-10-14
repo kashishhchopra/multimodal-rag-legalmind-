@@ -45,6 +45,9 @@ class LLMProvider(ABC):
         ...
 
 
+GEMINI_THINKING_HEADROOM = 2048
+
+
 class GeminiProvider(LLMProvider):
     name = "gemini"
 
@@ -73,11 +76,23 @@ class GeminiProvider(LLMProvider):
             )
             parts: List[object] = [user_prompt]
             parts.extend(images)  # Gemini accepts PIL images directly
-            generation_config = (
-                {"max_output_tokens": max_output_tokens} if max_output_tokens else None
-            )
-            resp = model.generate_content(parts, generation_config=generation_config)
-            return (resp.text or "").strip()
+            # Newer Gemini models spend part of max_output_tokens on hidden "thinking", so a small cap (150-400, or 10 for
+            # the question classifier) can leave only a few visible words. Add headroom, and retry once with a bigger
+            # budget if the reply was still cut off (finish_reason MAX_TOKENS).
+            budget = (max_output_tokens or 1024) + GEMINI_THINKING_HEADROOM
+            text = ""
+            for attempt in range(2):
+                resp = model.generate_content(parts, generation_config={"max_output_tokens": budget})
+                try:
+                    text = (resp.text or "").strip()
+                except ValueError:  # blocked or empty candidate: no text part
+                    text = ""
+                cut_off = any(str(getattr(c, "finish_reason", "")).endswith("MAX_TOKENS") or getattr(c, "finish_reason", None) == 2
+                              for c in (resp.candidates or []))
+                if not cut_off:
+                    break
+                budget = min(budget * 2, 8192)
+            return text
         except Exception as exc:
             raise LLMError(f"Gemini generation failed: {exc}") from exc
 
