@@ -64,3 +64,7 @@ yolo*.pt
 LegalMind_Project_Report.*
 LegalMind_Viva_Guide.*
 docs/screenshot_*.png
+
+# Office lock files and OS junk
+~$*
+.~lock*
