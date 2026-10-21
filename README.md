@@ -498,16 +498,6 @@ Against the bundled legal knowledge base:
 
 ---
 
-## Screenshots
-
-| Upload | Processing / Ready | Answer with visual evidence |
-|--------|--------------------|------------------------------|
-| ![Upload](docs/screenshot_1_upload.png) | ![Ready](docs/screenshot_2_ready.png) | ![Answer](docs/screenshot_3_answer.png) |
-
-*(Screenshots predate the legal rebrand; the UI flow — upload/select → progress → grounded answer — is unchanged.)*
-
----
-
 ## Testing
 
 ```bash

@@ -59,3 +59,8 @@ backend/app/models/legal-bge-v2*/
 backend/app/models/legal-reranker*/
 **/checkpoints/
 yolo*.pt
+
+# personal / submission documents are kept local, never committed
+LegalMind_Project_Report.*
+LegalMind_Viva_Guide.*
+docs/screenshot_*.png
