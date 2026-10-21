@@ -1,0 +1,18 @@
+{
+  "base": "BAAI/bge-small-en-v1.5",
+  "n_train": 2500,
+  "n_val": 300,
+  "before": {
+    "cosine_accuracy@5": 0.42,
+    "cosine_ndcg@10": 0.3641,
+    "cosine_mrr@10": 0.3298
+  },
+  "after": {
+    "cosine_accuracy@5": 0.43,
+    "cosine_ndcg@10": 0.3635,
+    "cosine_mrr@10": 0.3285
+  },
+  "epochs": 1,
+  "batch": 8,
+  "lr": 2e-05
+}

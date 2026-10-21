@@ -53,3 +53,9 @@ legalmind/data/scanned/*
 backend/app/models/clause_classifier/*.joblib
 backend/app/models/doctype_router/*.joblib
 backend/app/models/stamp_detector/
+
+# trained model weights and training checkpoints are large, regenerable and never committed
+backend/app/models/legal-bge-v2*/
+backend/app/models/legal-reranker*/
+**/checkpoints/
+yolo*.pt

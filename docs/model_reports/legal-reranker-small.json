@@ -1,0 +1,7 @@
+{
+  "base": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "n_train": 2500,
+  "n_val": 200,
+  "zero_shot_mrr10": 0.5981,
+  "finetuned_mrr10": 0.8087
+}
